@@ -160,7 +160,7 @@ function createTooltipInstance(
   }
 }
 
-export const tooltipDirective: Directive<HTMLElement, string | TooltipProps> = {
+export const vTooltip: Directive<HTMLElement, string | TooltipProps> = {
   mounted(element: HTMLElement, binding) {
     if (!binding.value)
       return
@@ -191,6 +191,3 @@ export const tooltipDirective: Directive<HTMLElement, string | TooltipProps> = {
     }
   },
 }
-
-// Export as vTooltip for v-tooltip usage
-export const vTooltip = tooltipDirective
