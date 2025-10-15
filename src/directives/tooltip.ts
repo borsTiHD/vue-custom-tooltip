@@ -191,3 +191,6 @@ export const tooltipDirective: Directive<HTMLElement, string | TooltipProps> = {
     }
   },
 }
+
+// Export as vTooltip for v-tooltip usage
+export const vTooltip = tooltipDirective

@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "emitDeclarationOnly": true,
+    "outDir": "./dist"
+  },
+  "include": [
+    "env.d.ts",
+    "src/index.ts",
+    "src/components/tooltip/Tooltip.vue",
+    "src/directives/tooltip.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/__tests__/**",
+    "src/main.ts",
+    "src/App.vue",
+    "src/router/**",
+    "src/components/Button.vue",
+    "src/components/tooltip/TooltipExample.vue",
+    "src/components/tooltip/TooltipDirectiveExample.vue"
+  ]
+}
