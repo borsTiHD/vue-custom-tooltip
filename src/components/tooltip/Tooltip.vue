@@ -426,7 +426,7 @@ watch([isVisible, () => props.position], async () => {
 }
 
 .tooltip-trigger:focus-visible {
-  outline: 2px solid var(--p-primary-color, #3b82f6);
+  outline: 2px solid var(--vct-focus-color, #3b82f6);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -452,10 +452,10 @@ watch([isVisible, () => props.position], async () => {
   padding: 8px 12px;
   font-size: 0.875rem;
   line-height: 1.4;
-  color: var(--p-text-color, #374151);
-  background: var(--p-content-background, #ffffff);
-  border: 1px solid var(--p-content-border-color, #d1d5db);
-  border-radius: var(--p-border-radius, 8px);
+  color: var(--vct-text-color, #374151);
+  background: var(--vct-background, #ffffff);
+  border: 1px solid var(--vct-border-color, #d1d5db);
+  border-radius: var(--vct-border-radius, 8px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   max-width: 100%;
 }
@@ -465,8 +465,8 @@ watch([isVisible, () => props.position], async () => {
   position: absolute;
   width: 8px;
   height: 8px;
-  background: var(--p-content-background, #ffffff);
-  border: 1px solid var(--p-content-border-color, #d1d5db);
+  background: var(--vct-background, #ffffff);
+  border: 1px solid var(--vct-border-color, #d1d5db);
   transform: rotate(45deg);
 }
 
