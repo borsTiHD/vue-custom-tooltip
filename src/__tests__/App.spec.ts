@@ -5,6 +5,6 @@ import App from '../App.vue'
 describe('app', () => {
   it('mounts renders properly', () => {
     const wrapper = mount(App)
-    expect(wrapper.text()).toContain('You did it!')
+    expect(wrapper.text()).toContain('Vue Custom Tooltip')
   })
 })
