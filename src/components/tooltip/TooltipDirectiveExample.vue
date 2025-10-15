@@ -157,7 +157,7 @@ import Button from '@/components/Button.vue'
         >
 
         <select
-          v-tooltip.both="'Wählen Sie eine Option'"
+          v-tooltip.top.both="'Wählen Sie eine Option'"
           class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
         >
           <option>Option 1</option>
