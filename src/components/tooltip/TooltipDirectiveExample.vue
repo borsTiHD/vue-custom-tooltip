@@ -23,6 +23,18 @@ import Button from '@/components/Button.vue'
       </div>
     </div>
 
+    <!-- Auto mode (default) -->
+    <div class="flex flex-col gap-4">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        Auto Mode (Default)
+      </h3>
+      <div class="flex gap-4 items-center">
+        <Button v-tooltip="'Auto mode (default)'" label="v-tooltip (auto)" />
+        <Button v-tooltip.dark="'Always dark tooltip'" label="v-tooltip.dark" />
+        <Button v-tooltip.light="'Always light tooltip'" label="v-tooltip.light" />
+      </div>
+    </div>
+
     <!-- Using modifiers for positioning -->
     <div class="flex flex-col gap-4">
       <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">

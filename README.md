@@ -160,6 +160,33 @@ import '@borstihd/vue-custom-tooltip/dist/style.css'
 | `tooltipClass` | `string` | `''` | Custom CSS class |
 | `showArrow` | `boolean` | `true` | Show arrow pointer |
 | `offset` | `number` | `8` | Offset from trigger (px) |
+| `dark` | `'auto' \| boolean` | `'auto'` | Dark mode behavior (see below) |
+
+#### Dark Mode Options
+
+The `dark` prop controls the tooltip's appearance in dark environments:
+
+- **`'auto'`** (default): Automatically detects dark mode using **both** CSS `prefers-color-scheme: dark` media query **and** Tailwind's `.dark` class. This is the recommended setting for most use cases.
+- **`true`**: Always use dark theme, regardless of system or class-based settings
+- **`false`**: Always use light theme, regardless of system or class-based settings
+
+**Examples:**
+```vue
+<!-- Auto-detect (recommended) - works with both OS dark mode and Tailwind -->
+<Tooltip content="Auto dark mode" dark="auto">
+  <button>Hover me</button>
+</Tooltip>
+
+<!-- Always dark -->
+<Tooltip content="Always dark" :dark="true">
+  <button>Dark tooltip</button>
+</Tooltip>
+
+<!-- Always light -->
+<Tooltip content="Always light" :dark="false">
+  <button>Light tooltip</button>
+</Tooltip>
+```
 
 ### Component Slots
 
@@ -184,6 +211,19 @@ import '@borstihd/vue-custom-tooltip/dist/style.css'
 | `.fast` | Fast animation (10ms show, 50ms hide) |
 | `.slow` | Slow animation (1000ms show, 500ms hide) |
 | `.disabled` | Disable the tooltip |
+| `.dark` | Always use dark theme |
+| `.light` | Always use light theme |
+
+**Example with forced dark mode:**
+```vue
+<button v-tooltip.dark="'Always dark tooltip'">
+  Hover me
+</button>
+
+<button v-tooltip.light="'Always light tooltip'">
+  Or me
+</button>
+```
 
 ## TypeScript
 
@@ -213,6 +253,11 @@ The tooltip uses CSS custom properties for theming. You can customize the appear
 
   /* Tooltip border radius */
   --vct-border-radius: 8px;
+
+  /* Dark mode colors (optional, used when dark="auto" or dark={true}) */
+  --vct-text-color-dark: #e0e0e0;
+  --vct-background-dark: #2a2a2a;
+  --vct-border-color-dark: #444444;
 }
 ```
 
@@ -233,6 +278,34 @@ The tooltip uses CSS custom properties for theming. You can customize the appear
   --vct-background: #1e40af;
   --vct-text-color: white;
   --vct-border-color: #1e3a8a;
+}
+```
+
+### Tailwind CSS Integration
+
+The tooltip automatically detects Tailwind's dark mode when using `dark="auto"` (default):
+
+```vue
+<script setup lang="ts">
+import { Tooltip } from '@borstihd/vue-custom-tooltip'
+</script>
+
+<template>
+  <!-- Automatically works with Tailwind's dark mode -->
+  <Tooltip content="I automatically adapt to Tailwind's dark mode!">
+    <button>Hover me</button>
+  </Tooltip>
+</template>
+```
+
+**How it works:**
+- When `dark="auto"` (default), the tooltip responds to **both** the system's `prefers-color-scheme: dark` **and** Tailwind's `.dark` class
+- No additional configuration needed - just ensure your `tailwind.config.js` uses class-based dark mode:
+
+```js
+module.exports = {
+  darkMode: 'class', // or 'selector'
+  // ... rest of config
 }
 ```
 

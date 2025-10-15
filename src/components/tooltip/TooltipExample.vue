@@ -26,6 +26,46 @@ import Tooltip from './Tooltip.vue'
       </div>
     </div>
 
+    <!-- Auto mode (default) -->
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        Auto Mode (Default)
+      </h3>
+      <p class="text-sm text-gray-800 dark:text-gray-200">
+        Automatically detects both OS dark mode and Tailwind's .dark class
+      </p>
+
+      <div class="flex gap-4 items-center">
+        <Tooltip content="I automatically adapt to dark mode!">
+          <Button label="Auto Mode (default)" />
+        </Tooltip>
+
+        <Tooltip content="Same behavior with explicit prop" dark="auto">
+          <Button label="Auto Mode (explicit)" />
+        </Tooltip>
+      </div>
+    </div>
+
+    <!-- Force dark/light mode -->
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        Force Dark/Light Mode
+      </h3>
+      <p class="text-sm text-gray-800 dark:text-gray-200">
+        Always uses dark/light theme, regardless of system or class settings
+      </p>
+
+      <div class="flex gap-4 items-center">
+        <Tooltip content="I'm always dark!" :dark="true">
+          <Button label="Always Dark" />
+        </Tooltip>
+
+        <Tooltip content="I'm always light!" :dark="false">
+          <Button label="Always Light" />
+        </Tooltip>
+      </div>
+    </div>
+
     <!-- Different trigger modes -->
     <div class="flex flex-col gap-4">
       <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">

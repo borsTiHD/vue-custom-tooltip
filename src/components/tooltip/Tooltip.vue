@@ -114,6 +114,15 @@ export interface TooltipProps {
    * @default 8
    */
   offset?: number
+
+  /**
+   * Dark mode behavior
+   * - 'auto': Automatically detects both prefers-color-scheme AND Tailwind's .dark class
+   * - true: Force dark mode
+   * - false: Force light mode
+   * @default 'auto'
+   */
+  dark?: 'auto' | boolean
 }
 
 export interface TooltipSlots {
@@ -139,6 +148,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   tooltipClass: '',
   showArrow: true,
   offset: 8,
+  dark: 'auto',
 })
 
 defineSlots<{
@@ -166,6 +176,9 @@ const tooltipClasses = computed(() => [
   {
     'tooltip-visible': isVisible.value,
     'tooltip-with-arrow': props.showArrow,
+    'tooltip-dark': props.dark === true,
+    'tooltip-light': props.dark === false,
+    'tooltip-auto': props.dark === 'auto',
   },
   props.tooltipClass,
 ])
@@ -520,18 +533,53 @@ watch([isVisible, () => props.position], async () => {
   transform-origin: left center;
 }
 
-/* Dark theme support */
+/* Dark theme support - Force dark mode */
+.tooltip-dark .tooltip-content {
+  background: var(--vct-background-dark, #2a2a2a);
+  border-color: var(--vct-border-color-dark, #444);
+  color: var(--vct-text-color-dark, #e0e0e0);
+}
+
+.tooltip-dark .tooltip-arrow {
+  background: var(--vct-background-dark, #2a2a2a);
+  border-color: var(--vct-border-color-dark, #444);
+}
+
+/* Light theme support - Force light mode (uses default styles, explicit override if needed) */
+.tooltip-light .tooltip-content {
+  background: var(--vct-background, #ffffff);
+  border-color: var(--vct-border-color, #e0e0e0);
+  color: var(--vct-text-color, #333333);
+}
+
+.tooltip-light .tooltip-arrow {
+  background: var(--vct-background, #ffffff);
+  border-color: var(--vct-border-color, #e0e0e0);
+}
+
+/* Auto mode - Responds to both prefers-color-scheme and Tailwind .dark class */
 @media (prefers-color-scheme: dark) {
-  .tooltip-content {
-    background: #2a2a2a;
-    border-color: #444;
-    color: #e0e0e0;
+  .tooltip-auto .tooltip-content {
+    background: var(--vct-background-dark, #2a2a2a);
+    border-color: var(--vct-border-color-dark, #444);
+    color: var(--vct-text-color-dark, #e0e0e0);
   }
 
-  .tooltip-arrow {
-    background: #2a2a2a;
-    border-color: #444;
+  .tooltip-auto .tooltip-arrow {
+    background: var(--vct-background-dark, #2a2a2a);
+    border-color: var(--vct-border-color-dark, #444);
   }
+}
+
+:global(.dark) .tooltip-auto .tooltip-content {
+  background: var(--vct-background-dark, #2a2a2a);
+  border-color: var(--vct-border-color-dark, #444);
+  color: var(--vct-text-color-dark, #e0e0e0);
+}
+
+:global(.dark) .tooltip-auto .tooltip-arrow {
+  background: var(--vct-background-dark, #2a2a2a);
+  border-color: var(--vct-border-color-dark, #444);
 }
 
 /* High contrast mode support */

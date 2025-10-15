@@ -19,6 +19,8 @@ interface TooltipDirectiveBinding {
     fast?: boolean
     slow?: boolean
     disabled?: boolean
+    dark?: boolean
+    light?: boolean
   }
 }
 
@@ -47,6 +49,7 @@ function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
     maxWidth: '250px',
     offset: 8,
     showArrow: true,
+    dark: 'auto',
   }
 
   // Parse value
@@ -92,6 +95,12 @@ function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
   // Parse modifiers for state
   if (modifiers.disabled)
     props.disabled = true
+
+  // Parse modifiers for dark mode
+  if (modifiers.dark)
+    props.dark = true
+  if (modifiers.light)
+    props.dark = false
 
   return props
 }
