@@ -137,12 +137,12 @@ function switchTab(tab: 'component' | 'directive') {
           <div class="flex items-center space-x-4">
             <Button
               label="Component Docs"
-              :disabled="activeTab !== 'component'"
+              :disabled="activeTab === 'component'"
               @click="switchTab('component')"
             />
             <Button
               label="Directive Docs"
-              :disabled="activeTab !== 'directive'"
+              :disabled="activeTab === 'directive'"
               @click="switchTab('directive')"
             />
           </div>
