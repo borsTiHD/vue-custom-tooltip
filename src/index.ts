@@ -15,6 +15,3 @@ export const VueCustomTooltip: Plugin = {
     app.directive('tooltip', vTooltip)
   },
 }
-
-// Default export
-export default VueCustomTooltip
