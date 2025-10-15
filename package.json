@@ -1,21 +1,58 @@
 {
-  "name": "vue-custom-tooltip",
+  "name": "@borstihd/vue-custom-tooltip",
   "type": "module",
-  "version": "0.0.0",
-  "private": false,
+  "version": "0.0.1",
+  "description": "A flexible and accessible Vue 3 tooltip component with directive support",
   "author": "borsTiHD",
+  "license": "MIT",
+  "homepage": "https://github.com/borsTiHD/vue-custom-tooltip#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/borsTiHD/vue-custom-tooltip.git"
+  },
+  "bugs": {
+    "url": "https://github.com/borsTiHD/vue-custom-tooltip/issues"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "tooltip",
+    "component",
+    "directive",
+    "popover",
+    "accessibility",
+    "a11y"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vue-custom-tooltip.es.js",
+      "require": "./dist/vue-custom-tooltip.umd.js"
+    },
+    "./dist/style.css": "./dist/vue-custom-tooltip.css"
+  },
+  "main": "./dist/vue-custom-tooltip.umd.js",
+  "module": "./dist/vue-custom-tooltip.es.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist"
+  ],
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "run-p type-check \"build:lib {@}\" --",
+    "build:lib": "vite build --config vite.config.lib.ts",
+    "build:demo": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
-    "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "prepublishOnly": "pnpm run lint && pnpm run test:unit run && pnpm run build"
   },
   "dependencies": {
     "vue": "^3.5.22",
@@ -40,6 +77,7 @@
     "tailwindcss": "^4.1.14",
     "typescript": "~5.9.3",
     "vite": "^7.1.10",
+    "vite-plugin-dts": "^4.5.4",
     "vite-plugin-vue-devtools": "^8.0.2",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.1.1"

@@ -1,0 +1,31 @@
+# Development files
+src/
+public/
+*.spec.ts
+__tests__/
+
+# Config files
+.vscode/
+.gitignore
+.eslintrc*
+eslint.config.*
+vite.config.ts
+vite.config.lib.ts
+vitest.config.ts
+tsconfig.*.json
+tsconfig.json
+pnpm-workspace.yaml
+pnpm-lock.yaml
+
+# Example/demo files
+index.html
+App.vue
+main.ts
+
+# Documentation (use README_PACKAGE.md for package)
+README.md
+
+# Build artifacts
+node_modules/
+.DS_Store
+*.log
