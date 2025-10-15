@@ -1,7 +1,7 @@
 {
   "name": "@borstihd/vue-custom-tooltip",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A flexible and accessible Vue 3 tooltip component with directive support",
   "author": "borsTiHD",
   "license": "MIT",
