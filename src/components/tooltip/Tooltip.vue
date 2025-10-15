@@ -39,7 +39,7 @@
  * - Focus management
  */
 
-import { computed, nextTick, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, useSlots, useTemplateRef, watch } from 'vue'
 
 /**
  * Generic Tooltip Component
@@ -141,10 +141,12 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   offset: 8,
 })
 
-const slots = defineSlots<{
+defineSlots<{
   default: () => any
   content: () => any
 }>()
+
+const slots = useSlots()
 
 const triggerElement = useTemplateRef<HTMLElement>('triggerElement')
 const tooltipElement = useTemplateRef<HTMLElement>('tooltipElement')
@@ -155,6 +157,8 @@ const tooltipStyles = ref<Record<string, any>>({})
 
 let showTimeout: number | null = null
 let hideTimeout: number | null = null
+
+const hasContentSlot = computed(() => !!slots.content)
 
 const tooltipClasses = computed(() => [
   'custom-tooltip',
@@ -403,7 +407,7 @@ watch([isVisible, () => props.position], async () => {
         @mouseleave="handleMouseLeave"
       >
         <div class="tooltip-content">
-          <slot v-if="slots.content" name="content" />
+          <slot v-if="hasContentSlot" name="content" />
           <span v-else-if="props.content" v-text="props.content" />
         </div>
         <div v-if="props.showArrow" class="tooltip-arrow" />
