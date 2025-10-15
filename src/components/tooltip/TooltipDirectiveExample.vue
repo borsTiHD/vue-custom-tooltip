@@ -4,13 +4,13 @@ import Button from '@/components/Button.vue'
 
 <template>
   <div class="p-8 space-y-8">
-    <h2 class="text-2xl font-bold mb-6">
+    <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
       Tooltip Directive Examples
     </h2>
 
     <!-- Basic usage -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Basic Usage
       </h3>
       <div class="flex gap-4 items-center">
@@ -25,7 +25,7 @@ import Button from '@/components/Button.vue'
 
     <!-- Using modifiers for positioning -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Positioning with Modifiers
       </h3>
       <div class="flex gap-4 items-center">
@@ -39,7 +39,7 @@ import Button from '@/components/Button.vue'
 
     <!-- Using modifiers for trigger behavior -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Trigger Behavior with Modifiers
       </h3>
       <div class="flex gap-4 items-center">
@@ -52,7 +52,7 @@ import Button from '@/components/Button.vue'
 
     <!-- Using modifiers for timing -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Timing with Modifiers
       </h3>
       <div class="flex gap-4 items-center">
@@ -63,7 +63,7 @@ import Button from '@/components/Button.vue'
 
     <!-- Complex configuration with object syntax -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Complex Configuration (Object Syntax)
       </h3>
       <div class="flex gap-4 items-center">
@@ -91,7 +91,7 @@ import Button from '@/components/Button.vue'
 
     <!-- Combined modifiers -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Combined Modifiers
       </h3>
       <div class="flex gap-4 items-center">
@@ -114,27 +114,27 @@ import Button from '@/components/Button.vue'
 
     <!-- Text elements -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Text Elements
       </h3>
       <div class="space-y-2">
-        <p>
+        <p class="text-gray-700 dark:text-gray-300">
           Dies ist ein Absatz mit einem
           <span
             v-tooltip="'Hilfreiche Erklärung'"
-            class="underline decoration-dotted text-blue-600 cursor-help"
+            class="underline decoration-dotted text-blue-600 dark:text-blue-400 cursor-help"
           >
             Tooltip auf Text
           </span>
           der zusätzlichen Kontext bietet.
         </p>
 
-        <p>
+        <p class="text-gray-700 dark:text-gray-300">
           Sie können auch
           <a
             v-tooltip.bottom="'Link-Beschreibung'"
             href="#"
-            class="text-blue-600 hover:underline"
+            class="text-blue-600 dark:text-blue-400 hover:underline"
           >
             Links mit Tooltips
           </a>
@@ -145,7 +145,7 @@ import Button from '@/components/Button.vue'
 
     <!-- Form elements -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Form Elements
       </h3>
       <div class="flex gap-4 items-center">
@@ -153,12 +153,12 @@ import Button from '@/components/Button.vue'
           v-tooltip.focus="'Geben Sie Ihren Namen ein'"
           type="text"
           placeholder="Name"
-          class="border border-gray-300 rounded px-3 py-2"
+          class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
         >
 
         <select
           v-tooltip.both="'Wählen Sie eine Option'"
-          class="border border-gray-300 rounded px-3 py-2"
+          class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
         >
           <option>Option 1</option>
           <option>Option 2</option>
@@ -169,7 +169,7 @@ import Button from '@/components/Button.vue'
 
     <!-- Icons and small elements -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Icons and Small Elements
       </h3>
       <div class="flex gap-4 items-center">

@@ -6,13 +6,13 @@ import Tooltip from './Tooltip.vue'
 
 <template>
   <div class="p-8 space-y-8">
-    <h2 class="text-2xl font-bold mb-6">
+    <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
       Tooltip Component Examples
     </h2>
 
     <!-- Basic usage with content prop -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Basic Usage
       </h3>
       <div class="flex gap-4 items-center">
@@ -28,7 +28,7 @@ import Tooltip from './Tooltip.vue'
 
     <!-- Different trigger modes -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Different Trigger Modes
       </h3>
       <div class="flex gap-4 items-center">
@@ -52,7 +52,7 @@ import Tooltip from './Tooltip.vue'
 
     <!-- Custom delays -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Custom Delays
       </h3>
       <div class="flex gap-4 items-center">
@@ -68,7 +68,7 @@ import Tooltip from './Tooltip.vue'
 
     <!-- Custom styling -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Custom Styling
       </h3>
       <div class="flex gap-4 items-center">
@@ -88,7 +88,7 @@ import Tooltip from './Tooltip.vue'
 
     <!-- Positioning -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Positioning
       </h3>
       <div class="flex gap-4 items-center">
@@ -121,7 +121,7 @@ import Tooltip from './Tooltip.vue'
 
     <!-- Using slot content -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Rich Content with Slots
       </h3>
       <div class="flex gap-4 items-center">
@@ -129,7 +129,7 @@ import Tooltip from './Tooltip.vue'
           <Button label="Rich content" />
           <template #content>
             <div class="space-y-2">
-              <div class="font-semibold text-blue-600">
+              <div class="font-semibold text-blue-600 dark:text-blue-400">
                 Rich Tooltip
               </div>
               <div class="text-sm">
@@ -152,7 +152,7 @@ import Tooltip from './Tooltip.vue'
                 Interactive Tooltip
               </div>
               <Button label="Click me!" size="small" />
-              <div class="text-xs text-gray-600">
+              <div class="text-xs text-gray-600 dark:text-gray-400">
                 This tooltip stays open until you click outside
               </div>
             </div>
@@ -163,14 +163,14 @@ import Tooltip from './Tooltip.vue'
 
     <!-- Text elements -->
     <div class="flex flex-col gap-4">
-      <h3 class="text-lg font-semibold">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Text Elements
       </h3>
       <div class="flex gap-4 items-center">
-        <p>
+        <p class="text-gray-700 dark:text-gray-300">
           This is a paragraph with a
           <Tooltip content="Helpful explanation">
-            <span class="underline decoration-dotted text-blue-600 cursor-help">
+            <span class="underline decoration-dotted text-blue-600 dark:text-blue-400 cursor-help">
               tooltip on text
             </span>
           </Tooltip>
