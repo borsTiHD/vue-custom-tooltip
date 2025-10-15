@@ -23,6 +23,10 @@ import Tooltip from './Tooltip.vue'
         <Tooltip content="This tooltip has a longer message to demonstrate text wrapping in tooltips">
           <Button label="Long tooltip" />
         </Tooltip>
+
+        <Tooltip content="Disabled tooltip" disabled>
+          <Button label="Disabled tooltip" />
+        </Tooltip>
       </div>
     </div>
 
@@ -111,17 +115,30 @@ import Tooltip from './Tooltip.vue'
       <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Custom Styling
       </h3>
-      <div class="flex gap-4 items-center">
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        Two ways to customize: CSS Variables (recommended) or Deep Selectors (for complex styles)
+      </p>
+      <div class="flex gap-4 items-center flex-wrap">
         <Tooltip
-          content="Custom width tooltip with long text to show wrapping. This tooltip has a max-width of 400px and custom styles."
-          max-width="400px"
+          content="Uses CSS variables - clean and simple!"
           tooltip-class="my-tooltip"
         >
-          <Button label="Wide tooltip" />
+          <Button label="CSS Variables" />
         </Tooltip>
 
-        <Tooltip content="Disabled tooltip" disabled>
-          <Button label="Disabled tooltip" />
+        <Tooltip
+          content="Gradient tooltip"
+          tooltip-class="my-gradient-tooltip"
+        >
+          <Button label="Gradient" />
+        </Tooltip>
+
+        <Tooltip
+          content="Custom width with long text to show wrapping. This tooltip has a max-width of 400px."
+          max-width="400px"
+          tooltip-class="my-wide-tooltip"
+        >
+          <Button label="Wide tooltip (400px)" />
         </Tooltip>
       </div>
     </div>
@@ -223,13 +240,37 @@ import Tooltip from './Tooltip.vue'
 
 <style>
 .my-tooltip .tooltip-content {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
+  background: #667eea !important;
+  color: white !important;
+  border-color: #667eea !important;
+  border-radius: 12px !important;
 }
 
 .my-tooltip .tooltip-arrow {
-  background: #667eea;
-  border: none;
+  background: #667eea !important;
+  border-color: #667eea !important;
+}
+
+.my-wide-tooltip .tooltip-content {
+  background: #059669 !important;
+  color: white !important;
+  border-color: #047857 !important;
+}
+
+.my-wide-tooltip .tooltip-arrow {
+  background: #059669 !important;
+  border-color: #047857 !important;
+}
+
+.my-gradient-tooltip .tooltip-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4) !important;
+}
+
+.my-gradient-tooltip .tooltip-arrow {
+  background: #667eea !important;
+  border: none !important;
 }
 </style>
