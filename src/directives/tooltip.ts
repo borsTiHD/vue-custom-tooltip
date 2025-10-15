@@ -41,8 +41,8 @@ function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
   let props: TooltipProps = {
     position: 'auto',
     trigger: 'hover',
-    showDelay: 300,
-    hideDelay: 200,
+    showDelay: 100,
+    hideDelay: 100,
     disabled: false,
     maxWidth: '250px',
     offset: 8,
