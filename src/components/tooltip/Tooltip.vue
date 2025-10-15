@@ -259,6 +259,9 @@ async function showTooltip() {
   showTimeout = window.setTimeout(async () => {
     isVisible.value = true
     await nextTick()
+    // Wait for the browser to render the tooltip with proper dimensions
+    // This is especially important for long text that needs to wrap
+    await new Promise(resolve => requestAnimationFrame(resolve))
     calculatePosition()
   }, props.showDelay)
 }
@@ -322,8 +325,10 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
-function handleResize() {
+async function handleResize() {
   if (isVisible.value) {
+    // Wait for the browser to complete the resize and reflow
+    await new Promise(resolve => requestAnimationFrame(resolve))
     calculatePosition()
   }
 }
@@ -361,9 +366,12 @@ onUnmounted(() => {
 })
 
 // Watch for position changes to recalculate
-watch([isVisible, () => props.position], () => {
+watch([isVisible, () => props.position], async () => {
   if (isVisible.value) {
-    nextTick(() => calculatePosition())
+    await nextTick()
+    // Wait for the browser to render the tooltip with proper dimensions
+    await new Promise(resolve => requestAnimationFrame(resolve))
+    calculatePosition()
   }
 })
 </script>
