@@ -613,13 +613,17 @@ watch([isVisible, () => props.position], async () => {
   }
 }
 
-:global(.dark) .tooltip-auto .tooltip-content {
+/* Tailwind dark mode support - IMPORTANT: Only target html.dark or body.dark */
+/* This prevents affecting other elements with .dark class in the app */
+:global(html.dark) .tooltip-auto .tooltip-content,
+:global(body.dark) .tooltip-auto .tooltip-content {
   background: var(--vct-background-dark, #2a2a2a);
   border-color: var(--vct-border-color-dark, #444);
   color: var(--vct-text-color-dark, #e0e0e0);
 }
 
-:global(.dark) .tooltip-auto .tooltip-arrow {
+:global(html.dark) .tooltip-auto .tooltip-arrow,
+:global(body.dark) .tooltip-auto .tooltip-arrow {
   background: var(--vct-background-dark, #2a2a2a);
   border-color: var(--vct-border-color-dark, #444);
 }
