@@ -55,8 +55,7 @@
     "prepublishOnly": "pnpm run lint && pnpm run test:unit run && pnpm run build"
   },
   "dependencies": {
-    "vue": "^3.5.22",
-    "vue-router": "^4.6.0"
+    "vue": "^3.5.22"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.0.0",
