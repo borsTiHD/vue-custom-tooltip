@@ -164,6 +164,7 @@ const tooltipElement = useTemplateRef<HTMLElement>('tooltipElement')
 const isVisible = ref(false)
 const actualPosition = ref<'top' | 'bottom' | 'left' | 'right'>('top')
 const tooltipStyles = ref<Record<string, any>>({})
+const arrowStyles = ref<Record<string, any>>({})
 
 let showTimeout: number | null = null
 let hideTimeout: number | null = null
@@ -235,37 +236,77 @@ function calculatePosition() {
   }
 
   // Calculate position based on determined placement
+  let idealLeft = 0
+  let idealTop = 0
+
   switch (position) {
     case 'top':
-      top = triggerRect.top + scrollTop - tooltipRect.height - props.offset
-      left = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
+      idealTop = triggerRect.top + scrollTop - tooltipRect.height - props.offset
+      idealLeft = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
       break
     case 'bottom':
-      top = triggerRect.bottom + scrollTop + props.offset
-      left = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
+      idealTop = triggerRect.bottom + scrollTop + props.offset
+      idealLeft = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
       break
     case 'left':
-      top = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
-      left = triggerRect.left + scrollLeft - tooltipRect.width - props.offset
+      idealTop = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
+      idealLeft = triggerRect.left + scrollLeft - tooltipRect.width - props.offset
       break
     case 'right':
-      top = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
-      left = triggerRect.right + scrollLeft + props.offset
+      idealTop = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
+      idealLeft = triggerRect.right + scrollLeft + props.offset
       break
   }
 
+  // Store original position before viewport clamping
+  top = idealTop
+  left = idealLeft
+
   // Ensure tooltip stays within viewport bounds
-  left = Math.max(8, Math.min(left, viewportWidth - tooltipRect.width - 8))
-  top = Math.max(8, Math.min(top, viewportHeight + scrollTop - tooltipRect.height - 8))
+  const clampedLeft = Math.max(8, Math.min(left, viewportWidth - tooltipRect.width - 8))
+  const clampedTop = Math.max(8, Math.min(top, viewportHeight + scrollTop - tooltipRect.height - 8))
+
+  // Calculate arrow offset based on how much the tooltip was shifted
+  const arrowOffset: Record<string, any> = {}
+
+  if (position === 'top' || position === 'bottom') {
+    // For horizontal positions, adjust arrow left position
+    const triggerCenterX = triggerRect.left + scrollLeft + (triggerRect.width / 2)
+    const tooltipLeftEdge = clampedLeft
+    const arrowLeftPosition = triggerCenterX - tooltipLeftEdge
+
+    // Ensure arrow stays within tooltip bounds (with some padding)
+    const minArrowPos = 12 // 8px arrow width / 2 + 8px padding
+    const maxArrowPos = tooltipRect.width - 12
+
+    const finalArrowPos = Math.max(minArrowPos, Math.min(maxArrowPos, arrowLeftPosition))
+    arrowOffset.left = `${finalArrowPos}px`
+    arrowOffset.marginLeft = '0' // Override CSS margin-left: -4px
+  }
+  else if (position === 'left' || position === 'right') {
+    // For vertical positions, adjust arrow top position
+    const triggerCenterY = triggerRect.top + scrollTop + (triggerRect.height / 2)
+    const tooltipTopEdge = clampedTop
+    const arrowTopPosition = triggerCenterY - tooltipTopEdge
+
+    // Ensure arrow stays within tooltip bounds (with some padding)
+    const minArrowPos = 12
+    const maxArrowPos = tooltipRect.height - 12
+
+    const finalArrowPos = Math.max(minArrowPos, Math.min(maxArrowPos, arrowTopPosition))
+    arrowOffset.top = `${finalArrowPos}px`
+    arrowOffset.marginTop = '0' // Override CSS margin-top: -4px
+  }
 
   actualPosition.value = position as 'top' | 'bottom' | 'left' | 'right'
   tooltipStyles.value = {
     position: 'absolute',
-    top: `${top}px`,
-    left: `${left}px`,
+    top: `${clampedTop}px`,
+    left: `${clampedLeft}px`,
     maxWidth: props.maxWidth,
     zIndex: 9999,
   }
+  arrowStyles.value = arrowOffset
 }
 
 async function showTooltip() {
@@ -423,7 +464,7 @@ watch([isVisible, () => props.position], async () => {
           <slot v-if="hasContentSlot" name="content" />
           <span v-else-if="props.content" v-text="props.content" />
         </div>
-        <div v-if="props.showArrow" class="tooltip-arrow" />
+        <div v-if="props.showArrow" class="tooltip-arrow" :style="arrowStyles" />
       </div>
     </Teleport>
   </div>
@@ -484,6 +525,7 @@ watch([isVisible, () => props.position], async () => {
 }
 
 /* Arrow positioning for different tooltip positions */
+/* Note: left/top can be overridden by inline styles for dynamic positioning */
 .tooltip-top .tooltip-arrow {
   bottom: -5px;
   left: 50%;

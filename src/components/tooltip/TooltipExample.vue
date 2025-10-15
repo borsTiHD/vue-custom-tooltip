@@ -116,9 +116,17 @@ import Tooltip from './Tooltip.vue'
         Custom Styling
       </h3>
       <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-        Two ways to customize: CSS Variables (recommended) or Deep Selectors (for complex styles)
+        Customize the tooltip's appearance using CSS variables or utility classes.
       </p>
       <div class="flex gap-4 items-center flex-wrap">
+        <Tooltip
+          content="Custom width with long text to show wrapping. This tooltip has a max-width of 400px."
+          max-width="400px"
+          tooltip-class="my-wide-tooltip"
+        >
+          <Button label="Wide tooltip (400px)" />
+        </Tooltip>
+
         <Tooltip
           content="Uses CSS variables - clean and simple!"
           tooltip-class="my-tooltip"
@@ -131,14 +139,6 @@ import Tooltip from './Tooltip.vue'
           tooltip-class="my-gradient-tooltip"
         >
           <Button label="Gradient" />
-        </Tooltip>
-
-        <Tooltip
-          content="Custom width with long text to show wrapping. This tooltip has a max-width of 400px."
-          max-width="400px"
-          tooltip-class="my-wide-tooltip"
-        >
-          <Button label="Wide tooltip (400px)" />
         </Tooltip>
       </div>
     </div>
