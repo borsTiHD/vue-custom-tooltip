@@ -42,6 +42,60 @@ app.use(VueCustomTooltip)
 app.mount('#app')
 ```
 
+### Global Registration with Custom Defaults
+
+You can configure global defaults for all tooltips in your application:
+
+```typescript
+import { VueCustomTooltip } from '@borstihd/vue-custom-tooltip'
+import { createApp } from 'vue'
+import App from './App.vue'
+import '@borstihd/vue-custom-tooltip/dist/style.css'
+
+const app = createApp(App)
+
+// Configure global defaults for all tooltips
+app.use(VueCustomTooltip, {
+  globalConfig: {
+    position: 'top', // Default position for all tooltips
+    trigger: 'hover', // Default trigger behavior
+    showDelay: 200, // Default show delay (ms)
+    hideDelay: 150, // Default hide delay (ms)
+    dark: true, // Force dark mode for all tooltips
+    showArrow: true, // Show arrow by default
+    offset: 12, // Default offset from trigger
+    maxWidth: '300px', // Default max width
+  }
+})
+
+app.mount('#app')
+```
+
+**How it works:**
+- Global configuration provides default values for all tooltips
+- Individual tooltip props override global configuration
+- Priority order: **Component Props > Global Config > Built-in Defaults**
+
+**Example:**
+```vue
+<template>
+  <!-- Uses global config (position: 'top', showDelay: 200) -->
+  <Tooltip content="Uses global defaults">
+    <button>Default</button>
+  </Tooltip>
+
+  <!-- Overrides position, but uses global showDelay: 200 -->
+  <Tooltip content="Custom position" position="bottom">
+    <button>Custom Position</button>
+  </Tooltip>
+
+  <!-- Overrides both position and showDelay -->
+  <Tooltip content="All custom" position="right" :show-delay="0">
+    <button>All Custom</button>
+  </Tooltip>
+</template>
+```
+
 ### Component Usage
 
 ```vue
@@ -81,6 +135,8 @@ import '@borstihd/vue-custom-tooltip/dist/style.css'
 
 ### Directive Usage
 
+The `v-tooltip` directive also respects global configuration. Any modifiers or configuration you pass to the directive will override the global defaults.
+
 ```vue
 <script setup lang="ts">
 import { vTooltip } from '@borstihd/vue-custom-tooltip'
@@ -88,17 +144,17 @@ import '@borstihd/vue-custom-tooltip/dist/style.css'
 </script>
 
 <template>
-  <!-- Simple text -->
+  <!-- Simple text (uses global config if set) -->
   <button v-tooltip="'Tooltip text'">
     Hover me
   </button>
 
-  <!-- With modifiers -->
+  <!-- With modifiers (overrides global config) -->
   <button v-tooltip.top.click="'Click me'">
     Top tooltip on click
   </button>
 
-  <!-- With configuration object -->
+  <!-- With configuration object (overrides global config) -->
   <button v-tooltip="{ content: 'Custom', position: 'right', showDelay: 0 }">
     Fast tooltip
   </button>
@@ -223,6 +279,34 @@ The `dark` prop controls the tooltip's appearance in dark environments:
 <button v-tooltip.light="'Always light tooltip'">
   Or me
 </button>
+```
+
+## Advanced Configuration
+
+### Runtime Configuration Management
+
+You can programmatically manage global configuration at runtime:
+
+```typescript
+import {
+  getTooltipGlobalConfig,
+  resetTooltipGlobalConfig,
+  setTooltipGlobalConfig
+} from '@borstihd/vue-custom-tooltip'
+
+// Set or update global configuration
+setTooltipGlobalConfig({
+  position: 'bottom',
+  showDelay: 300,
+  dark: true
+})
+
+// Get current global configuration
+const currentConfig = getTooltipGlobalConfig()
+console.log(currentConfig)
+
+// Reset to no global configuration
+resetTooltipGlobalConfig()
 ```
 
 ## TypeScript

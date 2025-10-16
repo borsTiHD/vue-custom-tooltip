@@ -39,7 +39,18 @@
  * - Focus management
  */
 
-import { computed, nextTick, onMounted, onUnmounted, ref, useSlots, useTemplateRef, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  useSlots,
+  useTemplateRef,
+  watch,
+} from 'vue'
+import { getReactiveGlobalConfig } from '../../config/globalConfig'
 
 /**
  * Generic Tooltip Component
@@ -139,22 +150,73 @@ export interface TooltipSlots {
 }
 
 const props = withDefaults(defineProps<TooltipProps>(), {
-  position: 'auto',
-  trigger: 'both',
-  showDelay: 100,
-  hideDelay: 100,
-  disabled: false,
-  maxWidth: '250px',
-  tooltipClass: '',
-  showArrow: true,
-  offset: 8,
-  dark: 'auto',
+  position: undefined,
+  trigger: undefined,
+  showDelay: undefined,
+  hideDelay: undefined,
+  disabled: undefined,
+  maxWidth: undefined,
+  tooltipClass: undefined,
+  showArrow: undefined,
+  offset: undefined,
+  dark: undefined,
 })
 
 defineSlots<{
   default: () => any
-  content: () => any
+  content?: () => any
 }>()
+
+// Get reactive global configuration (single source of truth)
+const globalConfig = getReactiveGlobalConfig()
+
+// Track which props were explicitly passed by the user to distinguish undefined from false/0
+const instance = getCurrentInstance()
+const propsPassedByUser = computed(() => {
+  const vnodeProps = instance?.vnode.props || {}
+  return new Set(Object.keys(vnodeProps))
+})
+
+/**
+ * Check if a prop was explicitly passed by the user (even if the value is false, 0, etc.)
+ */
+function wasPropPassed(propName: string): boolean {
+  return propsPassedByUser.value.has(propName)
+}
+
+// Create effective props that respect: defaults < global config < component props
+// Component props take precedence, then global config, then defaults
+// For boolean/number props, we need to check if the prop was explicitly passed to avoid type coercion
+const effectivePosition = computed(() =>
+  wasPropPassed('position') ? props.position : globalConfig.position ?? 'auto',
+)
+const effectiveTrigger = computed(() =>
+  wasPropPassed('trigger') ? props.trigger : globalConfig.trigger ?? 'both',
+)
+const effectiveShowDelay = computed(() =>
+  wasPropPassed('showDelay') ? props.showDelay : globalConfig.showDelay ?? 100,
+)
+const effectiveHideDelay = computed(() =>
+  wasPropPassed('hideDelay') ? props.hideDelay : globalConfig.hideDelay ?? 100,
+)
+const effectiveDisabled = computed(() =>
+  wasPropPassed('disabled') ? props.disabled : globalConfig.disabled ?? false,
+)
+const effectiveMaxWidth = computed(() =>
+  wasPropPassed('maxWidth') ? props.maxWidth : globalConfig.maxWidth ?? '250px',
+)
+const effectiveTooltipClass = computed(() =>
+  wasPropPassed('tooltipClass') ? props.tooltipClass : globalConfig.tooltipClass ?? '',
+)
+const effectiveShowArrow = computed(() =>
+  wasPropPassed('showArrow') ? props.showArrow : globalConfig.showArrow ?? true,
+)
+const effectiveOffset = computed((): number =>
+  wasPropPassed('offset') ? (props.offset ?? 8) : (globalConfig.offset ?? 8),
+)
+const effectiveDark = computed(() =>
+  wasPropPassed('dark') ? props.dark : globalConfig.dark ?? 'auto',
+)
 
 const slots = useSlots()
 
@@ -176,12 +238,12 @@ const tooltipClasses = computed(() => [
   `tooltip-${actualPosition.value}`,
   {
     'tooltip-visible': isVisible.value,
-    'tooltip-with-arrow': props.showArrow,
-    'tooltip-dark': props.dark === true,
-    'tooltip-light': props.dark === false,
-    'tooltip-auto': props.dark === 'auto',
+    'tooltip-with-arrow': effectiveShowArrow.value,
+    'tooltip-dark': effectiveDark.value === true,
+    'tooltip-light': effectiveDark.value === false,
+    'tooltip-auto': effectiveDark.value === 'auto',
   },
-  props.tooltipClass,
+  effectiveTooltipClass.value,
 ])
 
 function clearTimeouts() {
@@ -206,7 +268,7 @@ function calculatePosition() {
   const scrollTop = window.scrollY
   const scrollLeft = window.scrollX
 
-  let position = props.position
+  let position = effectivePosition.value
   let top = 0
   let left = 0
 
@@ -217,16 +279,16 @@ function calculatePosition() {
     const spaceLeft = triggerRect.left
     const spaceRight = viewportWidth - triggerRect.right
 
-    if (spaceBelow >= tooltipRect.height + props.offset) {
+    if (spaceBelow >= tooltipRect.height + effectiveOffset.value) {
       position = 'bottom'
     }
-    else if (spaceAbove >= tooltipRect.height + props.offset) {
+    else if (spaceAbove >= tooltipRect.height + effectiveOffset.value) {
       position = 'top'
     }
-    else if (spaceRight >= tooltipRect.width + props.offset) {
+    else if (spaceRight >= tooltipRect.width + effectiveOffset.value) {
       position = 'right'
     }
-    else if (spaceLeft >= tooltipRect.width + props.offset) {
+    else if (spaceLeft >= tooltipRect.width + effectiveOffset.value) {
       position = 'left'
     }
     else {
@@ -241,20 +303,20 @@ function calculatePosition() {
 
   switch (position) {
     case 'top':
-      idealTop = triggerRect.top + scrollTop - tooltipRect.height - props.offset
+      idealTop = triggerRect.top + scrollTop - tooltipRect.height - effectiveOffset.value
       idealLeft = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
       break
     case 'bottom':
-      idealTop = triggerRect.bottom + scrollTop + props.offset
+      idealTop = triggerRect.bottom + scrollTop + effectiveOffset.value
       idealLeft = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
       break
     case 'left':
       idealTop = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
-      idealLeft = triggerRect.left + scrollLeft - tooltipRect.width - props.offset
+      idealLeft = triggerRect.left + scrollLeft - tooltipRect.width - effectiveOffset.value
       break
     case 'right':
       idealTop = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
-      idealLeft = triggerRect.right + scrollLeft + props.offset
+      idealLeft = triggerRect.right + scrollLeft + effectiveOffset.value
       break
   }
 
@@ -303,14 +365,14 @@ function calculatePosition() {
     position: 'absolute',
     top: `${clampedTop}px`,
     left: `${clampedLeft}px`,
-    maxWidth: props.maxWidth,
+    maxWidth: effectiveMaxWidth.value,
     zIndex: 9999,
   }
   arrowStyles.value = arrowOffset
 }
 
 async function showTooltip() {
-  if (props.disabled || isVisible.value)
+  if (effectiveDisabled.value || isVisible.value)
     return
 
   clearTimeouts()
@@ -321,21 +383,21 @@ async function showTooltip() {
     // This is especially important for long text that needs to wrap
     await new Promise(resolve => requestAnimationFrame(resolve))
     calculatePosition()
-  }, props.showDelay)
+  }, effectiveShowDelay.value)
 }
 
 function hideTooltip() {
-  if (props.disabled)
+  if (effectiveDisabled.value)
     return
 
   clearTimeouts()
   hideTimeout = window.setTimeout(() => {
     isVisible.value = false
-  }, props.hideDelay)
+  }, effectiveHideDelay.value)
 }
 
 function toggleTooltip() {
-  if (props.disabled)
+  if (effectiveDisabled.value)
     return
 
   clearTimeouts()
@@ -348,31 +410,31 @@ function toggleTooltip() {
 }
 
 function handleMouseEnter() {
-  if (props.trigger === 'hover' || props.trigger === 'both') {
+  if (effectiveTrigger.value === 'hover' || effectiveTrigger.value === 'both') {
     showTooltip()
   }
 }
 
 function handleMouseLeave() {
-  if (props.trigger === 'hover' || props.trigger === 'both') {
+  if (effectiveTrigger.value === 'hover' || effectiveTrigger.value === 'both') {
     hideTooltip()
   }
 }
 
 function handleFocus() {
-  if (props.trigger === 'focus' || props.trigger === 'both') {
+  if (effectiveTrigger.value === 'focus' || effectiveTrigger.value === 'both') {
     showTooltip()
   }
 }
 
 function handleBlur() {
-  if (props.trigger === 'focus' || props.trigger === 'both') {
+  if (effectiveTrigger.value === 'focus' || effectiveTrigger.value === 'both') {
     hideTooltip()
   }
 }
 
 function handleClick() {
-  if (props.trigger === 'click') {
+  if (effectiveTrigger.value === 'click') {
     toggleTooltip()
   }
 }
@@ -392,13 +454,13 @@ async function handleResize() {
 }
 
 function handleScroll() {
-  if (isVisible.value && props.trigger !== 'click') {
+  if (isVisible.value && effectiveTrigger.value !== 'click') {
     hideTooltip()
   }
 }
 
 function handleClickOutside(event: Event) {
-  if (props.trigger === 'click' && isVisible.value) {
+  if (effectiveTrigger.value === 'click' && isVisible.value) {
     const target = event.target as Element
     if (
       !triggerElement.value?.contains(target)
@@ -424,7 +486,7 @@ onUnmounted(() => {
 })
 
 // Watch for position changes to recalculate
-watch([isVisible, () => props.position], async () => {
+watch([isVisible, effectivePosition], async () => {
   if (isVisible.value) {
     await nextTick()
     // Wait for the browser to render the tooltip with proper dimensions
@@ -464,7 +526,7 @@ watch([isVisible, () => props.position], async () => {
           <slot v-if="hasContentSlot" name="content" />
           <span v-else-if="props.content" v-text="props.content" />
         </div>
-        <div v-if="props.showArrow" class="tooltip-arrow" :style="arrowStyles" />
+        <div v-if="effectiveShowArrow" class="tooltip-arrow" :style="arrowStyles" />
       </div>
     </Teleport>
   </div>

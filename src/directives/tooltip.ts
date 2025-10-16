@@ -3,6 +3,7 @@ import type { TooltipProps } from '@/components/tooltip/Tooltip.vue'
 
 import { createApp, h } from 'vue'
 import Tooltip from '@/components/tooltip/Tooltip.vue'
+import { getReactiveGlobalConfig } from '@/config/globalConfig'
 
 interface TooltipDirectiveBinding {
   value?: string | TooltipProps
@@ -40,19 +41,10 @@ function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
     modifiers = {},
   } = binding
 
-  let props: TooltipProps = {
-    position: 'auto',
-    trigger: 'hover',
-    showDelay: 100,
-    hideDelay: 100,
-    disabled: false,
-    maxWidth: '250px',
-    offset: 8,
-    showArrow: true,
-    dark: 'auto',
-  }
+  // Merge with global configuration
+  let props: TooltipProps = { ...getReactiveGlobalConfig() }
 
-  // Parse value
+  // Parse value (overrides global config)
   if (typeof value === 'string') {
     props.content = value
   }

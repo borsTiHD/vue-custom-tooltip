@@ -2,11 +2,31 @@
 
 A Vue 3 directive for simple tooltip functionality without the need to wrap elements.
 
+## Global Configuration
+
+The tooltip directive and component both support global configuration. Set defaults for all tooltips when registering the plugin:
+
+```typescript
+import { VueCustomTooltip } from '@borstihd/vue-custom-tooltip'
+
+app.use(VueCustomTooltip, {
+  globalConfig: {
+    position: 'top',
+    trigger: 'hover',
+    showDelay: 200,
+    hideDelay: 150,
+    dark: true,
+  }
+})
+```
+
+All tooltips will use these defaults unless explicitly overridden.
+
 ## Basic Usage
 
 ```vue
 <template>
-  <!-- Simple text tooltip -->
+  <!-- Simple text tooltip (uses global config if set) -->
   <button v-tooltip="'This is a tooltip'">
     Hover me
   </button>
