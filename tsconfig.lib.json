@@ -13,7 +13,9 @@
     "src/index.ts",
     "src/components/tooltip/Tooltip.vue",
     "src/directives/tooltip.ts",
-    "src/config/**/*.ts"
+    "src/config/**/*.ts",
+    "src/composables/**/*.ts",
+    "src/types/**/*.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts",
