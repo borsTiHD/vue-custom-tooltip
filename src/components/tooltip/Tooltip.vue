@@ -192,6 +192,8 @@ watch([isVisible, effectivePosition], async () => {
           ref="tooltipElement"
           :class="tooltipClasses"
           :style="tooltipStyles"
+          aria-label="Tooltip"
+          role="tooltip"
           @mouseenter="handleMouseEnter"
           @mouseleave="handleMouseLeave"
         >
