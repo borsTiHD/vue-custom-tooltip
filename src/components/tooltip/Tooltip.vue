@@ -186,20 +186,22 @@ watch([isVisible, effectivePosition], async () => {
 
     <!-- Custom tooltip -->
     <Teleport to="body">
-      <div
-        v-if="isVisible"
-        ref="tooltipElement"
-        :class="tooltipClasses"
-        :style="tooltipStyles"
-        @mouseenter="handleMouseEnter"
-        @mouseleave="handleMouseLeave"
-      >
-        <div class="tooltip-content">
-          <slot v-if="hasContentSlot" name="content" />
-          <span v-else-if="props.content" v-text="props.content" />
+      <Transition name="tooltip-fade">
+        <div
+          v-if="isVisible"
+          ref="tooltipElement"
+          :class="tooltipClasses"
+          :style="tooltipStyles"
+          @mouseenter="handleMouseEnter"
+          @mouseleave="handleMouseLeave"
+        >
+          <div class="tooltip-content">
+            <slot v-if="hasContentSlot" name="content" />
+            <span v-else-if="props.content" v-text="props.content" />
+          </div>
+          <div v-if="effectiveShowArrow" class="tooltip-arrow" :style="arrowStyles" />
         </div>
-        <div v-if="effectiveShowArrow" class="tooltip-arrow" :style="arrowStyles" />
-      </div>
+      </Transition>
     </Teleport>
   </div>
 </template>
@@ -219,21 +221,34 @@ watch([isVisible, effectivePosition], async () => {
   border-radius: 2px;
 }
 
+/* Vue Transition Classes */
+.tooltip-fade-enter-active,
+.tooltip-fade-leave-active {
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.tooltip-fade-enter-from,
+.tooltip-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.tooltip-fade-enter-to,
+.tooltip-fade-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
 /* Custom Tooltip Styles */
 .custom-tooltip {
   position: absolute;
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-  transform: scale(0.95);
   word-wrap: break-word;
   z-index: 9999;
 }
 
 .custom-tooltip.tooltip-visible {
-  opacity: 1;
   pointer-events: auto;
-  transform: scale(1);
 }
 
 .tooltip-content {
@@ -371,8 +386,14 @@ watch([isVisible, effectivePosition], async () => {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .custom-tooltip {
+  .tooltip-fade-enter-active,
+  .tooltip-fade-leave-active {
     transition: none;
+  }
+
+  .tooltip-fade-enter-from,
+  .tooltip-fade-leave-to {
+    transform: scale(1);
   }
 }
 </style>
