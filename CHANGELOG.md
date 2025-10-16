@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Tooltip Transition Animation**: Fixed fade transition not working properly during tooltip show/hide
+
 ## [1.1.1] - 2025-10-16
 
 ### Fixed
