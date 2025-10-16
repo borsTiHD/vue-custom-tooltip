@@ -39,18 +39,15 @@
  * - Focus management
  */
 
+import type { TooltipProps, TooltipSlots } from '../../types/tooltip'
+import { computed, nextTick, useSlots, useTemplateRef, watch } from 'vue'
+
 import {
-  computed,
-  getCurrentInstance,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  ref,
-  useSlots,
-  useTemplateRef,
-  watch,
-} from 'vue'
-import { getReactiveGlobalConfig } from '../../config/globalConfig'
+  useTooltipEvents,
+  useTooltipPosition,
+  useTooltipProps,
+  useTooltipVisibility,
+} from '../../composables'
 
 /**
  * Generic Tooltip Component
@@ -60,94 +57,8 @@ import { getReactiveGlobalConfig } from '../../config/globalConfig'
  * No external dependencies except Vue 3.
  */
 
-export interface TooltipProps {
-  /**
-   * Content to display in the tooltip
-   * Use this for simple text content, or use the content slot for rich content
-   */
-  content?: string
-
-  /**
-   * Position of the tooltip relative to the trigger element
-   * @default 'auto'
-   */
-  position?: 'top' | 'bottom' | 'left' | 'right' | 'auto'
-
-  /**
-   * Trigger behavior for the tooltip
-   * - 'hover': Show/hide on mouse enter/leave
-   * - 'focus': Show/hide on focus/blur (keyboard navigation)
-   * - 'both': Show/hide on both hover and focus
-   * - 'click': Toggle on click
-   * @default 'both'
-   */
-  trigger?: 'hover' | 'focus' | 'both' | 'click'
-
-  /**
-   * Delay before showing the tooltip (in milliseconds)
-   * @default 100
-   */
-  showDelay?: number
-
-  /**
-   * Delay before hiding the tooltip (in milliseconds)
-   * @default 100
-   */
-  hideDelay?: number
-
-  /**
-   * Whether the tooltip is disabled
-   * When disabled, the tooltip will not show regardless of interactions
-   * @default false
-   */
-  disabled?: boolean
-
-  /**
-   * Maximum width of the tooltip
-   * @default '250px'
-   */
-  maxWidth?: string
-
-  /**
-   * Custom CSS class for the tooltip popover
-   * @default ''
-   */
-  tooltipClass?: string
-
-  /**
-   * Whether to show an arrow pointing to the trigger
-   * @default true
-   */
-  showArrow?: boolean
-
-  /**
-   * Offset from the trigger element in pixels
-   * @default 8
-   */
-  offset?: number
-
-  /**
-   * Dark mode behavior
-   * - 'auto': Automatically detects both prefers-color-scheme AND Tailwind's .dark class
-   * - true: Force dark mode
-   * - false: Force light mode
-   * @default 'auto'
-   */
-  dark?: 'auto' | boolean
-}
-
-export interface TooltipSlots {
-  /**
-   * Default slot: The trigger element that will show the tooltip when interacted with
-   */
-  default: () => any
-
-  /**
-   * Content slot: Rich content to display in the tooltip
-   * Use this instead of the content prop for complex HTML content
-   */
-  content?: () => any
-}
+// Re-export types for external use
+export type { TooltipProps, TooltipSlots }
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   position: undefined,
@@ -167,91 +78,70 @@ defineSlots<{
   content?: () => any
 }>()
 
-// Get reactive global configuration (single source of truth)
-const globalConfig = getReactiveGlobalConfig()
-
-// Track which props were explicitly passed by the user to distinguish undefined from false/0
-const instance = getCurrentInstance()
-const propsPassedByUser = computed(() => {
-  const vnodeProps = instance?.vnode.props || {}
-  return new Set(Object.keys(vnodeProps))
-})
-
-function toKebabCase(str: string): string {
-  return str.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
-}
-
-function wasPropPassed(propName: string): boolean {
-  const kebabName = toKebabCase(propName)
-  return propsPassedByUser.value.has(propName) || propsPassedByUser.value.has(kebabName)
-}
-
-/**
- * Creates a computed property that resolves the effective value of a prop
- * by respecting the priority: Component Prop > Global Config > Default Value.
- * @param propName The name of the prop from TooltipProps.
- * @param defaultValue The fallback default value.
- */
-function getEffectiveProp<T extends keyof TooltipProps>(
-  propName: T,
-  defaultValue: NonNullable<TooltipProps[T]>,
-) {
-  return computed(() => {
-    // 1. Check if the prop was explicitly passed on the component
-    if (wasPropPassed(propName)) {
-      const propValue = props[propName]
-      // Use the prop value if it's not null/undefined. This handles explicit 'false' or '0'.
-      if (propValue !== undefined && propValue !== null)
-        return propValue as NonNullable<TooltipProps[T]>
-    }
-
-    // 2. If not passed, check for a value in the global configuration
-    const globalValue = globalConfig[propName]
-    if (globalValue !== undefined && globalValue !== null)
-      return globalValue as NonNullable<TooltipProps[T]>
-
-    // 3. Fallback to the built-in default value
-    return defaultValue
-  })
-}
-
-const DEFAULT_TOOLTIP_PROPS: Readonly<Required<Omit<TooltipProps, 'content'>>> = {
-  position: 'auto',
-  trigger: 'both',
-  showDelay: 100,
-  hideDelay: 100,
-  disabled: false,
-  maxWidth: '250px',
-  tooltipClass: '',
-  showArrow: true,
-  offset: 8,
-  dark: 'auto',
-}
-
-const effectivePosition = getEffectiveProp('position', DEFAULT_TOOLTIP_PROPS.position)
-const effectiveTrigger = getEffectiveProp('trigger', DEFAULT_TOOLTIP_PROPS.trigger)
-const effectiveShowDelay = getEffectiveProp('showDelay', DEFAULT_TOOLTIP_PROPS.showDelay)
-const effectiveHideDelay = getEffectiveProp('hideDelay', DEFAULT_TOOLTIP_PROPS.hideDelay)
-const effectiveDisabled = getEffectiveProp('disabled', DEFAULT_TOOLTIP_PROPS.disabled)
-const effectiveMaxWidth = getEffectiveProp('maxWidth', DEFAULT_TOOLTIP_PROPS.maxWidth)
-const effectiveTooltipClass = getEffectiveProp('tooltipClass', DEFAULT_TOOLTIP_PROPS.tooltipClass)
-const effectiveShowArrow = getEffectiveProp('showArrow', DEFAULT_TOOLTIP_PROPS.showArrow)
-const effectiveOffset = getEffectiveProp('offset', DEFAULT_TOOLTIP_PROPS.offset)
-const effectiveDark = getEffectiveProp('dark', DEFAULT_TOOLTIP_PROPS.dark)
-
 const slots = useSlots()
 
+// Element refs
 const triggerElement = useTemplateRef<HTMLElement>('triggerElement')
 const tooltipElement = useTemplateRef<HTMLElement>('tooltipElement')
 
-const isVisible = ref(false)
-const actualPosition = ref<'top' | 'bottom' | 'left' | 'right'>('top')
-const tooltipStyles = ref<Record<string, any>>({})
-const arrowStyles = ref<Record<string, any>>({})
+// Composables
+const {
+  effectivePosition,
+  effectiveTrigger,
+  effectiveShowDelay,
+  effectiveHideDelay,
+  effectiveDisabled,
+  effectiveMaxWidth,
+  effectiveTooltipClass,
+  effectiveShowArrow,
+  effectiveOffset,
+  effectiveDark,
+} = useTooltipProps(props)
 
-let showTimeout: number | null = null
-let hideTimeout: number | null = null
+const {
+  actualPosition,
+  tooltipStyles,
+  arrowStyles,
+  calculate: calculatePosition,
+} = useTooltipPosition(
+  triggerElement,
+  tooltipElement,
+  effectivePosition,
+  effectiveOffset,
+  effectiveMaxWidth,
+)
 
+const {
+  isVisible,
+  show,
+  hide,
+  toggle,
+} = useTooltipVisibility(
+  effectiveDisabled,
+  effectiveShowDelay,
+  effectiveHideDelay,
+  calculatePosition,
+)
+
+const {
+  handleMouseEnter,
+  handleMouseLeave,
+  handleFocus,
+  handleBlur,
+  handleClick,
+  handleKeydown,
+} = useTooltipEvents(
+  triggerElement,
+  tooltipElement,
+  isVisible,
+  effectiveTrigger,
+  show,
+  hide,
+  toggle,
+  calculatePosition,
+)
+
+// Computed properties
 const hasContentSlot = computed(() => !!slots.content)
 
 const tooltipClasses = computed(() => [
@@ -266,245 +156,6 @@ const tooltipClasses = computed(() => [
   },
   effectiveTooltipClass.value,
 ])
-
-function clearTimeouts() {
-  if (showTimeout) {
-    clearTimeout(showTimeout)
-    showTimeout = null
-  }
-  if (hideTimeout) {
-    clearTimeout(hideTimeout)
-    hideTimeout = null
-  }
-}
-
-function calculatePosition() {
-  if (!triggerElement.value || !tooltipElement.value)
-    return
-
-  const triggerRect = triggerElement.value.getBoundingClientRect()
-  const tooltipRect = tooltipElement.value.getBoundingClientRect()
-  const viewportHeight = window.innerHeight
-  const viewportWidth = window.innerWidth
-  const scrollTop = window.scrollY
-  const scrollLeft = window.scrollX
-
-  let position = effectivePosition.value
-  let top = 0
-  let left = 0
-
-  // Auto-detect best position if 'auto' is set
-  if (position === 'auto') {
-    const spaceAbove = triggerRect.top
-    const spaceBelow = viewportHeight - triggerRect.bottom
-    const spaceLeft = triggerRect.left
-    const spaceRight = viewportWidth - triggerRect.right
-
-    if (spaceBelow >= tooltipRect.height + effectiveOffset.value) {
-      position = 'bottom'
-    }
-    else if (spaceAbove >= tooltipRect.height + effectiveOffset.value) {
-      position = 'top'
-    }
-    else if (spaceRight >= tooltipRect.width + effectiveOffset.value) {
-      position = 'right'
-    }
-    else if (spaceLeft >= tooltipRect.width + effectiveOffset.value) {
-      position = 'left'
-    }
-    else {
-      // Fallback to position with most space
-      position = spaceBelow > spaceAbove ? 'bottom' : 'top'
-    }
-  }
-
-  // Calculate position based on determined placement
-  let idealLeft = 0
-  let idealTop = 0
-
-  switch (position) {
-    case 'top':
-      idealTop = triggerRect.top + scrollTop - tooltipRect.height - effectiveOffset.value
-      idealLeft = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
-      break
-    case 'bottom':
-      idealTop = triggerRect.bottom + scrollTop + effectiveOffset.value
-      idealLeft = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
-      break
-    case 'left':
-      idealTop = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
-      idealLeft = triggerRect.left + scrollLeft - tooltipRect.width - effectiveOffset.value
-      break
-    case 'right':
-      idealTop = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
-      idealLeft = triggerRect.right + scrollLeft + effectiveOffset.value
-      break
-  }
-
-  // Store original position before viewport clamping
-  top = idealTop
-  left = idealLeft
-
-  // Ensure tooltip stays within viewport bounds
-  const clampedLeft = Math.max(8, Math.min(left, viewportWidth - tooltipRect.width - 8))
-  const clampedTop = Math.max(8, Math.min(top, viewportHeight + scrollTop - tooltipRect.height - 8))
-
-  // Calculate arrow offset based on how much the tooltip was shifted
-  const arrowOffset: Record<string, any> = {}
-
-  if (position === 'top' || position === 'bottom') {
-    // For horizontal positions, adjust arrow left position
-    const triggerCenterX = triggerRect.left + scrollLeft + (triggerRect.width / 2)
-    const tooltipLeftEdge = clampedLeft
-    const arrowLeftPosition = triggerCenterX - tooltipLeftEdge
-
-    // Ensure arrow stays within tooltip bounds (with some padding)
-    const minArrowPos = 12 // 8px arrow width / 2 + 8px padding
-    const maxArrowPos = tooltipRect.width - 12
-
-    const finalArrowPos = Math.max(minArrowPos, Math.min(maxArrowPos, arrowLeftPosition))
-    arrowOffset.left = `${finalArrowPos}px`
-    arrowOffset.marginLeft = '0' // Override CSS margin-left: -4px
-  }
-  else if (position === 'left' || position === 'right') {
-    // For vertical positions, adjust arrow top position
-    const triggerCenterY = triggerRect.top + scrollTop + (triggerRect.height / 2)
-    const tooltipTopEdge = clampedTop
-    const arrowTopPosition = triggerCenterY - tooltipTopEdge
-
-    // Ensure arrow stays within tooltip bounds (with some padding)
-    const minArrowPos = 12
-    const maxArrowPos = tooltipRect.height - 12
-
-    const finalArrowPos = Math.max(minArrowPos, Math.min(maxArrowPos, arrowTopPosition))
-    arrowOffset.top = `${finalArrowPos}px`
-    arrowOffset.marginTop = '0' // Override CSS margin-top: -4px
-  }
-
-  actualPosition.value = position as 'top' | 'bottom' | 'left' | 'right'
-  tooltipStyles.value = {
-    position: 'absolute',
-    top: `${clampedTop}px`,
-    left: `${clampedLeft}px`,
-    maxWidth: effectiveMaxWidth.value,
-    zIndex: 9999,
-  }
-  arrowStyles.value = arrowOffset
-}
-
-async function showTooltip() {
-  if (effectiveDisabled.value || isVisible.value)
-    return
-
-  clearTimeouts()
-  showTimeout = window.setTimeout(async () => {
-    isVisible.value = true
-    await nextTick()
-    // Wait for the browser to render the tooltip with proper dimensions
-    // This is especially important for long text that needs to wrap
-    await new Promise(resolve => requestAnimationFrame(resolve))
-    calculatePosition()
-  }, effectiveShowDelay.value)
-}
-
-function hideTooltip() {
-  if (effectiveDisabled.value)
-    return
-
-  clearTimeouts()
-  hideTimeout = window.setTimeout(() => {
-    isVisible.value = false
-  }, effectiveHideDelay.value)
-}
-
-function toggleTooltip() {
-  if (effectiveDisabled.value)
-    return
-
-  clearTimeouts()
-  if (isVisible.value) {
-    hideTooltip()
-  }
-  else {
-    showTooltip()
-  }
-}
-
-function handleMouseEnter() {
-  if (effectiveTrigger.value === 'hover' || effectiveTrigger.value === 'both') {
-    showTooltip()
-  }
-}
-
-function handleMouseLeave() {
-  if (effectiveTrigger.value === 'hover' || effectiveTrigger.value === 'both') {
-    hideTooltip()
-  }
-}
-
-function handleFocus() {
-  if (effectiveTrigger.value === 'focus' || effectiveTrigger.value === 'both') {
-    showTooltip()
-  }
-}
-
-function handleBlur() {
-  if (effectiveTrigger.value === 'focus' || effectiveTrigger.value === 'both') {
-    hideTooltip()
-  }
-}
-
-function handleClick() {
-  if (effectiveTrigger.value === 'click') {
-    toggleTooltip()
-  }
-}
-
-function handleKeydown(event: KeyboardEvent) {
-  if (event.key === 'Escape' && isVisible.value) {
-    hideTooltip()
-  }
-}
-
-async function handleResize() {
-  if (isVisible.value) {
-    // Wait for the browser to complete the resize and reflow
-    await new Promise(resolve => requestAnimationFrame(resolve))
-    calculatePosition()
-  }
-}
-
-function handleScroll() {
-  if (isVisible.value && effectiveTrigger.value !== 'click') {
-    hideTooltip()
-  }
-}
-
-function handleClickOutside(event: Event) {
-  if (effectiveTrigger.value === 'click' && isVisible.value) {
-    const target = event.target as Element
-    if (
-      !triggerElement.value?.contains(target)
-      && !tooltipElement.value?.contains(target)
-    ) {
-      hideTooltip()
-    }
-  }
-}
-
-// Setup event listeners
-onMounted(() => {
-  window.addEventListener('resize', handleResize)
-  window.addEventListener('scroll', handleScroll, true)
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  clearTimeouts()
-  window.removeEventListener('resize', handleResize)
-  window.removeEventListener('scroll', handleScroll, true)
-  document.removeEventListener('click', handleClickOutside)
-})
 
 // Watch for position changes to recalculate
 watch([isVisible, effectivePosition], async () => {

@@ -1,0 +1,101 @@
+import type { ComputedRef } from 'vue'
+import { nextTick, onUnmounted, ref } from 'vue'
+
+/**
+ * Composable for managing tooltip visibility with configurable delays
+ *
+ * @param disabled - Computed property indicating if tooltip is disabled
+ * @param showDelay - Computed property for show delay in milliseconds
+ * @param hideDelay - Computed property for hide delay in milliseconds
+ * @param onShow - Optional callback to execute when tooltip becomes visible
+ * @returns Object containing visibility state and control functions
+ */
+export function useTooltipVisibility(
+  disabled: ComputedRef<boolean>,
+  showDelay: ComputedRef<number>,
+  hideDelay: ComputedRef<number>,
+  onShow?: () => void | Promise<void>,
+) {
+  const isVisible = ref(false)
+
+  let showTimeout: number | null = null
+  let hideTimeout: number | null = null
+
+  /**
+   * Clears any pending show/hide timeouts
+   */
+  function clearTimeouts() {
+    if (showTimeout) {
+      clearTimeout(showTimeout)
+      showTimeout = null
+    }
+    if (hideTimeout) {
+      clearTimeout(hideTimeout)
+      hideTimeout = null
+    }
+  }
+
+  /**
+   * Shows the tooltip after the configured delay
+   */
+  async function show() {
+    if (disabled.value || isVisible.value)
+      return
+
+    clearTimeouts()
+    showTimeout = window.setTimeout(async () => {
+      isVisible.value = true
+      await nextTick()
+      // Wait for the browser to render the tooltip with proper dimensions
+      // This is especially important for long text that needs to wrap
+      await new Promise(resolve => requestAnimationFrame(resolve))
+
+      // Execute callback after tooltip is visible and rendered
+      if (onShow) {
+        await onShow()
+      }
+    }, showDelay.value)
+  }
+
+  /**
+   * Hides the tooltip after the configured delay
+   */
+  function hide() {
+    if (disabled.value)
+      return
+
+    clearTimeouts()
+    hideTimeout = window.setTimeout(() => {
+      isVisible.value = false
+    }, hideDelay.value)
+  }
+
+  /**
+   * Toggles the tooltip visibility
+   */
+  function toggle() {
+    if (disabled.value)
+      return
+
+    clearTimeouts()
+    if (isVisible.value) {
+      hide()
+    }
+    else {
+      show()
+    }
+  }
+
+  // Clean up timeouts on unmount
+  onUnmounted(() => {
+    clearTimeouts()
+  })
+
+  return {
+    isVisible,
+    show,
+    hide,
+    toggle,
+    clearTimeouts,
+  }
+}
