@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Prop Detection**: Fixed an issue where props passed in `kebab-case` (e.g., `tooltip-class`) were not being detected correctly. The component now properly recognizes both `camelCase` and `kebab-case` prop formats, ensuring consistent behavior
+
 ## [1.1.0] - 2025-10-16
 
 ### Added
