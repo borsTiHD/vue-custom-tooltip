@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-10-16
+
+### Added
+- **Global Configuration System**: Comprehensive global configuration support with plugin options
+  - New `setTooltipGlobalConfig()` function to set global defaults for all tooltips
+  - Global config can be provided during plugin installation via `app.use(VueCustomTooltip, { globalConfig: {...} })`
+  - Priority chain: Component props > Global config > Default values
+
+### Fixed
+- **Default Value Handling**: Fixed issue where default values weren't applied correctly
+  - Boolean props now correctly distinguish between explicit `false` and missing prop
+  - Number props (like `offset`) now correctly handle explicit `0` value
+  - String props properly handle empty string as valid value
+
+### Documentation
+- Updated README with comprehensive global configuration examples
+- Added inline code documentation for all configuration functions
+- Documented priority chain behavior
+
 ## [1.0.2] - 2025-10-16
 
 ### Fixed
@@ -19,51 +38,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.1] - 2025-10-15
 
 ### Fixed
-- Trying to fix dark mode selection bug after build
+- **Dark Mode Selection**: Fixed dark mode detection and application after build process
+  - Improved dark mode auto-detection reliability
 
-## [1.0.0] - Initial Development
+## [1.0.0] - 2025-10-15
 
 ### Added
-- Initial release of Vue Custom Tooltip component
-- Core tooltip component functionality
-- Flexible tooltip component built with Vue 3 Composition API
-- Multiple trigger modes: hover, focus, both, and click
-- Auto-positioning with smart placement detection
-- Customizable delays for show/hide animations
-- Dark mode support with auto-detection (prefers-color-scheme and Tailwind .dark class)
-- Accessibility features:
-  - Keyboard navigation support (Tab to focus, Escape to close)
-  - Screen reader compatible
-  - Proper ARIA attributes
-  - Focus management
-- Rich content support via slots
-- Arrow positioning with automatic adjustment
-- Directive support for simple use cases
-- TypeScript support
-- Zero external dependencies (except Vue 3)
-- CSS custom properties for easy theming
-- High contrast mode support
-- Reduced motion support for accessibility
-
-### Features
-- **Positioning**: Auto, top, bottom, left, right
-- **Triggers**: Hover, focus, both, click
-- **Themes**: Light, dark, auto (system preference)
-- **Customization**: CSS variables for colors, border radius, shadows
-- **Responsive**: Automatically adjusts position to stay within viewport
-- **Teleport**: Uses Vue Teleport to avoid z-index and overflow issues
+- **Initial Release**: Vue Custom Tooltip component
+- **Core Features**:
+  - Flexible tooltip component built with Vue 3 Composition API and TypeScript
+  - Multiple trigger modes: `hover`, `focus`, `both`, and `click`
+  - Smart auto-positioning with viewport boundary detection
+  - Customizable show/hide delays with configurable timing
+  - Dark mode support with auto-detection (respects both `prefers-color-scheme` and Tailwind's `.dark` class)
+  - Rich content support via default slot or content prop
+  - Arrow positioning with automatic adjustment when tooltip shifts
+  - Directive support (`v-tooltip`) for simple text tooltips
+  - Full TypeScript support with comprehensive type definitions
+  - Zero external dependencies (only requires Vue 3)
+  
+- **Accessibility Features**:
+  - Full keyboard navigation support (Tab to focus, Escape to close)
+  - Screen reader compatible with proper ARIA attributes
+  - Focus management and keyboard event handling
+  - High contrast mode support
+  - Reduced motion support for users with motion sensitivity preferences
+  
+- **Customization Options**:
+  - CSS custom properties (CSS variables) for easy theming
+  - Configurable positioning: `auto`, `top`, `bottom`, `left`, `right`
+  - Adjustable offset distance from trigger element
+  - Custom CSS classes via `tooltipClass` prop
+  - Configurable max-width
+  - Optional arrow display
+  
+- **Technical Features**:
+  - Uses Vue Teleport to avoid z-index and overflow issues
+  - Responsive design that automatically adjusts to viewport constraints
+  - Smooth transitions and animations
+  - Proper cleanup on component unmount
+  - Window resize and scroll handling
 
 ---
 
 ## Types of Changes
-- **Added** for new features
-- **Changed** for changes in existing functionality
-- **Deprecated** for soon-to-be removed features
-- **Removed** for now removed features
-- **Fixed** for any bug fixes
-- **Security** in case of vulnerabilities
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.2...HEAD
+This changelog follows these categories:
+- **Added** - New features and functionality
+- **Changed** - Changes to existing functionality or behavior
+- **Deprecated** - Features that will be removed in future versions
+- **Removed** - Features that have been removed
+- **Fixed** - Bug fixes and error corrections
+- **Security** - Vulnerability fixes and security improvements
+- **Documentation** - Documentation updates and improvements
+
+---
+
+## Version Links
+
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/borsTiHD/vue-custom-tooltip/releases/tag/v1.0.0
