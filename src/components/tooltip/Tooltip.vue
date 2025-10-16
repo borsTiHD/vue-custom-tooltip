@@ -177,46 +177,67 @@ const propsPassedByUser = computed(() => {
   return new Set(Object.keys(vnodeProps))
 })
 
-/**
- * Check if a prop was explicitly passed by the user (even if the value is false, 0, etc.)
- */
-function wasPropPassed(propName: string): boolean {
-  return propsPassedByUser.value.has(propName)
+function toKebabCase(str: string): string {
+  return str.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
 }
 
-// Create effective props that respect: defaults < global config < component props
-// Component props take precedence, then global config, then defaults
-// For boolean/number props, we need to check if the prop was explicitly passed to avoid type coercion
-const effectivePosition = computed(() =>
-  wasPropPassed('position') ? props.position : globalConfig.position ?? 'auto',
-)
-const effectiveTrigger = computed(() =>
-  wasPropPassed('trigger') ? props.trigger : globalConfig.trigger ?? 'both',
-)
-const effectiveShowDelay = computed(() =>
-  wasPropPassed('showDelay') ? props.showDelay : globalConfig.showDelay ?? 100,
-)
-const effectiveHideDelay = computed(() =>
-  wasPropPassed('hideDelay') ? props.hideDelay : globalConfig.hideDelay ?? 100,
-)
-const effectiveDisabled = computed(() =>
-  wasPropPassed('disabled') ? props.disabled : globalConfig.disabled ?? false,
-)
-const effectiveMaxWidth = computed(() =>
-  wasPropPassed('maxWidth') ? props.maxWidth : globalConfig.maxWidth ?? '250px',
-)
-const effectiveTooltipClass = computed(() =>
-  wasPropPassed('tooltipClass') ? props.tooltipClass : globalConfig.tooltipClass ?? '',
-)
-const effectiveShowArrow = computed(() =>
-  wasPropPassed('showArrow') ? props.showArrow : globalConfig.showArrow ?? true,
-)
-const effectiveOffset = computed((): number =>
-  wasPropPassed('offset') ? (props.offset ?? 8) : (globalConfig.offset ?? 8),
-)
-const effectiveDark = computed(() =>
-  wasPropPassed('dark') ? props.dark : globalConfig.dark ?? 'auto',
-)
+function wasPropPassed(propName: string): boolean {
+  const kebabName = toKebabCase(propName)
+  return propsPassedByUser.value.has(propName) || propsPassedByUser.value.has(kebabName)
+}
+
+/**
+ * Creates a computed property that resolves the effective value of a prop
+ * by respecting the priority: Component Prop > Global Config > Default Value.
+ * @param propName The name of the prop from TooltipProps.
+ * @param defaultValue The fallback default value.
+ */
+function getEffectiveProp<T extends keyof TooltipProps>(
+  propName: T,
+  defaultValue: NonNullable<TooltipProps[T]>,
+) {
+  return computed(() => {
+    // 1. Check if the prop was explicitly passed on the component
+    if (wasPropPassed(propName)) {
+      const propValue = props[propName]
+      // Use the prop value if it's not null/undefined. This handles explicit 'false' or '0'.
+      if (propValue !== undefined && propValue !== null)
+        return propValue as NonNullable<TooltipProps[T]>
+    }
+
+    // 2. If not passed, check for a value in the global configuration
+    const globalValue = globalConfig[propName]
+    if (globalValue !== undefined && globalValue !== null)
+      return globalValue as NonNullable<TooltipProps[T]>
+
+    // 3. Fallback to the built-in default value
+    return defaultValue
+  })
+}
+
+const DEFAULT_TOOLTIP_PROPS: Readonly<Required<Omit<TooltipProps, 'content'>>> = {
+  position: 'auto',
+  trigger: 'both',
+  showDelay: 100,
+  hideDelay: 100,
+  disabled: false,
+  maxWidth: '250px',
+  tooltipClass: '',
+  showArrow: true,
+  offset: 8,
+  dark: 'auto',
+}
+
+const effectivePosition = getEffectiveProp('position', DEFAULT_TOOLTIP_PROPS.position)
+const effectiveTrigger = getEffectiveProp('trigger', DEFAULT_TOOLTIP_PROPS.trigger)
+const effectiveShowDelay = getEffectiveProp('showDelay', DEFAULT_TOOLTIP_PROPS.showDelay)
+const effectiveHideDelay = getEffectiveProp('hideDelay', DEFAULT_TOOLTIP_PROPS.hideDelay)
+const effectiveDisabled = getEffectiveProp('disabled', DEFAULT_TOOLTIP_PROPS.disabled)
+const effectiveMaxWidth = getEffectiveProp('maxWidth', DEFAULT_TOOLTIP_PROPS.maxWidth)
+const effectiveTooltipClass = getEffectiveProp('tooltipClass', DEFAULT_TOOLTIP_PROPS.tooltipClass)
+const effectiveShowArrow = getEffectiveProp('showArrow', DEFAULT_TOOLTIP_PROPS.showArrow)
+const effectiveOffset = getEffectiveProp('offset', DEFAULT_TOOLTIP_PROPS.offset)
+const effectiveDark = getEffectiveProp('dark', DEFAULT_TOOLTIP_PROPS.dark)
 
 const slots = useSlots()
 
