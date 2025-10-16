@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2025-10-16
+
 ### Fixed
 - **Critical CSS Scoping Issue**: Fixed global CSS pollution from dark mode styles that was overriding host application backgrounds
   - The `:global()` selector was incorrectly scoped, causing Vue to generate styles that targeted `html.dark` and `body.dark` globally
@@ -14,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Now styles only apply to `.tooltip-auto` elements within `html.dark` or `body.dark`, preventing global style leakage
   - Maintains Tailwind dark mode support without side effects when importing the tooltip CSS in other projects
 
-## [1.0.1] - 2024
+## [1.0.1] - 2025-10-15
 
 ### Fixed
 - Trying to fix dark mode selection bug after build
@@ -61,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Fixed** for any bug fixes
 - **Security** in case of vulnerabilities
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.1...HEAD
-[1.0.1]: https://github.com/borsTiHD/vue-custom-tooltip/releases/tag/v1.0.1
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/borsTiHD/vue-custom-tooltip/releases/tag/v1.0.0
