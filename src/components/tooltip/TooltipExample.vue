@@ -147,29 +147,29 @@ import Button from '@/components/Button.vue'
         Positioning
       </h3>
       <div class="flex gap-4 items-center">
-        <!-- Tooltip oben -->
-        <Tooltip content="Erscheint oben" position="top">
-          <Button label="Tooltip oben" />
+        <!-- Tooltip top -->
+        <Tooltip content="Appears at the top" position="top">
+          <Button label="Tooltip top" />
         </Tooltip>
 
-        <!-- Tooltip links -->
-        <Tooltip content="Erscheint links" position="left">
-          <Button label="Tooltip links" />
+        <!-- Tooltip left -->
+        <Tooltip content="Appears at the left" position="left">
+          <Button label="Tooltip left" />
         </Tooltip>
 
-        <!-- Tooltip rechts -->
-        <Tooltip content="Erscheint rechts" position="right">
-          <Button label="Tooltip rechts" />
+        <!-- Tooltip right -->
+        <Tooltip content="Appears at the right" position="right">
+          <Button label="Tooltip right" />
         </Tooltip>
 
-        <!-- Tooltip unten -->
-        <Tooltip content="Erscheint unten" position="bottom">
-          <Button label="Tooltip unten" />
+        <!-- Tooltip bottom -->
+        <Tooltip content="Appears at the bottom" position="bottom">
+          <Button label="Tooltip bottom" />
         </Tooltip>
 
-        <!-- Automatische Positionierung -->
-        <Tooltip content="Automatisch positioniert" position="auto">
-          <Button label="Auto-Position" />
+        <!-- Automatic positioning -->
+        <Tooltip content="Automatically positioned" position="auto">
+          <Button label="Auto Position" />
         </Tooltip>
       </div>
     </div>
