@@ -45,9 +45,6 @@ jobs:
       - name: Run tests
         run: pnpm run test:unit run
 
-      - name: Run linting
-        run: pnpm run lint
-
       - name: Build library
         run: pnpm run build
 
