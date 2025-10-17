@@ -14,6 +14,7 @@ export default defineConfig({
       rollupTypes: false,
       insertTypesEntry: true,
       entryRoot: 'src',
+      include: ['src/**/*.ts', 'src/**/*.d.ts', 'src/**/*.vue'],
     }),
   ],
   resolve: {

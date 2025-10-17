@@ -311,10 +311,49 @@ resetTooltipGlobalConfig()
 
 ## TypeScript
 
-The package includes full TypeScript support:
+The package includes full TypeScript support with type definitions for props, slots, and globally registered components.
+
+### Type Imports
 
 ```typescript
 import type { TooltipProps, TooltipSlots } from '@borstihd/vue-custom-tooltip'
+```
+
+### Global Component Types
+
+When you install the plugin using `app.use(VueCustomTooltip)`, the `Tooltip` component is automatically registered globally and TypeScript will recognize it in your templates with full autocomplete and type checking.
+
+**No additional configuration needed!** The package includes Vue component type augmentation, so your IDE will provide:
+- ✅ Prop autocomplete for `<Tooltip>`
+- ✅ Type checking for prop values
+- ✅ IntelliSense documentation
+
+**Example:**
+```vue
+<template>
+  <!-- TypeScript knows about these props and validates them -->
+  <Tooltip
+    content="Hello"
+    position="top"
+    :show-delay="200"
+  >
+    <button>Hover me</button>
+  </Tooltip>
+</template>
+```
+
+**Note for local imports:** If you import the component directly instead of using the plugin, you'll need to import it explicitly:
+
+```vue
+<script setup lang="ts">
+import { Tooltip } from '@borstihd/vue-custom-tooltip'
+</script>
+
+<template>
+  <Tooltip content="Hello">
+    <button>Hover me</button>
+  </Tooltip>
+</template>
 ```
 
 ## Styling
