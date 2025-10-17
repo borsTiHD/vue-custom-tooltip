@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - **Tooltip Transition Animation**: Fixed fade transition not working properly during tooltip show/hide
 - **Dark Mode Priority**: Fixed dark mode not applying correctly when using Tailwind's `.dark` class on either `html` or `body` element. The priority chain now works as intended: Tailwind `.dark`/`.light` class takes precedence over system `prefers-color-scheme`, ensuring consistent theme application regardless of where the class is applied
+- **Accessibility Enhancement**: Improved accessibility by implementing proper ARIA attributes and unique tooltip IDs
+  - Added `aria-describedby` to trigger elements, linking them to their tooltip content
+  - Added `aria-expanded` for click-triggered tooltips to indicate expanded/collapsed state
+  - Implemented unique ID generation for each tooltip instance using counter and random string combination
+  - Added `aria-live="polite"` to tooltip elements for screen reader announcements
+  - Ensures proper association between trigger and tooltip elements for assistive technologies
 
 ## [1.1.1] - 2025-10-16
 
