@@ -351,31 +351,46 @@ watch([isVisible, effectivePosition], async () => {
 }
 
 /* Auto mode - Responds to both prefers-color-scheme and Tailwind .dark class */
-@media (prefers-color-scheme: dark) {
-  .tooltip-auto .tooltip-content {
-    background: var(--vct-background-dark, #2a2a2a);
-    border-color: var(--vct-border-color-dark, #444);
-    color: var(--vct-text-color-dark, #e0e0e0);
-  }
-
-  .tooltip-auto .tooltip-arrow {
-    background: var(--vct-background-dark, #2a2a2a);
-    border-color: var(--vct-border-color-dark, #444);
-  }
-}
-
-/* Tailwind dark mode support - Targets tooltips only when html or body has .dark class */
-:global(html.dark .tooltip-auto .tooltip-content),
-:global(body.dark .tooltip-auto .tooltip-content) {
+/* Priority: Tailwind .dark class > prefers-color-scheme */
+/* Tailwind dark mode support - Works when .dark class is on html or body */
+:global(.dark .tooltip-auto .tooltip-content) {
   background: var(--vct-background-dark, #2a2a2a);
   border-color: var(--vct-border-color-dark, #444);
   color: var(--vct-text-color-dark, #e0e0e0);
 }
 
-:global(html.dark .tooltip-auto .tooltip-arrow),
-:global(body.dark .tooltip-auto .tooltip-arrow) {
+:global(.dark .tooltip-auto .tooltip-arrow) {
   background: var(--vct-background-dark, #2a2a2a);
   border-color: var(--vct-border-color-dark, #444);
+}
+
+/* Explicit light mode when .light class is present */
+:global(.light .tooltip-auto .tooltip-content) {
+  background: var(--vct-background, #ffffff);
+  border-color: var(--vct-border-color, #e0e0e0);
+  color: var(--vct-text-color, #333333);
+}
+
+:global(.light .tooltip-auto .tooltip-arrow) {
+  background: var(--vct-background, #ffffff);
+  border-color: var(--vct-border-color, #e0e0e0);
+}
+
+/* Fallback to prefers-color-scheme ONLY when neither .dark nor .light class is present */
+/* Lower priority - only applies when Tailwind dark/light class is not set on any parent */
+@media (prefers-color-scheme: dark) {
+  :global(html:not(.dark):not(.light) .tooltip-auto .tooltip-content),
+  :global(html:not(.dark):not(.light) body:not(.dark):not(.light) .tooltip-auto .tooltip-content) {
+    background: var(--vct-background-dark, #2a2a2a);
+    border-color: var(--vct-border-color-dark, #444);
+    color: var(--vct-text-color-dark, #e0e0e0);
+  }
+
+  :global(html:not(.dark):not(.light) .tooltip-auto .tooltip-arrow),
+  :global(html:not(.dark):not(.light) body:not(.dark):not(.light) .tooltip-auto .tooltip-arrow) {
+    background: var(--vct-background-dark, #2a2a2a);
+    border-color: var(--vct-border-color-dark, #444);
+  }
 }
 
 /* High contrast mode support */
