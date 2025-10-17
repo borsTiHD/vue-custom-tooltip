@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - **Tooltip Transition Animation**: Fixed fade transition not working properly during tooltip show/hide
+- **Dark Mode Priority**: Fixed dark mode not applying correctly when using Tailwind's `.dark` class on either `html` or `body` element. The priority chain now works as intended: Tailwind `.dark`/`.light` class takes precedence over system `prefers-color-scheme`, ensuring consistent theme application regardless of where the class is applied
 
 ## [1.1.1] - 2025-10-16
 
