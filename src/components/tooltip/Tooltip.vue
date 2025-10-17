@@ -238,19 +238,17 @@ watch([isVisible, effectivePosition], async () => {
 /* Vue Transition Classes */
 .tooltip-fade-enter-active,
 .tooltip-fade-leave-active {
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  transition: opacity 0.2s ease-out;
 }
 
 .tooltip-fade-enter-from,
 .tooltip-fade-leave-to {
   opacity: 0;
-  transform: scale(0.9);
 }
 
 .tooltip-fade-enter-to,
 .tooltip-fade-leave-from {
   opacity: 1;
-  transform: scale(1);
 }
 
 /* Custom Tooltip Styles */

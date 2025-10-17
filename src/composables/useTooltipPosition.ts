@@ -72,22 +72,30 @@ export function useTooltipPosition(
     let idealTop = 0
     let idealLeft = 0
 
+    // Calculate trigger edges and center in absolute coordinates
+    const triggerTopAbs = triggerRect.top + scrollTop
+    const triggerBottomAbs = triggerRect.bottom + scrollTop
+    const triggerLeftAbs = triggerRect.left + scrollLeft
+    const triggerRightAbs = triggerRect.right + scrollLeft
+    const triggerCenterX = triggerLeftAbs + (triggerRect.width / 2)
+    const triggerCenterY = triggerTopAbs + (triggerRect.height / 2)
+
     switch (placement) {
       case 'top':
-        idealTop = triggerRect.top + scrollTop - tooltipRect.height - offset.value
-        idealLeft = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
+        idealTop = triggerTopAbs - tooltipRect.height - offset.value
+        idealLeft = triggerCenterX - (tooltipRect.width / 2)
         break
       case 'bottom':
-        idealTop = triggerRect.bottom + scrollTop + offset.value
-        idealLeft = triggerRect.left + scrollLeft + (triggerRect.width / 2) - (tooltipRect.width / 2)
+        idealTop = triggerBottomAbs + offset.value
+        idealLeft = triggerCenterX - (tooltipRect.width / 2)
         break
       case 'left':
-        idealTop = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
-        idealLeft = triggerRect.left + scrollLeft - tooltipRect.width - offset.value
+        idealTop = triggerCenterY - (tooltipRect.height / 2)
+        idealLeft = triggerLeftAbs - tooltipRect.width - offset.value
         break
       case 'right':
-        idealTop = triggerRect.top + scrollTop + (triggerRect.height / 2) - (tooltipRect.height / 2)
-        idealLeft = triggerRect.right + scrollLeft + offset.value
+        idealTop = triggerCenterY - (tooltipRect.height / 2)
+        idealLeft = triggerRightAbs + offset.value
         break
     }
 
@@ -173,8 +181,8 @@ export function useTooltipPosition(
     )
 
     // Ensure tooltip stays within viewport bounds
-    const clampedLeft = Math.max(8, Math.min(left, viewportWidth - tooltipRect.width - 8))
-    const clampedTop = Math.max(8, Math.min(top, viewportHeight + scrollTop - tooltipRect.height - 8))
+    const clampedLeft = Math.max(8 + scrollLeft, Math.min(left, viewportWidth + scrollLeft - tooltipRect.width - 8))
+    const clampedTop = Math.max(8 + scrollTop, Math.min(top, viewportHeight + scrollTop - tooltipRect.height - 8))
 
     // Calculate arrow offset based on how much the tooltip was shifted
     const arrowOffset = calculateArrowOffset(
@@ -197,6 +205,15 @@ export function useTooltipPosition(
       zIndex: 9999,
     }
     arrowStyles.value = arrowOffset
+  }
+
+  // Initialize tooltip styles with off-screen position for proper initial measurement
+  tooltipStyles.value = {
+    position: 'absolute',
+    top: '-9999px',
+    left: '-9999px',
+    maxWidth: maxWidth.value,
+    zIndex: 9999,
   }
 
   return {
