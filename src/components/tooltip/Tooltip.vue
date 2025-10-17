@@ -35,8 +35,9 @@
  * Accessibility Features:
  * - Keyboard navigation support (Tab to focus, Escape to close)
  * - Screen reader compatible
- * - Proper ARIA attributes
+ * - Proper ARIA attributes (aria-describedby, role="tooltip")
  * - Focus management
+ * - Unique IDs for tooltip-trigger association
  */
 
 import type { TooltipProps, TooltipSlots } from '../../types/tooltip'
@@ -72,13 +73,21 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   offset: undefined,
   dark: undefined,
 })
-
 defineSlots<{
   default: () => any
   content?: () => any
 }>()
 
+// Generate unique ID for accessibility
+function generateTooltipId() {
+  const randomPart = Math.random().toString(36).substring(2, 9)
+  return `tooltip-${randomPart}`
+}
+
 const slots = useSlots()
+
+// Generate unique ID for ARIA attributes
+const tooltipId = generateTooltipId()
 
 // Element refs
 const triggerElement = useTemplateRef<HTMLElement>('triggerElement')
@@ -174,6 +183,8 @@ watch([isVisible, effectivePosition], async () => {
     <div
       ref="triggerElement"
       class="tooltip-trigger"
+      :aria-describedby="isVisible ? tooltipId : undefined"
+      :aria-expanded="effectiveTrigger === 'click' ? isVisible : undefined"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
       @focusin="handleFocus"
@@ -189,11 +200,12 @@ watch([isVisible, effectivePosition], async () => {
       <Transition name="tooltip-fade">
         <div
           v-if="isVisible"
+          :id="tooltipId"
           ref="tooltipElement"
           :class="tooltipClasses"
           :style="tooltipStyles"
-          aria-label="Tooltip"
           role="tooltip"
+          aria-live="polite"
           @mouseenter="handleMouseEnter"
           @mouseleave="handleMouseLeave"
         >
