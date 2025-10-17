@@ -14,10 +14,10 @@ import Button from '@/components/Button.vue'
         Basic Usage
       </h3>
       <div class="flex gap-4 items-center">
-        <Button v-tooltip="'Dies ist ein einfacher Tooltip'" label="Hover me" />
+        <Button v-tooltip="'This is a simple tooltip'" label="Hover me" />
 
         <Button
-          v-tooltip="'Dieser Tooltip hat eine längere Nachricht um Textumbruch zu demonstrieren'"
+          v-tooltip="'This tooltip has a longer message to demonstrate text wrapping'"
           label="Long tooltip"
         />
       </div>
@@ -41,11 +41,11 @@ import Button from '@/components/Button.vue'
         Positioning with Modifiers
       </h3>
       <div class="flex gap-4 items-center">
-        <Button v-tooltip.top="'Erscheint oben'" label="Top" />
-        <Button v-tooltip.bottom="'Erscheint unten'" label="Bottom" />
-        <Button v-tooltip.left="'Erscheint links'" label="Left" />
-        <Button v-tooltip.right="'Erscheint rechts'" label="Right" />
-        <Button v-tooltip.auto="'Automatisch positioniert'" label="Auto" />
+        <Button v-tooltip.top="'This tooltip appears on top'" label="Top" />
+        <Button v-tooltip.bottom="'This tooltip appears at the bottom'" label="Bottom" />
+        <Button v-tooltip.left="'This tooltip appears on the left'" label="Left" />
+        <Button v-tooltip.right="'This tooltip appears on the right'" label="Right" />
+        <Button v-tooltip.auto="'This tooltip is automatically positioned'" label="Auto" />
       </div>
     </div>
 
@@ -55,10 +55,10 @@ import Button from '@/components/Button.vue'
         Trigger Behavior with Modifiers
       </h3>
       <div class="flex gap-4 items-center">
-        <Button v-tooltip.hover="'Nur bei Hover'" label="Hover only" />
-        <Button v-tooltip.focus="'Nur bei Focus (Tab)'" label="Focus only" />
-        <Button v-tooltip.both="'Bei Hover und Focus'" label="Both" />
-        <Button v-tooltip.click="'Klick zum Umschalten'" label="Click to toggle" />
+        <Button v-tooltip.hover="'Only on hover'" label="Hover only" />
+        <Button v-tooltip.focus="'Only on focus (Tab)'" label="Focus only" />
+        <Button v-tooltip.both="'Both on hover and focus'" label="Both" />
+        <Button v-tooltip.click="'Click to toggle'" label="Click to toggle" />
       </div>
     </div>
 
@@ -68,8 +68,8 @@ import Button from '@/components/Button.vue'
         Timing with Modifiers
       </h3>
       <div class="flex gap-4 items-center">
-        <Button v-tooltip.fast="'Schneller Tooltip (10ms)'" label="Fast" />
-        <Button v-tooltip.slow="'Langsamer Tooltip (1000ms)'" label="Slow" />
+        <Button v-tooltip.fast="'Fast tooltip (10ms)'" label="Fast" />
+        <Button v-tooltip.slow="'Slow tooltip (1000ms)'" label="Slow" />
       </div>
     </div>
 
@@ -81,7 +81,7 @@ import Button from '@/components/Button.vue'
       <div class="flex gap-4 items-center">
         <Button
           v-tooltip="{
-            content: 'Benutzerdefinierte Konfiguration',
+            content: 'Custom configured tooltip',
             position: 'top',
             trigger: 'hover',
             showDelay: 500,
@@ -93,7 +93,7 @@ import Button from '@/components/Button.vue'
 
         <Button
           v-tooltip="{
-            content: 'Deaktivierter Tooltip',
+            content: 'Disabled tooltip',
             disabled: true,
           }"
           label="Disabled"
@@ -108,17 +108,17 @@ import Button from '@/components/Button.vue'
       </h3>
       <div class="flex gap-4 items-center">
         <Button
-          v-tooltip.top.fast="'Oben und schnell'"
+          v-tooltip.top.fast="'This tooltip appears on top and is fast'"
           label="Top + Fast"
         />
 
         <Button
-          v-tooltip.click.slow="'Klick und langsam'"
+          v-tooltip.click.slow="'This tooltip appears on click and is slow'"
           label="Click + Slow"
         />
 
         <Button
-          v-tooltip.left.both="'Links mit Hover und Focus'"
+          v-tooltip.left.both="'This tooltip appears on the left and is shown on both hover and focus'"
           label="Left + Both"
         />
       </div>
@@ -131,26 +131,26 @@ import Button from '@/components/Button.vue'
       </h3>
       <div class="space-y-2">
         <p class="text-gray-700 dark:text-gray-300">
-          Dies ist ein Absatz mit einem
+          This is an example of
           <span
-            v-tooltip="'Hilfreiche Erklärung'"
+            v-tooltip="'Helpful explanation'"
             class="underline decoration-dotted text-blue-600 dark:text-blue-400 cursor-help"
           >
-            Tooltip auf Text
+            Tooltip on text
           </span>
-          der zusätzlichen Kontext bietet.
+          that provides additional context.
         </p>
 
         <p class="text-gray-700 dark:text-gray-300">
-          Sie können auch
+          You can also add tooltips to
           <a
-            v-tooltip.bottom="'Link-Beschreibung'"
+            v-tooltip.bottom="'Link description'"
             href="#"
             class="text-blue-600 dark:text-blue-400 hover:underline"
           >
-            Links mit Tooltips
+            Links with tooltips
           </a>
-          versehen.
+          in a text element.
         </p>
       </div>
     </div>
@@ -162,14 +162,14 @@ import Button from '@/components/Button.vue'
       </h3>
       <div class="flex gap-4 items-center">
         <input
-          v-tooltip.focus="'Geben Sie Ihren Namen ein'"
+          v-tooltip.focus="'Input your name here'"
           type="text"
           placeholder="Name"
           class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
         >
 
         <select
-          v-tooltip.top.both="'Wählen Sie eine Option'"
+          v-tooltip.top.both="'Select an option'"
           class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
         >
           <option>Option 1</option>
@@ -186,21 +186,21 @@ import Button from '@/components/Button.vue'
       </h3>
       <div class="flex gap-4 items-center">
         <span
-          v-tooltip="'Informations-Icon'"
+          v-tooltip="'Information icon'"
           class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm cursor-help"
         >
           ℹ
         </span>
 
         <span
-          v-tooltip.right="'Hilfe-Icon'"
+          v-tooltip.right="'Help icon'"
           class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm cursor-help"
         >
           ?
         </span>
 
         <span
-          v-tooltip.top="'Warnung'"
+          v-tooltip.top="'Warning'"
           class="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-sm cursor-help"
         >
           ⚠
