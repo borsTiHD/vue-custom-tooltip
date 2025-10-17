@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.2] - 2025-10-17
+
 ### Fixed
 - **Tooltip Transition Animation**: Fixed fade transition not working properly during tooltip show/hide
 - **Dark Mode Priority**: Fixed dark mode not applying correctly when using Tailwind's `.dark` class on either `html` or `body` element. The priority chain now works as intended: Tailwind `.dark`/`.light` class takes precedence over system `prefers-color-scheme`, ensuring consistent theme application regardless of where the class is applied
@@ -111,7 +113,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.0.1...v1.0.2
