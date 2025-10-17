@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Button from '@/components/Button.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 import TooltipDirectiveExample from '@/components/tooltip/TooltipDirectiveExample.vue'
 import TooltipExample from '@/components/tooltip/TooltipExample.vue'
 
@@ -32,6 +33,8 @@ function switchTab(tab: 'component' | 'directive') {
             <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
               TypeScript
             </span>
+
+            <ThemeToggle />
           </div>
         </div>
       </div>
