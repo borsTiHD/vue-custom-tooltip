@@ -57,7 +57,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Bump version
-        run: npm version ${{ github.event.inputs.version }} -m "chore: release v%s"
+        run: npm version ${{ github.event.inputs.version }} -m 'chore: release v%s'
 
       - name: Push changes
         run: |
@@ -73,7 +73,10 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { version } = require('./package.json');
+            const fs = require('fs');
+            const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+            const version = packageJson.version;
+            
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
