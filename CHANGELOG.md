@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.6] - 2025-10-17
+
+### Fixed
+- **TypeScript Support for Global Registration**: Fixed missing TypeScript types for globally registered directive
+  - Directive modifiers (`.top`, `.bottom`, `.click`, `.fast`, etc.) now validated by TypeScript
+
 ## [1.1.5] - 2025-10-17
 
 ### Fixed
@@ -127,8 +133,9 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.5...HEAD
-[1.1.3]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.4...v1.1.5
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.6...HEAD
+[1.1.6]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.5...v1.1.6
+[1.1.5]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.4...v1.1.5
 [1.1.3]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.2...v1.1.4
 [1.1.2]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.0...v1.1.1
