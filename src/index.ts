@@ -41,9 +41,13 @@ export const VueCustomTooltip: Plugin = {
   },
 }
 
-// Type augmentation for globally registered components
+// Type augmentation for globally registered components and directives
 declare module 'vue' {
   export interface GlobalComponents {
     Tooltip: typeof Tooltip
+  }
+
+  export interface GlobalDirectives {
+    tooltip: typeof vTooltip
   }
 }

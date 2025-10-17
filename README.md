@@ -311,7 +311,7 @@ resetTooltipGlobalConfig()
 
 ## TypeScript
 
-The package includes full TypeScript support with type definitions for props, slots, and globally registered components.
+The package includes full TypeScript support with type definitions for props, slots, globally registered components and directives.
 
 ### Type Imports
 
@@ -353,6 +353,31 @@ import { Tooltip } from '@borstihd/vue-custom-tooltip'
   <Tooltip content="Hello">
     <button>Hover me</button>
   </Tooltip>
+</template>
+```
+
+### Global Directive Types
+
+The `v-tooltip` directive is also fully typed when you install the plugin. TypeScript will recognize the directive and validate its modifiers.
+
+**Available modifiers with full type support:**
+- ✅ Position modifiers: `.top`, `.bottom`, `.left`, `.right`, `.auto`
+- ✅ Trigger modifiers: `.hover`, `.focus`, `.both`, `.click`
+- ✅ Timing modifiers: `.fast`, `.slow`
+- ✅ Theme modifiers: `.dark`, `.light`
+
+**Example:**
+```vue
+<template>
+  <!-- TypeScript validates these modifiers -->
+  <button v-tooltip.top.fast="'Quick tooltip'">
+    Hover me
+  </button>
+
+  <!-- Object syntax with full type checking -->
+  <button v-tooltip="{ content: 'Hello', position: 'right' }">
+    Click me
+  </button>
 </template>
 ```
 
