@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version bump type'
+        description: Version bump type
         required: true
         type: choice
         options:
@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'pnpm'
+          cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
@@ -73,7 +73,7 @@ jobs:
             const fs = require('fs');
             const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
             const version = packageJson.version;
-            
+
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
