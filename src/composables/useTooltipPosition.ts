@@ -115,6 +115,8 @@ export function useTooltipPosition(
     scrollLeft: number,
   ): Record<string, any> {
     const arrowOffset: Record<string, any> = {}
+    const arrowSize = 8 // Arrow width/height in pixels
+    const halfArrowSize = arrowSize / 2 // Half size for centering (4px)
 
     if (placement === 'top' || placement === 'bottom') {
       // For horizontal positions, adjust arrow left position
@@ -128,7 +130,7 @@ export function useTooltipPosition(
 
       const finalArrowPos = Math.max(minArrowPos, Math.min(maxArrowPos, arrowLeftPosition))
       arrowOffset.left = `${finalArrowPos}px`
-      arrowOffset.marginLeft = '0' // Override CSS margin-left: -4px
+      arrowOffset.marginLeft = `-${halfArrowSize}px` // Center the arrow (half of 8px)
     }
     else if (placement === 'left' || placement === 'right') {
       // For vertical positions, adjust arrow top position
@@ -142,7 +144,7 @@ export function useTooltipPosition(
 
       const finalArrowPos = Math.max(minArrowPos, Math.min(maxArrowPos, arrowTopPosition))
       arrowOffset.top = `${finalArrowPos}px`
-      arrowOffset.marginTop = '0' // Override CSS margin-top: -4px
+      arrowOffset.marginTop = `-${halfArrowSize}px` // Center the arrow (half of 8px)
     }
 
     return arrowOffset
