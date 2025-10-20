@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- fix: store reference to original element instead of cloning it in tooltip directive
+
 ## [1.1.7] - 2025-10-20
 
 ### Fixed

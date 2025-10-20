@@ -102,7 +102,7 @@ function createTooltipInstance(
   const wrapper = document.createElement('div')
   wrapper.style.display = 'contents' // This makes the wrapper invisible in layout
 
-  // Store reference to the original element (don't clone it!)
+  // Store reference to the original element
   const originalElement = element
 
   // Replace original element with wrapper in DOM
