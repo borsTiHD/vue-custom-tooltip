@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Arrow Positioning**: Fixed tooltip arrow alignment issue where arrows were offset incorrectly
+  - Arrows in `top` and `bottom` positions were appearing too far to the right
+  - Arrows in `left` and `right` positions were appearing too far down
+
 ## [1.1.6] - 2025-10-17
 
 ### Fixed
