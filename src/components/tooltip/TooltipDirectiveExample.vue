@@ -193,6 +193,13 @@ import Button from '@/components/Button.vue'
         </span>
 
         <span
+          v-tooltip.top="'!'"
+          class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm cursor-help"
+        >
+          🚨
+        </span>
+
+        <span
           v-tooltip.right="'Help icon'"
           class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm cursor-help"
         >

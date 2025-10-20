@@ -216,6 +216,38 @@ import Button from '@/components/Button.vue'
       </div>
     </div>
 
+    <!-- Icons and small elements -->
+    <div class="flex flex-col gap-4">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        Icons and Small Elements
+      </h3>
+      <div class="flex gap-4 items-center">
+        <Tooltip content="Information icon">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+            ℹ
+          </span>
+        </Tooltip>
+
+        <Tooltip content="!" position="top">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+            🚨
+          </span>
+        </Tooltip>
+
+        <Tooltip content="Help icon" position="left">
+          <span class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+            ?
+          </span>
+        </Tooltip>
+
+        <Tooltip content="Warning" position="right">
+          <span class="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+            ⚠
+          </span>
+        </Tooltip>
+      </div>
+    </div>
+
     <!-- Text elements -->
     <div class="flex flex-col gap-4">
       <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
