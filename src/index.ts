@@ -14,8 +14,16 @@ export * from './composables'
 // Export configuration functions
 export { getTooltipGlobalConfig, resetTooltipGlobalConfig, setTooltipGlobalConfig } from './config/index'
 
-// Export types
 export type { TooltipProps, TooltipSlots } from './types/tooltip'
+// Export types
+export type {
+  TooltipDirectiveModifiers,
+  TooltipPositionModifier,
+  TooltipStateModifier,
+  TooltipThemeModifier,
+  TooltipTimingModifier,
+  TooltipTriggerModifier,
+} from './types/tooltip-modifiers'
 
 /**
  * Options for the VueCustomTooltip plugin
@@ -48,6 +56,41 @@ declare module 'vue' {
   }
 
   export interface GlobalDirectives {
+    /**
+     * Tooltip directive with support for modifiers
+     *
+     * **Available Modifiers:**
+     *
+     * Position: `.top`, `.bottom`, `.left`, `.right`, `.auto`
+     *
+     * Trigger: `.hover`, `.focus`, `.both`, `.click`
+     *
+     * Timing: `.fast`, `.slow`
+     *
+     * State: `.disabled`
+     *
+     * Theme: `.dark`, `.light`
+     *
+     * @example
+     * ```vue
+     * <!-- Simple tooltip -->
+     * <button v-tooltip="'Simple tooltip'">Hover me</button>
+     *
+     * <!-- With position modifier -->
+     * <button v-tooltip.top="'Tooltip on top'">Top</button>
+     *
+     * <!-- Multiple modifiers -->
+     * <button v-tooltip.click.slow="'Click to show (slow)'">Click</button>
+     *
+     * <!-- Object syntax for advanced configuration -->
+     * <button v-tooltip="{ content: 'Custom', position: 'top', showDelay: 500 }">
+     *   Custom config
+     * </button>
+     * ```
+     *
+     * @note TypeScript cannot autocomplete modifiers in templates due to Vue 3 limitations.
+     * However, all modifiers are validated at runtime and will work as expected.
+     */
     tooltip: typeof vTooltip
   }
 }

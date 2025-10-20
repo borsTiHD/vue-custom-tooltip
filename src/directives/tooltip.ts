@@ -1,28 +1,23 @@
 import type { App, Directive } from 'vue'
 import type { TooltipProps } from '@/components/tooltip/Tooltip.vue'
+import type { TooltipDirectiveModifiers } from '@/types/tooltip-modifiers'
 
 import { createApp, h } from 'vue'
 import Tooltip from '@/components/tooltip/Tooltip.vue'
 import { getReactiveGlobalConfig } from '@/config/globalConfig'
 
+export type {
+  TooltipDirectiveModifiers,
+  TooltipPositionModifier,
+  TooltipStateModifier,
+  TooltipThemeModifier,
+  TooltipTimingModifier,
+  TooltipTriggerModifier,
+} from '@/types/tooltip-modifiers'
+
 interface TooltipDirectiveBinding {
   value?: string | TooltipProps
-  modifiers?: {
-    top?: boolean
-    bottom?: boolean
-    left?: boolean
-    right?: boolean
-    auto?: boolean
-    hover?: boolean
-    focus?: boolean
-    both?: boolean
-    click?: boolean
-    fast?: boolean
-    slow?: boolean
-    disabled?: boolean
-    dark?: boolean
-    light?: boolean
-  }
+  modifiers?: TooltipDirectiveModifiers
 }
 
 interface TooltipDirectiveInstance {
@@ -38,7 +33,7 @@ const TOOLTIP_INSTANCES = new WeakMap<HTMLElement, TooltipDirectiveInstance>()
 function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
   const {
     value,
-    modifiers = {},
+    modifiers = {} as TooltipDirectiveModifiers,
   } = binding
 
   // Merge with global configuration

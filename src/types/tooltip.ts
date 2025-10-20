@@ -1,3 +1,8 @@
+import type {
+  TooltipPositionModifier,
+  TooltipTriggerModifier,
+} from '@/types/tooltip-modifiers'
+
 /**
  * Tooltip component prop types
  */
@@ -12,7 +17,7 @@ export interface TooltipProps {
    * Position of the tooltip relative to the trigger element
    * @default 'auto'
    */
-  position?: 'top' | 'bottom' | 'left' | 'right' | 'auto'
+  position?: TooltipPositionModifier
 
   /**
    * Trigger behavior for the tooltip
@@ -22,7 +27,7 @@ export interface TooltipProps {
    * - 'click': Toggle on click
    * @default 'both'
    */
-  trigger?: 'hover' | 'focus' | 'both' | 'click'
+  trigger?: TooltipTriggerModifier
 
   /**
    * Delay before showing the tooltip (in milliseconds)
