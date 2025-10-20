@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.7] - 2025-10-20
+
 ### Fixed
 - **Arrow Positioning**: Fixed tooltip arrow alignment issue where arrows were offset incorrectly
   - Arrows in `top` and `bottom` positions were appearing too far to the right
@@ -138,7 +140,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.6...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.7...HEAD
+[1.1.7]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.4...v1.1.5
 [1.1.3]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.2...v1.1.4
