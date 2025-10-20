@@ -27,10 +27,10 @@ function switchTab(tab: 'component' | 'directive') {
             </p>
           </div>
           <div class="flex items-center space-x-2">
-            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full">
               Vue 3
             </span>
-            <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
               TypeScript
             </span>
 
@@ -83,16 +83,16 @@ function switchTab(tab: 'component' | 'directive') {
             It supports rich content through slots, custom positioning, and various trigger modes.
           </p>
           <div class="flex flex-wrap gap-2 mt-3">
-            <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded">
+            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded">
               Slot-based content
             </span>
-            <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-medium rounded">
+            <span class="px-2 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded">
               Rich HTML support
             </span>
-            <span class="px-2 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded">
+            <span class="px-2 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium rounded">
               Custom positioning
             </span>
-            <span class="px-2 py-1 bg-yellow-50 text-yellow-700 text-xs font-medium rounded">
+            <span class="px-2 py-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded">
               Multiple triggers
             </span>
           </div>
@@ -107,16 +107,16 @@ function switchTab(tab: 'component' | 'directive') {
             It supports modifier-based configuration and is perfect for simple text tooltips.
           </p>
           <div class="flex flex-wrap gap-2 mt-3">
-            <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded">
+            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded">
               Modifier-based config
             </span>
-            <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-medium rounded">
+            <span class="px-2 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded">
               Lightweight
             </span>
-            <span class="px-2 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded">
+            <span class="px-2 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium rounded">
               String or object syntax
             </span>
-            <span class="px-2 py-1 bg-yellow-50 text-yellow-700 text-xs font-medium rounded">
+            <span class="px-2 py-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded">
               Easy integration
             </span>
           </div>
