@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import Button from '@/components/Button.vue'
+
+const btnLabel = ref('Click me to change!')
+const tooltipMsg = ref('Click this Button, it will change the button text and tooltip text')
+
+function onClick(message: string) {
+  btnLabel.value = message
+  tooltipMsg.value = message
+}
 </script>
 
 <template>
@@ -24,6 +33,10 @@ import Button from '@/components/Button.vue'
 
         <Tooltip content="Disabled tooltip" disabled>
           <Button label="Disabled tooltip" />
+        </Tooltip>
+
+        <Tooltip :content="tooltipMsg">
+          <Button :label="btnLabel" @click="onClick('This Button/Tooltip got Changed')" />
         </Tooltip>
       </div>
     </div>
