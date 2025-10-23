@@ -55,7 +55,8 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "prepublishOnly": "pnpm run test:unit run && pnpm run build"
+    "prepublishOnly": "pnpm run test:unit run && pnpm run build",
+    "changelog:update": "node scripts/update-changelog.js"
   },
   "dependencies": {
     "vue": "^3.5.22"
