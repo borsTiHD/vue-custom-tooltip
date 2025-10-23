@@ -54,7 +54,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Bump version
-        run: npm version ${{ github.event.inputs.version }} -m 'chore: release v%s' --no-git-tag-version
+        run: "npm version ${{ github.event.inputs.version }} -m 'chore: release v%s' --no-git-tag-version"
 
       - name: Update changelog
         run: |
