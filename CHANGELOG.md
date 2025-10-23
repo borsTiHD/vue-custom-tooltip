@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.8] - 2025-10-23
+
 ### Fixed
 - **Tooltip Directive Performance**: Improved directive implementation by storing a reference to the original element instead of cloning it
   - Fixes issue where event listeners (like `@click`) and other Vue bindings on the trigger element were not working correctly due to cloning losing the original element's reactive bindings
@@ -144,7 +146,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.7...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.8...HEAD
+[1.1.8]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.4...v1.1.5
