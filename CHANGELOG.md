@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-10-24
+
 ### Changed
 - **Tooltip Directive Performance**: Significantly improved performance by implementing a shared Vue app instance for all directive tooltips
   - Reduced memory footprint by 90% - single Vue app instance now manages all directive tooltips instead of creating one per tooltip
@@ -159,7 +161,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.8...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.8...v1.2.0
 [1.1.8]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.5...v1.1.6
