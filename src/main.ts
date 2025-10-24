@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import {
+  // Tooltip,
+  // vTooltip,
   // setTooltipGlobalConfig,
   VueCustomTooltip,
 } from './index'
@@ -17,6 +19,9 @@ import './assets/main.css'
 const app = createApp(App)
 
 app.use(VueCustomTooltip)
+
+// app.directive('tooltip', vTooltip)
+// app.component('Tooltip', Tooltip)
 
 // Different way to set global configuration
 // app.use(VueCustomTooltip, {
