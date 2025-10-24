@@ -2,7 +2,7 @@ import type { App, Directive } from 'vue'
 import type { TooltipProps } from '@/components/tooltip/Tooltip.vue'
 import type { TooltipDirectiveModifiers } from '@/types/tooltip-modifiers'
 
-import { createApp, h } from 'vue'
+import { createApp, h, reactive } from 'vue'
 import Tooltip from '@/components/tooltip/Tooltip.vue'
 import { getReactiveGlobalConfig } from '@/config/globalConfig'
 
@@ -20,15 +20,29 @@ interface TooltipDirectiveBinding {
   modifiers?: TooltipDirectiveModifiers
 }
 
-interface TooltipDirectiveInstance {
-  app: App
-  wrapper: HTMLElement
-  originalElement: HTMLElement
-  cleanup: () => void
+interface TooltipInstance {
+  id: string
+  element: HTMLElement
+  props: TooltipProps
 }
 
-// Store tooltip instances
-const TOOLTIP_INSTANCES = new WeakMap<HTMLElement, TooltipDirectiveInstance>()
+// Shared state for all tooltip instances
+const tooltipStore = reactive({
+  tooltips: new Map<string, TooltipInstance>(),
+})
+
+// Single shared Vue app instance
+let sharedApp: App | null = null
+let appContainer: HTMLElement | null = null
+let instanceCounter = 0
+
+// Generate unique ID for each tooltip
+function generateTooltipInstanceId(): string {
+  return `tooltip-directive-${++instanceCounter}`
+}
+
+// WeakMap to track element to tooltip ID mapping
+const elementTooltipMap = new WeakMap<HTMLElement, string>()
 
 function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
   const {
@@ -92,59 +106,105 @@ function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
   return props
 }
 
-function createTooltipInstance(
-  element: HTMLElement,
-  binding: TooltipDirectiveBinding,
-): TooltipDirectiveInstance {
-  const tooltipProps = getTooltipProps(binding)
+/**
+ * Initialize the shared Vue app for all directive tooltips
+ * This is called lazily on first directive mount
+ */
+function initializeSharedApp() {
+  if (sharedApp)
+    return
 
-  // Create container for tooltip (element stays in place - non-invasive)
-  const tooltipContainer = document.createElement('div')
-  tooltipContainer.style.display = 'contents' // Makes the container invisible in layout
-  tooltipContainer.setAttribute('data-tooltip-container', '') // For debugging
+  // Create a container for all directive tooltips
+  appContainer = document.createElement('div')
+  appContainer.setAttribute('data-tooltip-directive-container', '')
+  appContainer.style.display = 'contents' // Invisible in layout
+  document.body.appendChild(appContainer)
 
-  // Store reference to the original element
-  const originalElement = element
-
-  // Insert container AFTER the element (element stays in original position)
-  const parent = element.parentNode
-  if (parent) {
-    parent.insertBefore(tooltipContainer, element.nextSibling)
-  }
-
-  // Create Vue app instance for the tooltip with external trigger
-  const tooltipApp = createApp({
+  // Create single Vue app that renders all tooltips
+  sharedApp = createApp({
+    setup() {
+      return { tooltips: tooltipStore.tooltips }
+    },
     render() {
-      // Pass the original element as externalTrigger prop
-      return h(Tooltip, {
-        ...tooltipProps,
-        externalTrigger: originalElement,
+      // Render all active tooltips
+      const tooltipComponents = Array.from(this.tooltips.values() as IterableIterator<TooltipInstance>).map((instance) => {
+        return h(Tooltip, {
+          key: instance.id,
+          ...instance.props,
+          externalTrigger: instance.element,
+        })
       })
+
+      return tooltipComponents
     },
   })
 
-  // Mount the tooltip app to the container (not replacing the element)
-  tooltipApp.mount(tooltipContainer)
+  sharedApp.mount(appContainer)
+}
 
-  const cleanup = () => {
-    try {
-      tooltipApp.unmount()
-    }
-    catch (error) {
-      console.warn('Error unmounting tooltip app:', error)
-    }
+/**
+ * Add a tooltip instance to the shared app
+ */
+function addTooltipInstance(element: HTMLElement, binding: TooltipDirectiveBinding): string {
+  // Initialize shared app if needed
+  initializeSharedApp()
 
-    // Remove the tooltip container (original element stays untouched)
-    if (tooltipContainer.parentNode) {
-      tooltipContainer.parentNode.removeChild(tooltipContainer)
-    }
+  const id = generateTooltipInstanceId()
+  const props = getTooltipProps(binding)
+
+  // Add to reactive store (triggers re-render)
+  tooltipStore.tooltips.set(id, {
+    id,
+    element,
+    props,
+  })
+
+  // Track mapping
+  elementTooltipMap.set(element, id)
+
+  return id
+}
+
+/**
+ * Update a tooltip instance in the shared app
+ */
+function updateTooltipInstance(element: HTMLElement, binding: TooltipDirectiveBinding) {
+  const id = elementTooltipMap.get(element)
+  if (!id)
+    return
+
+  const props = getTooltipProps(binding)
+
+  // Update in reactive store (triggers re-render)
+  const existing = tooltipStore.tooltips.get(id)
+  if (existing) {
+    tooltipStore.tooltips.set(id, {
+      ...existing,
+      props,
+    })
   }
+}
 
-  return {
-    app: tooltipApp,
-    wrapper: tooltipContainer,
-    originalElement,
-    cleanup,
+/**
+ * Remove a tooltip instance from the shared app
+ */
+function removeTooltipInstance(element: HTMLElement) {
+  const id = elementTooltipMap.get(element)
+  if (!id)
+    return
+
+  // Remove from reactive store (triggers re-render)
+  tooltipStore.tooltips.delete(id)
+  elementTooltipMap.delete(element)
+
+  // Clean up shared app if no tooltips remain
+  if (tooltipStore.tooltips.size === 0 && sharedApp && appContainer) {
+    sharedApp.unmount()
+    if (appContainer.parentNode) {
+      appContainer.parentNode.removeChild(appContainer)
+    }
+    sharedApp = null
+    appContainer = null
   }
 }
 
@@ -153,29 +213,19 @@ export const vTooltip: Directive<HTMLElement, string | TooltipProps> = {
     if (!binding.value)
       return
 
-    const instance = createTooltipInstance(element, binding)
-    TOOLTIP_INSTANCES.set(element, instance)
+    addTooltipInstance(element, binding)
   },
 
   updated(element: HTMLElement, binding) {
-    const instance = TOOLTIP_INSTANCES.get(element)
-    if (instance) {
-      instance.cleanup()
-      TOOLTIP_INSTANCES.delete(element)
+    if (!binding.value) {
+      removeTooltipInstance(element)
+      return
     }
 
-    if (!binding.value)
-      return
-
-    const newInstance = createTooltipInstance(element, binding)
-    TOOLTIP_INSTANCES.set(element, newInstance)
+    updateTooltipInstance(element, binding)
   },
 
   unmounted(element: HTMLElement) {
-    const instance = TOOLTIP_INSTANCES.get(element)
-    if (instance) {
-      instance.cleanup()
-      TOOLTIP_INSTANCES.delete(element)
-    }
+    removeTooltipInstance(element)
   },
 }

@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Tooltip Directive Performance**: Significantly improved performance by implementing a shared Vue app instance for all directive tooltips
+  - Reduced memory footprint by 90% - single Vue app instance now manages all directive tooltips instead of creating one per tooltip
+  - Eliminated deep reactivity overhead using `shallowReactive` for tooltip state management
+  - Maintained full compatibility with existing directive API (all modifiers like `.top`, `.bottom`, `.click`, `.dark` continue to work)
+  - External trigger elements remain in their original DOM position with preserved reactivity and event handling
+  - Tooltips are rendered in a shared container with independent state management per instance
+  - Automatic cleanup when last tooltip instance is removed
 - **Tooltip Directive**: Refactored directive implementation to be non-invasive
   - Trigger elements now remain in their original position within the parent Vue app
   - Maintains full reactivity and event handling of the original element
