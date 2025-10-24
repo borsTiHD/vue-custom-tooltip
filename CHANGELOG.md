@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2025-10-24
+
 ## Changed
 - **Workflow**: Refactored CI/CD pipeline into modular jobs for better maintainability
 
@@ -164,7 +166,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.8...v1.2.0
 [1.1.8]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.6...v1.1.7
