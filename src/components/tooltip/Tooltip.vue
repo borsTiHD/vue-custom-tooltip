@@ -44,6 +44,7 @@ import type { TooltipProps, TooltipSlots } from '../../types/tooltip'
 import { computed, nextTick, useSlots, useTemplateRef, watch } from 'vue'
 
 import {
+  useExternalTrigger,
   useTooltipEvents,
   useTooltipPosition,
   useTooltipProps,
@@ -72,6 +73,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   showArrow: undefined,
   offset: undefined,
   dark: undefined,
+  externalTrigger: undefined,
 })
 defineSlots<{
   default: () => any
@@ -90,8 +92,12 @@ const slots = useSlots()
 const tooltipId = generateTooltipId()
 
 // Element refs
-const triggerElement = useTemplateRef<HTMLElement>('triggerElement')
+const internalTriggerElement = useTemplateRef<HTMLElement>('triggerElement')
 const tooltipElement = useTemplateRef<HTMLElement>('tooltipElement')
+
+// Use external trigger if provided (directive mode), otherwise use internal trigger
+const externalTrigger = computed(() => props.externalTrigger)
+const triggerElement = computed(() => externalTrigger.value || internalTriggerElement.value)
 
 // Composables
 const {
@@ -175,11 +181,27 @@ watch([isVisible, effectivePosition], async () => {
     calculatePosition()
   }
 })
+
+// Setup event listeners and ARIA attributes for external trigger element (directive mode)
+useExternalTrigger(
+  externalTrigger,
+  tooltipId,
+  isVisible,
+  effectiveTrigger,
+  {
+    handleMouseEnter,
+    handleMouseLeave,
+    handleFocus,
+    handleBlur,
+    handleClick,
+    handleKeydown,
+  },
+)
 </script>
 
 <template>
-  <div class="tooltip-wrapper">
-    <!-- Trigger element -->
+  <!-- Internal trigger element (component mode only) -->
+  <div v-if="!props.externalTrigger" class="tooltip-wrapper">
     <div
       ref="triggerElement"
       class="tooltip-trigger"
@@ -194,30 +216,30 @@ watch([isVisible, effectivePosition], async () => {
     >
       <slot />
     </div>
-
-    <!-- Custom tooltip -->
-    <Teleport to="body">
-      <Transition name="tooltip-fade">
-        <div
-          v-if="isVisible"
-          :id="tooltipId"
-          ref="tooltipElement"
-          :class="tooltipClasses"
-          :style="tooltipStyles"
-          role="tooltip"
-          aria-live="polite"
-          @mouseenter="handleMouseEnter"
-          @mouseleave="handleMouseLeave"
-        >
-          <div class="tooltip-content">
-            <slot v-if="hasContentSlot" name="content" />
-            <span v-else-if="props.content" v-text="props.content" />
-          </div>
-          <div v-if="effectiveShowArrow" class="tooltip-arrow" :style="arrowStyles" />
-        </div>
-      </Transition>
-    </Teleport>
   </div>
+
+  <!-- Custom tooltip -->
+  <Teleport to="body">
+    <Transition name="tooltip-fade">
+      <div
+        v-if="isVisible"
+        :id="tooltipId"
+        ref="tooltipElement"
+        :class="tooltipClasses"
+        :style="tooltipStyles"
+        role="tooltip"
+        aria-live="polite"
+        @mouseenter="handleMouseEnter"
+        @mouseleave="handleMouseLeave"
+      >
+        <div class="tooltip-content">
+          <slot v-if="hasContentSlot" name="content" />
+          <span v-else-if="props.content" v-text="props.content" />
+        </div>
+        <div v-if="effectiveShowArrow" class="tooltip-arrow" :style="arrowStyles" />
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>

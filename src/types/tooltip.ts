@@ -80,6 +80,14 @@ export interface TooltipProps {
    * @default 'auto'
    */
   dark?: 'auto' | boolean
+
+  /**
+   * External trigger element reference
+   * Used by the directive to pass the original element without moving it in the DOM
+   * @internal
+   * @default undefined
+   */
+  externalTrigger?: HTMLElement
 }
 
 /**

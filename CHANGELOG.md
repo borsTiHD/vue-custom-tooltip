@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Tooltip Directive**: Refactored directive implementation to be non-invasive
+  - Trigger elements now remain in their original position within the parent Vue app
+  - Maintains full reactivity and event handling of the original element
+  - Tooltip is mounted separately and references the external trigger element
+
 ## [1.1.8] - 2025-10-23
 
 ### Fixed

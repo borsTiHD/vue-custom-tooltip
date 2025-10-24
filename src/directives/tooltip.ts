@@ -98,40 +98,33 @@ function createTooltipInstance(
 ): TooltipDirectiveInstance {
   const tooltipProps = getTooltipProps(binding)
 
-  // Create wrapper div that will replace the original element
-  const wrapper = document.createElement('div')
-  wrapper.style.display = 'contents' // This makes the wrapper invisible in layout
+  // Create container for tooltip (element stays in place - non-invasive)
+  const tooltipContainer = document.createElement('div')
+  tooltipContainer.style.display = 'contents' // Makes the container invisible in layout
+  tooltipContainer.setAttribute('data-tooltip-container', '') // For debugging
 
   // Store reference to the original element
   const originalElement = element
 
-  // Replace original element with wrapper in DOM
+  // Insert container AFTER the element (element stays in original position)
   const parent = element.parentNode
   if (parent) {
-    parent.insertBefore(wrapper, element)
-    parent.removeChild(element)
+    parent.insertBefore(tooltipContainer, element.nextSibling)
   }
 
-  // Create Vue app instance for the tooltip
+  // Create Vue app instance for the tooltip with external trigger
   const tooltipApp = createApp({
-    mounted() {
-      // After mounting, move the original element into the tooltip's trigger slot
-      const triggerElement = this.$el.querySelector('.tooltip-trigger')
-      if (triggerElement && originalElement) {
-        // Clear the placeholder and add the original element
-        triggerElement.innerHTML = ''
-        triggerElement.appendChild(originalElement)
-      }
-    },
     render() {
-      return h(Tooltip, tooltipProps, {
-        default: () => h('div'), // Placeholder, will be replaced in mounted
+      // Pass the original element as externalTrigger prop
+      return h(Tooltip, {
+        ...tooltipProps,
+        externalTrigger: originalElement,
       })
     },
   })
 
-  // Mount the tooltip app to the wrapper
-  tooltipApp.mount(wrapper)
+  // Mount the tooltip app to the container (not replacing the element)
+  tooltipApp.mount(tooltipContainer)
 
   const cleanup = () => {
     try {
@@ -141,16 +134,15 @@ function createTooltipInstance(
       console.warn('Error unmounting tooltip app:', error)
     }
 
-    if (wrapper.parentNode && originalElement) {
-      // Restore original element to its original position
-      wrapper.parentNode.insertBefore(originalElement, wrapper)
-      wrapper.parentNode.removeChild(wrapper)
+    // Remove the tooltip container (original element stays untouched)
+    if (tooltipContainer.parentNode) {
+      tooltipContainer.parentNode.removeChild(tooltipContainer)
     }
   }
 
   return {
     app: tooltipApp,
-    wrapper,
+    wrapper: tooltipContainer,
     originalElement,
     cleanup,
   }
