@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Changed
+- **Workflow**: Refactored CI/CD pipeline into modular jobs for better maintainability
+
 ## [1.2.0] - 2025-10-24
 
 ### Changed
