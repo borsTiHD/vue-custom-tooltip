@@ -15,8 +15,8 @@ export type ActualPosition = 'top' | 'bottom' | 'left' | 'right'
  * @returns Object containing position state and calculation function
  */
 export function useTooltipPosition(
-  triggerElement: Ref<HTMLElement | undefined | null>,
-  tooltipElement: Ref<HTMLElement | undefined | null>,
+  triggerElement: Readonly<Ref<HTMLElement | undefined | null>>,
+  tooltipElement: Readonly<Ref<HTMLElement | undefined | null>>,
   position: ComputedRef<TooltipPosition>,
   offset: ComputedRef<number>,
   maxWidth: ComputedRef<string>,

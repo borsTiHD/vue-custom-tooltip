@@ -92,7 +92,7 @@ const slots = useSlots()
 const tooltipId = generateTooltipId()
 
 // Element refs
-const internalTriggerElement = useTemplateRef<HTMLElement>('triggerElement')
+const internalTriggerElement = useTemplateRef<HTMLElement>('internalTrigger')
 const tooltipElement = useTemplateRef<HTMLElement>('tooltipElement')
 
 // Use external trigger if provided (directive mode), otherwise use internal trigger
@@ -201,9 +201,9 @@ useExternalTrigger(
 
 <template>
   <!-- Internal trigger element (component mode only) -->
-  <div v-if="!props.externalTrigger" class="tooltip-wrapper">
+  <div v-if="!externalTrigger" class="tooltip-wrapper">
     <div
-      ref="triggerElement"
+      ref="internalTrigger"
       class="tooltip-trigger"
       :aria-describedby="isVisible ? tooltipId : undefined"
       :aria-expanded="effectiveTrigger === 'click' ? isVisible : undefined"

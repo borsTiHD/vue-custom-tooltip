@@ -1,4 +1,4 @@
-import type { Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import { onUnmounted, watch } from 'vue'
 
 /**
@@ -24,10 +24,10 @@ interface EventHandlers {
  * @param eventHandlers - Event handler functions from useTooltipEvents
  */
 export function useExternalTrigger(
-  externalTrigger: Ref<HTMLElement | undefined>,
+  externalTrigger: ComputedRef<HTMLElement | undefined>,
   tooltipId: string,
-  isVisible: Ref<boolean>,
-  triggerType: Ref<string>,
+  isVisible: ComputedRef<boolean>,
+  triggerType: ComputedRef<string>,
   eventHandlers: EventHandlers,
 ) {
   const {

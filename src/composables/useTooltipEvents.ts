@@ -26,9 +26,9 @@ export interface TooltipEventHandlers {
  * @returns Object containing event handler functions
  */
 export function useTooltipEvents(
-  triggerElement: Ref<HTMLElement | undefined | null>,
-  tooltipElement: Ref<HTMLElement | undefined | null>,
-  isVisible: Ref<boolean>,
+  triggerElement: Readonly<Ref<HTMLElement | undefined | null>>,
+  tooltipElement: Readonly<Ref<HTMLElement | undefined | null>>,
+  isVisible: ComputedRef<boolean>,
   trigger: ComputedRef<TriggerType>,
   show: () => void,
   hide: () => void,

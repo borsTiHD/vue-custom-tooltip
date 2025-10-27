@@ -1,5 +1,5 @@
 import type { ComputedRef } from 'vue'
-import { nextTick, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onUnmounted, ref } from 'vue'
 
 /**
  * Composable for managing tooltip visibility with configurable delays
@@ -16,7 +16,8 @@ export function useTooltipVisibility(
   hideDelay: ComputedRef<number>,
   onShow?: () => void | Promise<void>,
 ) {
-  const isVisible = ref(false)
+  const _isVisible = ref(false)
+  const isVisible = computed(() => _isVisible.value)
 
   let showTimeout: number | null = null
   let hideTimeout: number | null = null
@@ -39,12 +40,12 @@ export function useTooltipVisibility(
    * Shows the tooltip after the configured delay
    */
   async function show() {
-    if (disabled.value || isVisible.value)
+    if (disabled.value || _isVisible.value)
       return
 
     clearTimeouts()
     showTimeout = window.setTimeout(async () => {
-      isVisible.value = true
+      _isVisible.value = true
       await nextTick()
       // Wait for the browser to render the tooltip with proper dimensions
       // This is especially important for long text that needs to wrap
@@ -66,7 +67,7 @@ export function useTooltipVisibility(
 
     clearTimeouts()
     hideTimeout = window.setTimeout(() => {
-      isVisible.value = false
+      _isVisible.value = false
     }, hideDelay.value)
   }
 
@@ -78,7 +79,7 @@ export function useTooltipVisibility(
       return
 
     clearTimeouts()
-    if (isVisible.value) {
+    if (_isVisible.value) {
       hide()
     }
     else {
