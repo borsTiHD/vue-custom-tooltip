@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2025-10-27
+
 ### Fixed
 - Resolved an issue where tooltips could generate excessive warning messages in the browser console
 
@@ -169,7 +171,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.8...v1.2.0
 [1.1.8]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.1.7...v1.1.8
