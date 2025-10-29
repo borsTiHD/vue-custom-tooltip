@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Theme presets: Tooltips can now be globally styled with the "default", "primevue", or "vuetify" presets. Switching themes at runtime is supported.
+
 ## [1.2.2] - 2025-10-27
 
 ### Fixed
