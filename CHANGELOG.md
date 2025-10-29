@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Introduced "classic" theme preset for tooltips
+
+### Changed
+- Refactored "primevue" theme to more closely match the original PrimeVue tooltip appearance
+
 ## [1.3.0] - 2025-10-29
 
 ### Added
