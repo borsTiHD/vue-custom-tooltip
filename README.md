@@ -56,6 +56,7 @@ const app = createApp(App)
 
 // Configure global defaults for all tooltips
 app.use(VueCustomTooltip, {
+  theme: 'default', // or 'vuetify' or 'primevue'
   globalConfig: {
     position: 'top', // Default position for all tooltips
     trigger: 'hover', // Default trigger behavior
@@ -380,6 +381,59 @@ The `v-tooltip` directive is also fully typed when you install the plugin. TypeS
   </button>
 </template>
 ```
+
+## Theme Presets
+
+Vue Custom Tooltip supports built-in theme presets for easy integration with popular UI frameworks, as well as a default theme:
+
+- **default**: Uses the component's original built-in styles (no extra CSS loaded)
+- **primevue**: Styles inspired by PrimeVue's design system
+- **vuetify**: Styles inspired by Vuetify's Material Design implementation
+
+You can select a theme globally when registering the plugin:
+
+```typescript
+import { VueCustomTooltip } from '@borstihd/vue-custom-tooltip'
+import { createApp } from 'vue'
+import App from './App.vue'
+import '@borstihd/vue-custom-tooltip/dist/style.css'
+
+const app = createApp(App)
+
+// Use a theme preset
+app.use(VueCustomTooltip, {
+  theme: 'primevue' // or 'vuetify' or 'default'
+})
+
+// The default theme is used if you omit the theme option:
+app.use(VueCustomTooltip) // same as theme: 'default'
+
+app.mount('#app')
+```
+
+You can also switch themes at runtime:
+
+```typescript
+import { setTooltipGlobalTheme } from '@borstihd/vue-custom-tooltip'
+
+setTooltipGlobalTheme('vuetify') // Switch to Vuetify theme
+setTooltipGlobalTheme('default') // Revert to default styles
+```
+
+### Customizing Theme Styles
+
+Each theme uses CSS custom properties (variables) for easy customization. You can override these in your global CSS:
+
+```css
+:root {
+  /* Example for PrimeVue theme */
+  --vct-primevue-background: #1a1a1a;
+  --vct-primevue-text-color: #fff;
+  --vct-primevue-border-radius: 8px;
+}
+```
+
+See the [src/styles/themes/README.md](src/styles/themes/README.md) for a full list of theme variables and instructions for creating your own custom themes.
 
 ## Styling
 
