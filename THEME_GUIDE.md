@@ -7,6 +7,7 @@ Vue Custom Tooltip supports predefined UI framework themes! You can easily apply
 ## Available Themes
 
 - **`default`**: The built-in theme using the component's original styles (no additional CSS loaded)
+- **`classic`**: An alternative skin, using clean stylings
 - **`primevue`**: Styles inspired by PrimeVue's design system
 - **`vuetify`**: Styles inspired by Vuetify's Material Design implementation
 
@@ -24,7 +25,7 @@ import App from './App.vue'
 const app = createApp(App)
 
 app.use(VueCustomTooltip, {
-  theme: 'primevue' // or 'vuetify' or 'default'
+  theme: 'primevue' // or 'classic', 'vuetify', 'default'
 })
 
 app.mount('#app')

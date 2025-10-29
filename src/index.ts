@@ -36,7 +36,7 @@ export interface VueCustomTooltipOptions {
   globalConfig?: Partial<TooltipProps>
   /**
    * Theme to apply to all tooltips
-   * Available themes: 'primevue', 'vuetify'
+   * Available themes: 'classic', 'primevue', 'vuetify'
    * If not specified, the default theme will be used
    */
   theme?: TooltipTheme
@@ -66,7 +66,10 @@ async function injectThemeStyles(theme: TooltipTheme): Promise<void> {
 
   try {
     // Import the theme CSS dynamically
-    if (theme === 'primevue') {
+    if (theme === 'classic') {
+      await import('./styles/themes/classic.css')
+    }
+    else if (theme === 'primevue') {
       await import('./styles/themes/primevue.css')
     }
     else if (theme === 'vuetify') {

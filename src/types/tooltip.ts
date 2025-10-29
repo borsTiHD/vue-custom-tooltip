@@ -6,10 +6,11 @@ import type {
 /**
  * Theme options for the tooltip component.
  * - 'default': Use default theme styles.
+ * - 'classic': Use classic theme styles.
  * - 'primevue': Use PrimeVue theme styles.
  * - 'vuetify': Use Vuetify theme styles.
  */
-export type TooltipTheme = 'default' | 'primevue' | 'vuetify'
+export type TooltipTheme = 'default' | 'classic' | 'primevue' | 'vuetify'
 
 /**
  * Tooltip component prop types

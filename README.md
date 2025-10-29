@@ -56,7 +56,7 @@ const app = createApp(App)
 
 // Configure global defaults for all tooltips
 app.use(VueCustomTooltip, {
-  theme: 'default', // or 'vuetify' or 'primevue'
+  theme: 'default', // or 'classic', 'vuetify', 'primevue'
   globalConfig: {
     position: 'top', // Default position for all tooltips
     trigger: 'hover', // Default trigger behavior
@@ -387,6 +387,7 @@ The `v-tooltip` directive is also fully typed when you install the plugin. TypeS
 Vue Custom Tooltip supports built-in theme presets for easy integration with popular UI frameworks, as well as a default theme:
 
 - **default**: Uses the component's original built-in styles (no extra CSS loaded)
+- **classic**: An alternative skin, using clean stylings
 - **primevue**: Styles inspired by PrimeVue's design system
 - **vuetify**: Styles inspired by Vuetify's Material Design implementation
 
@@ -402,7 +403,7 @@ const app = createApp(App)
 
 // Use a theme preset
 app.use(VueCustomTooltip, {
-  theme: 'primevue' // or 'vuetify' or 'default'
+  theme: 'primevue' // or 'classic', 'vuetify', 'default'
 })
 
 // The default theme is used if you omit the theme option:

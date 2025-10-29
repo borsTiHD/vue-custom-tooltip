@@ -6,6 +6,7 @@ import { getTooltipGlobalTheme, setTooltipGlobalTheme } from '../index'
 // Theme switching logic
 const themeOptions = [
   { label: 'Default', value: 'default' },
+  { label: 'Classic', value: 'classic' },
   { label: 'PrimeVue', value: 'primevue' },
   { label: 'Vuetify', value: 'vuetify' },
 ]

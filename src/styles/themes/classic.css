@@ -1,0 +1,90 @@
+/**
+ * Classic Theme Styles for Vue Custom Tooltip
+ *
+ * Note: Higher specificity selectors to override default styles
+ */
+
+.custom-tooltip.tooltip-theme-classic .tooltip-content {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--vct-classic-text-color, rgba(255, 255, 255, 0.87));
+  background: var(--vct-classic-background, #323232);
+  border: none;
+  border-radius: var(--vct-classic-border-radius, 6px);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  font-family: var(--vct-classic-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+}
+
+.custom-tooltip.tooltip-theme-classic .tooltip-arrow {
+  background: var(--vct-classic-background, #323232);
+  border: none;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Light mode override for Classic */
+.custom-tooltip.tooltip-theme-classic.tooltip-light .tooltip-content {
+  background: var(--vct-classic-background-light, #ffffff);
+  color: var(--vct-classic-text-color-light, rgba(0, 0, 0, 0.87));
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 4px 5px 0 rgba(0, 0, 0, 0.07), 0 1px 10px 0 rgba(0, 0, 0, 0.06);
+}
+
+.custom-tooltip.tooltip-theme-classic.tooltip-light .tooltip-arrow {
+  background: var(--vct-classic-background-light, #ffffff);
+}
+
+/* Dark mode for Classic */
+.custom-tooltip.tooltip-theme-classic.tooltip-dark .tooltip-content {
+  background: var(--vct-classic-background-dark, #323232);
+  color: var(--vct-classic-text-color-dark, rgba(255, 255, 255, 0.87));
+}
+
+.custom-tooltip.tooltip-theme-classic.tooltip-dark .tooltip-arrow {
+  background: var(--vct-classic-background-dark, #323232);
+}
+
+/* Auto mode with Tailwind support */
+.dark .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-content {
+  background: var(--vct-classic-background-dark, #323232);
+  color: var(--vct-classic-text-color-dark, rgba(255, 255, 255, 0.87));
+}
+
+.dark .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-arrow {
+  background: var(--vct-classic-background-dark, #323232);
+}
+
+.light .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-content {
+  background: var(--vct-classic-background-light, #ffffff);
+  color: var(--vct-classic-text-color-light, rgba(0, 0, 0, 0.87));
+}
+
+.light .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-arrow {
+  background: var(--vct-classic-background-light, #ffffff);
+}
+
+/* Prefers-color-scheme fallback */
+@media (prefers-color-scheme: light) {
+  html:not(.dark):not(.light) .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-content,
+  html:not(.dark):not(.light) body:not(.dark):not(.light) .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-content {
+    background: var(--vct-classic-background-light, #ffffff);
+    color: var(--vct-classic-text-color-light, rgba(0, 0, 0, 0.87));
+  }
+
+  html:not(.dark):not(.light) .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-arrow,
+  html:not(.dark):not(.light) body:not(.dark):not(.light) .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-arrow {
+    background: var(--vct-classic-background-light, #ffffff);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not(.dark):not(.light) .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-content,
+  html:not(.dark):not(.light) body:not(.dark):not(.light) .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-content {
+    background: var(--vct-classic-background-dark, #323232);
+    color: var(--vct-classic-text-color-dark, rgba(255, 255, 255, 0.87));
+  }
+
+  html:not(.dark):not(.light) .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-arrow,
+  html:not(.dark):not(.light) body:not(.dark):not(.light) .custom-tooltip.tooltip-theme-classic.tooltip-auto .tooltip-arrow {
+    background: var(--vct-classic-background-dark, #323232);
+  }
+}

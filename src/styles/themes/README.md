@@ -20,6 +20,13 @@ The built-in theme that uses the component's original styles. This file is inten
 
 **Note:** Using `theme: 'default'` is equivalent to not specifying a theme at all.
 
+### Classic (`classic.css`)
+An alternative skin, using clean stylings
+- Classic tooltip look with a light background and dark border
+- Subtle drop shadow for depth
+- Rounded corners for a softer appearance
+- Simple, readable font
+
 ### PrimeVue (`primevue.css`)
 Styles inspired by PrimeVue's design system, featuring:
 - Clean, modern appearance
