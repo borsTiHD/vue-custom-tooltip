@@ -1,6 +1,7 @@
 import type { TooltipProps, TooltipTheme } from '@/types/tooltip'
 
 import { reactive, ref } from 'vue'
+import { injectThemeStyles } from '../index'
 
 /**
  * Global reactive configuration for tooltips
@@ -28,8 +29,9 @@ export function setTooltipGlobalConfig(config: Partial<TooltipProps>): void {
 /**
  * Set the global theme for all tooltips
  */
-export function setTooltipGlobalTheme(theme: TooltipTheme | undefined): void {
+export async function setTooltipGlobalTheme(theme: TooltipTheme | undefined): Promise<void> {
   globalTheme.value = theme
+  await injectThemeStyles(theme || 'default')
 }
 
 /**
