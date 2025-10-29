@@ -18,23 +18,19 @@ import './assets/main.css'
 
 const app = createApp(App)
 
-app.use(VueCustomTooltip)
-
-// app.directive('tooltip', vTooltip)
-// app.component('Tooltip', Tooltip)
-
 // Different way to set global configuration
-// app.use(VueCustomTooltip, {
-//   globalConfig: {
-//     position: 'top', // Default position for all tooltips
-//     trigger: 'hover', // Default trigger behavior
-//     showDelay: 200, // Default show delay (ms)
-//     hideDelay: 150, // Default hide delay (ms)
-//     dark: false, // Force dark mode for all tooltips
-//     showArrow: true, // Show arrow by default
-//     offset: 12, // Default offset from trigger
-//     maxWidth: '300px', // Default max width
-//   },
-// })
+app.use(VueCustomTooltip, {
+  theme: 'primevue', // Apply PrimeVue theme to all tooltips - 'default', 'primevue' or 'vuetify'
+  // globalConfig: {
+  //   position: 'top', // Default position for all tooltips
+  //   trigger: 'hover', // Default trigger behavior
+  //   showDelay: 200, // Default show delay (ms)
+  //   hideDelay: 150, // Default hide delay (ms)
+  //   dark: 'auto', // Auto detect dark mode
+  //   showArrow: true, // Show arrow by default
+  //   offset: 12, // Default offset from trigger
+  //   maxWidth: '300px', // Default max width
+  // },
+})
 
 app.mount('#app')

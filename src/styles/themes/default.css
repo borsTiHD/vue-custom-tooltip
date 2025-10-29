@@ -1,0 +1,14 @@
+/**
+ * Default Theme for Vue Custom Tooltip
+ *
+ * This file is intentionally empty because the default theme uses the
+ * built-in styles from the Tooltip.vue component's <style scoped> section.
+ *
+ * When theme: 'default' is specified (or no theme is specified), the tooltip
+ * will use its original component styles without any theme overrides.
+ *
+ * This file exists to:
+ * 1. Document the 'default' theme option
+ * 2. Maintain consistency in the themes directory structure
+ * 3. Allow for future default theme customizations if needed
+ */

@@ -1,11 +1,16 @@
-import type { TooltipProps } from '@/components/tooltip/Tooltip.vue'
+import type { TooltipProps, TooltipTheme } from '@/types/tooltip'
 
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 /**
  * Global reactive configuration for tooltips
  */
 const globalConfig = reactive<Partial<TooltipProps>>({})
+
+/**
+ * Global theme configuration (stored separately from props)
+ */
+const globalTheme = ref<TooltipTheme | undefined>(undefined)
 
 /**
  * Set global configuration for all tooltips
@@ -18,6 +23,27 @@ export function setTooltipGlobalConfig(config: Partial<TooltipProps>): void {
   })
   // Set new config
   Object.assign(globalConfig, config)
+}
+
+/**
+ * Set the global theme for all tooltips
+ */
+export function setTooltipGlobalTheme(theme: TooltipTheme | undefined): void {
+  globalTheme.value = theme
+}
+
+/**
+ * Get the current global theme
+ */
+export function getTooltipGlobalTheme(): TooltipTheme | undefined {
+  return globalTheme.value
+}
+
+/**
+ * Get the current global theme (reactive reference)
+ */
+export function getTooltipGlobalThemeRef() {
+  return globalTheme
 }
 
 /**
@@ -44,4 +70,5 @@ export function resetTooltipGlobalConfig(): void {
   Object.keys(globalConfig).forEach((key) => {
     delete globalConfig[key as keyof TooltipProps]
   })
+  globalTheme.value = undefined
 }

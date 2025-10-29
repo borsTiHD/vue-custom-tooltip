@@ -4,6 +4,14 @@ import type {
 } from '@/types/tooltip-modifiers'
 
 /**
+ * Theme options for the tooltip component.
+ * - 'default': Use default theme styles.
+ * - 'primevue': Use PrimeVue theme styles.
+ * - 'vuetify': Use Vuetify theme styles.
+ */
+export type TooltipTheme = 'default' | 'primevue' | 'vuetify'
+
+/**
  * Tooltip component prop types
  */
 export interface TooltipProps {
