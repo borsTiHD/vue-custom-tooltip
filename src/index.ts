@@ -88,6 +88,9 @@ async function injectThemeStyles(theme: TooltipTheme): Promise<void> {
   }
 }
 
+// Export theme CSS injector for runtime theme switching
+export { injectThemeStyles }
+
 // Vue plugin for easy installation
 export const VueCustomTooltip: Plugin = {
   install(app: App, options?: VueCustomTooltipOptions) {
