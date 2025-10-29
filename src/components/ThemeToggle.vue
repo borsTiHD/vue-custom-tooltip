@@ -69,7 +69,7 @@ watchEffect((onCleanup) => {
 <template>
   <button
     type="button"
-    class="theme-toggle"
+    class="flex gap-2 px-4 h-10 items-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
     :aria-label="`Switch to ${currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'system' : 'light'} mode`"
     :title="`Current: ${currentTheme} mode`"
     @click="toggleTheme"
@@ -132,47 +132,6 @@ watchEffect((onCleanup) => {
       <line x1="12" y1="17" x2="12" y2="21" />
     </svg>
 
-    <span class="theme-label">{{ currentTheme }}</span>
+    <span class="capitalize">{{ currentTheme }}</span>
   </button>
 </template>
-
-<style scoped>
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.375rem;
-  background-color: #ffffff;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.theme-toggle:hover {
-  background-color: #f9fafb;
-  border-color: #d1d5db;
-}
-
-.theme-toggle:active {
-  transform: scale(0.98);
-}
-
-.dark .theme-toggle {
-  background-color: #1f2937;
-  color: #f9fafb;
-  border-color: #374151;
-}
-
-.dark .theme-toggle:hover {
-  background-color: #374151;
-  border-color: #4b5563;
-}
-
-.theme-label {
-  text-transform: capitalize;
-}
-</style>

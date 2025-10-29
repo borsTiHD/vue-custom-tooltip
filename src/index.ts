@@ -1,8 +1,8 @@
 import type { App, Plugin } from 'vue'
 
-import type { TooltipProps } from './types/tooltip'
+import type { TooltipProps, TooltipTheme } from './types/tooltip'
 import Tooltip from './components/tooltip/Tooltip.vue'
-import { setTooltipGlobalConfig } from './config/index'
+import { setTooltipGlobalConfig, setTooltipGlobalTheme } from './config/index'
 import { vTooltip } from './directives/tooltip'
 
 // Export components and directives
@@ -12,9 +12,9 @@ export { Tooltip, vTooltip }
 export * from './composables'
 
 // Export configuration functions
-export { getTooltipGlobalConfig, resetTooltipGlobalConfig, setTooltipGlobalConfig } from './config/index'
+export { getTooltipGlobalConfig, getTooltipGlobalTheme, resetTooltipGlobalConfig, setTooltipGlobalConfig, setTooltipGlobalTheme } from './config/index'
 
-export type { TooltipProps, TooltipSlots } from './types/tooltip'
+export type { TooltipProps, TooltipSlots, TooltipTheme } from './types/tooltip'
 // Export types
 export type {
   TooltipDirectiveModifiers,
@@ -34,7 +34,62 @@ export interface VueCustomTooltipOptions {
    * These values will be used as defaults and can be overridden by individual tooltip props
    */
   globalConfig?: Partial<TooltipProps>
+  /**
+   * Theme to apply to all tooltips
+   * Available themes: 'primevue', 'vuetify'
+   * If not specified, the default theme will be used
+   */
+  theme?: TooltipTheme
 }
+
+/**
+ * Injects theme styles into the document head
+ */
+async function injectThemeStyles(theme: TooltipTheme): Promise<void> {
+  // Default theme uses the component's built-in styles, no CSS injection needed
+  if (theme === 'default') {
+    // Remove any previously injected theme styles to revert to default
+    const oldStyles = document.querySelectorAll('style[data-vct-theme]')
+    oldStyles.forEach(style => style.remove())
+    return
+  }
+
+  // Check if theme styles are already injected
+  const existingStyle = document.querySelector(`style[data-vct-theme="${theme}"]`)
+  if (existingStyle) {
+    return
+  }
+
+  // Remove any previously injected theme styles
+  const oldStyles = document.querySelectorAll('style[data-vct-theme]')
+  oldStyles.forEach(style => style.remove())
+
+  try {
+    // Import the theme CSS dynamically
+    if (theme === 'primevue') {
+      await import('./styles/themes/primevue.css')
+    }
+    else if (theme === 'vuetify') {
+      await import('./styles/themes/vuetify.css')
+    }
+    else {
+      console.warn(`Unknown theme "${theme}"`)
+      return
+    }
+
+    // Mark that this theme has been loaded
+    const marker = document.createElement('style')
+    marker.setAttribute('data-vct-theme', theme)
+    marker.textContent = `/* Vue Custom Tooltip Theme: ${theme} */`
+    document.head.appendChild(marker)
+  }
+  catch (error) {
+    console.error(`Failed to load theme "${theme}":`, error)
+  }
+}
+
+// Export theme CSS injector for runtime theme switching
+export { injectThemeStyles }
 
 // Vue plugin for easy installation
 export const VueCustomTooltip: Plugin = {
@@ -45,6 +100,15 @@ export const VueCustomTooltip: Plugin = {
     // Apply global configuration if provided
     if (options?.globalConfig) {
       setTooltipGlobalConfig(options.globalConfig)
+    }
+
+    // Apply theme if provided
+    if (options?.theme) {
+      setTooltipGlobalTheme(options.theme)
+      // Inject theme styles
+      if (typeof document !== 'undefined') {
+        injectThemeStyles(options.theme)
+      }
     }
   },
 }

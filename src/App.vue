@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Button from '@/components/Button.vue'
+import PresetSwitcher from '@/components/PresetSwitcher.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import TooltipDirectiveBenchmark from '@/components/tooltip/TooltipDirectiveBenchmark.vue'
 import TooltipDirectiveExample from '@/components/tooltip/TooltipDirectiveExample.vue'
@@ -40,6 +41,7 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
               TypeScript
             </span>
 
+            <PresetSwitcher />
             <ThemeToggle />
           </div>
         </div>

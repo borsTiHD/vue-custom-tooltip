@@ -50,6 +50,7 @@ import {
   useTooltipProps,
   useTooltipVisibility,
 } from '../../composables'
+import { getTooltipGlobalThemeRef } from '../../config/index'
 
 /**
  * Generic Tooltip Component
@@ -159,6 +160,9 @@ const {
 // Computed properties
 const hasContentSlot = computed(() => !!slots.content)
 
+// Get global theme
+const globalTheme = getTooltipGlobalThemeRef()
+
 const tooltipClasses = computed(() => [
   'custom-tooltip',
   `tooltip-${actualPosition.value}`,
@@ -169,6 +173,8 @@ const tooltipClasses = computed(() => [
     'tooltip-light': effectiveDark.value === false,
     'tooltip-auto': effectiveDark.value === 'auto',
   },
+  // Only apply theme class if it's not 'default' (default uses component's built-in styles)
+  globalTheme.value && globalTheme.value !== 'default' ? `tooltip-theme-${globalTheme.value}` : '',
   effectiveTooltipClass.value,
 ])
 

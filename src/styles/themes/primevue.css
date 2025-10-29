@@ -1,0 +1,91 @@
+/**
+ * PrimeVue Theme Styles for Vue Custom Tooltip
+ * Inspired by PrimeVue's design system
+ *
+ * Note: Higher specificity selectors to override default styles
+ */
+
+.custom-tooltip.tooltip-theme-primevue .tooltip-content {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--vct-primevue-text-color, rgba(255, 255, 255, 0.87));
+  background: var(--vct-primevue-background, #323232);
+  border: none;
+  border-radius: var(--vct-primevue-border-radius, 6px);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  font-family: var(--vct-primevue-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+}
+
+.custom-tooltip.tooltip-theme-primevue .tooltip-arrow {
+  background: var(--vct-primevue-background, #323232);
+  border: none;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Light mode override for PrimeVue */
+.custom-tooltip.tooltip-theme-primevue.tooltip-light .tooltip-content {
+  background: var(--vct-primevue-background-light, #ffffff);
+  color: var(--vct-primevue-text-color-light, rgba(0, 0, 0, 0.87));
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 4px 5px 0 rgba(0, 0, 0, 0.07), 0 1px 10px 0 rgba(0, 0, 0, 0.06);
+}
+
+.custom-tooltip.tooltip-theme-primevue.tooltip-light .tooltip-arrow {
+  background: var(--vct-primevue-background-light, #ffffff);
+}
+
+/* Dark mode for PrimeVue */
+.custom-tooltip.tooltip-theme-primevue.tooltip-dark .tooltip-content {
+  background: var(--vct-primevue-background-dark, #323232);
+  color: var(--vct-primevue-text-color-dark, rgba(255, 255, 255, 0.87));
+}
+
+.custom-tooltip.tooltip-theme-primevue.tooltip-dark .tooltip-arrow {
+  background: var(--vct-primevue-background-dark, #323232);
+}
+
+/* Auto mode with Tailwind support */
+.dark .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-content {
+  background: var(--vct-primevue-background-dark, #323232);
+  color: var(--vct-primevue-text-color-dark, rgba(255, 255, 255, 0.87));
+}
+
+.dark .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-arrow {
+  background: var(--vct-primevue-background-dark, #323232);
+}
+
+.light .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-content {
+  background: var(--vct-primevue-background-light, #ffffff);
+  color: var(--vct-primevue-text-color-light, rgba(0, 0, 0, 0.87));
+}
+
+.light .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-arrow {
+  background: var(--vct-primevue-background-light, #ffffff);
+}
+
+/* Prefers-color-scheme fallback */
+@media (prefers-color-scheme: light) {
+  html:not(.dark):not(.light) .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-content,
+  html:not(.dark):not(.light) body:not(.dark):not(.light) .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-content {
+    background: var(--vct-primevue-background-light, #ffffff);
+    color: var(--vct-primevue-text-color-light, rgba(0, 0, 0, 0.87));
+  }
+
+  html:not(.dark):not(.light) .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-arrow,
+  html:not(.dark):not(.light) body:not(.dark):not(.light) .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-arrow {
+    background: var(--vct-primevue-background-light, #ffffff);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not(.dark):not(.light) .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-content,
+  html:not(.dark):not(.light) body:not(.dark):not(.light) .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-content {
+    background: var(--vct-primevue-background-dark, #323232);
+    color: var(--vct-primevue-text-color-dark, rgba(255, 255, 255, 0.87));
+  }
+
+  html:not(.dark):not(.light) .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-arrow,
+  html:not(.dark):not(.light) body:not(.dark):not(.light) .custom-tooltip.tooltip-theme-primevue.tooltip-auto .tooltip-arrow {
+    background: var(--vct-primevue-background-dark, #323232);
+  }
+}
