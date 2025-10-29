@@ -20,7 +20,7 @@ const app = createApp(App)
 
 // Different way to set global configuration
 app.use(VueCustomTooltip, {
-  theme: 'primevue', // Apply PrimeVue theme to all tooltips - 'default', 'primevue' or 'vuetify'
+  theme: 'default', // Apply Default theme to all tooltips - 'default', 'primevue' or 'vuetify'
   // globalConfig: {
   //   position: 'top', // Default position for all tooltips
   //   trigger: 'hover', // Default trigger behavior
