@@ -40,6 +40,16 @@ export interface VueCustomTooltipOptions {
    * If not specified, the default theme will be used
    */
   theme?: TooltipTheme
+
+  /**
+   * Custom component name for the tooltip component (default: 'Tooltip')
+   */
+  componentName?: string
+
+  /**
+   * Custom directive name for the tooltip directive (default: 'tooltip')
+   */
+  directiveName?: string
 }
 
 /**
@@ -97,8 +107,10 @@ export { injectThemeStyles }
 // Vue plugin for easy installation
 export const VueCustomTooltip: Plugin = {
   install(app: App, options?: VueCustomTooltipOptions) {
-    app.component('Tooltip', Tooltip)
-    app.directive('tooltip', vTooltip)
+    const componentName = options?.componentName || 'Tooltip'
+    const directiveName = options?.directiveName || 'tooltip'
+    app.component(componentName, Tooltip)
+    app.directive(directiveName, vTooltip)
 
     // Apply global configuration if provided
     if (options?.globalConfig) {
