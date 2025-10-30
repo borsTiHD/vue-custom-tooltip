@@ -38,8 +38,32 @@ import App from './App.vue'
 import '@borstihd/vue-custom-tooltip/dist/style.css'
 
 const app = createApp(App)
+
 app.use(VueCustomTooltip)
 app.mount('#app')
+```
+
+#### Custom Component/Directive Names
+
+You can customize the global component and directive names when installing the plugin. This is useful if you want to avoid naming conflicts or use your own naming conventions:
+
+```typescript
+app.use(VueCustomTooltip, {
+  componentName: 'MyTooltip', // Registers <MyTooltip> instead of <Tooltip>
+  directiveName: 'my-tooltip', // Registers v-my-tooltip instead of v-tooltip
+})
+```
+
+If not specified, the defaults are `Tooltip` for the component and `tooltip` for the directive.
+
+**Example:**
+```vue
+<template>
+  <MyTooltip content="Custom name!">
+    <button>Hover me</button>
+  </MyTooltip>
+  <button v-my-tooltip="'Custom directive!'" />
+</template>
 ```
 
 ### Global Registration with Custom Defaults
