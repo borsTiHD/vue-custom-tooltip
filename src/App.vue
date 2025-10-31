@@ -2,10 +2,10 @@
 import { ref } from 'vue'
 import Button from '@/components/Button.vue'
 import PresetSwitcher from '@/components/PresetSwitcher.vue'
+import DirectiveBenchmark from '@/components/showcase/DirectiveBenchmark.vue'
+import DirectiveExample from '@/components/showcase/DirectiveExample.vue'
+import TooltipExample from '@/components/showcase/TooltipExample.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
-import TooltipDirectiveBenchmark from '@/components/tooltip/TooltipDirectiveBenchmark.vue'
-import TooltipDirectiveExample from '@/components/tooltip/TooltipDirectiveExample.vue'
-import TooltipExample from '@/components/tooltip/TooltipExample.vue'
 import packageJson from '../package.json'
 
 type Tabs = 'component' | 'directive' | 'directive-benchmark'
@@ -145,8 +145,8 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
       <!-- Examples Content -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <TooltipExample v-if="activeTab === 'component'" />
-        <TooltipDirectiveExample v-else-if="activeTab === 'directive'" />
-        <TooltipDirectiveBenchmark v-else-if="activeTab === 'directive-benchmark'" />
+        <DirectiveExample v-else-if="activeTab === 'directive'" />
+        <DirectiveBenchmark v-else-if="activeTab === 'directive-benchmark'" />
       </div>
     </main>
 
