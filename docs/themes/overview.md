@@ -120,3 +120,11 @@ You can customize the tooltip's appearance using the following CSS variables:
   --vct-focus-color: #4299e1;
 }
 ```
+
+## Best Practices
+
+1. **Theme Selection**: Choose a theme that matches your UI framework
+2. **Consistency**: Use the same theme throughout your application
+3. **Dark Mode**: Test themes in both light and dark modes
+4. **Customization**: Use CSS variables for minor adjustments
+5. **Performance**: Theme styles are loaded only when needed
