@@ -2,6 +2,10 @@
 
 The Vue Custom Tooltip component offers a flexible way to add tooltips to any element using a wrapper approach. This method is ideal when you need rich content, complex positioning, or extensive customization.
 
+::: info
+See the API section for a complete list of available modifiers.
+:::
+
 ## Basic Usage
 
 To use the tooltip component, wrap any element with the `<Tooltip>` component:
@@ -130,6 +134,21 @@ Customize show/hide delays in ms:
     :hide-delay="100"
   >
     <button>Custom timing</button>
+  </Tooltip>
+</template>
+```
+
+## Disabled
+
+You can easily disable the tooltip by setting the `disabled` prop to `true`:
+
+```vue
+<template>
+  <Tooltip
+    content="This tooltip is disabled"
+    :disabled="true"
+  >
+    <button>No tooltip will be shown</button>
   </Tooltip>
 </template>
 ```
