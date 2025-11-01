@@ -116,7 +116,7 @@ Maintain visible focus indicators:
 
 ## Reduced motion support
 
-The tooltip respects users 'prefers-reduced-motion' system settings by disabling animations for a more comfortable experience. This ensures tooltips appear instantly without animation when reduced motion is preferred.
+The tooltip respects users 'prefers-reduced-motion' system settings by disabling animations for a more comfortable experience. This ensures tooltips appear instantly without animation when reduced motion is preferred:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -128,6 +128,20 @@ The tooltip respects users 'prefers-reduced-motion' system settings by disabling
   .tooltip-fade-enter-from,
   .tooltip-fade-leave-to {
     transform: scale(1);
+  }
+}
+```
+
+## High contrast mode support
+
+The tooltip adapts to users' high contrast preference by enhancing visibility with thicker borders and bolder text. This ensures better readability and accessibility for users who require increased contrast:
+
+```css
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .tooltip-content {
+    border-width: 2px;
+    font-weight: 600;
   }
 }
 ```
