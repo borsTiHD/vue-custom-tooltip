@@ -1,24 +1,35 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
   name: "Vue Custom Tooltip"
-  text: "Lightweight, accessible Vue 3 tooltip with TypeScript support and automatic positioning."
-  tagline: "Accessible, zero-dependency tooltips"
+  text: "Lightweight, accessible tooltips."
+  tagline: "Accessible, zero-dependency - built for Vue 3"
   actions:
     - theme: brand
-      text: Docs
-      link: /markdown-examples
+      text: Get Started
+      link: /guide/getting-started
     - theme: alt
-      text: API
-      link: /api-examples
+      text: View on GitHub
+      link: https://github.com/borsTiHD/vue-custom-tooltip
 
 features:
-  - title: Lightweight
-    details: Zero dependencies, small footprint
-  - title: Accessible
-    details: Keyboard and screen reader friendly
-  - title: Flexible
-    details: Automatic positioning; component and directive usage
+  - icon: 🎯
+    title: Component & Directive
+    details: Use as a component or directive (v-tooltip) based on your needs
+  - icon: ♿
+    title: Accessible
+    details: Full keyboard navigation and screen reader support out of the box
+  - icon: 🎨
+    title: Customizable
+    details: Multiple themes, flexible positioning, styling, and content options
+  - icon: 📱
+    title: Smart Positioning
+    details: Auto-detects best position based on available space
+  - icon: ⚡
+    title: Lightweight
+    details: Zero dependencies except Vue 3, small footprint
+  - icon: 📦
+    title: TypeScript Ready
+    details: Full TypeScript support with type definitions
 ---
