@@ -309,3 +309,8 @@ The default `auto` mode responds to the system preference using the `prefers-col
 3. **Rich Content**: Use slots for complex content, props for simple text.
 4. **Dark Mode**: Use `dark="auto"` for system-aware theming (default).
 5. **Accessibility**: Ensure trigger elements are focusable.
+
+## Next Steps
+
+- [Directive Usage](./directive-usage.md) - Learn about the directive API
+- [Global Configuration](./global-config.md) - Configure default behavior
