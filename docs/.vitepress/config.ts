@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import pkg from '../../package.json'
 
 const baseUrl = 'https://github.com/borsTiHD/vue-custom-tooltip'
 const npmUrl = 'https://www.npmjs.com/package/@borstihd/vue-custom-tooltip'
@@ -24,7 +25,7 @@ export default defineConfig({
       { text: 'Themes', link: '/themes/overview' },
       // { text: 'Examples', link: '/examples/' },
       {
-        text: 'v1.5.0',
+        text: `v${pkg.version}`,
         items: [
           { text: 'Changelog', link: `${baseUrl}/blob/main/CHANGELOG.md` },
           { text: 'NPM', link: npmUrl },
