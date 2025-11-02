@@ -10,6 +10,8 @@ export default defineConfig({
   description: 'A flexible and accessible Vue 3 tooltip component and directive with TypeScript support. Built with zero dependencies (except Vue 3), featuring automatic positioning, keyboard navigation, and full accessibility support.',
   lastUpdated: true,
 
+  base: '/vue-custom-tooltip/', // Set base if deploying to a subpath
+
   themeConfig: {
     search: {
       provider: 'local',
