@@ -56,7 +56,10 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepublishOnly": "pnpm run test:unit run && pnpm run build",
-    "changelog:update": "node scripts/update-changelog.js"
+    "changelog:update": "node scripts/update-changelog.js",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "vue": "^3.5.22"
@@ -82,6 +85,7 @@
     "vite": "^7.1.10",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-vue-devtools": "^8.0.2",
+    "vitepress": "2.0.0-alpha.12",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.1.1"
   }
