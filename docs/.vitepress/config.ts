@@ -1,28 +1,101 @@
 import { defineConfig } from 'vitepress'
 
-// https://vitepress.dev/reference/site-config
+const baseUrl = 'https://github.com/borsTiHD/vue-custom-tooltip'
+const npmUrl = 'https://www.npmjs.com/package/@borstihd/vue-custom-tooltip'
+
 export default defineConfig({
-  title: "Vue Custom Tooltip",
-  description: "A flexible and accessible Vue 3 tooltip component and directive with TypeScript support. Built with zero dependencies (except Vue 3), featuring automatic positioning, keyboard navigation, and full accessibility support.",
+  lang: 'en-US',
+  title: 'Vue Custom Tooltip',
+  description: 'A flexible and accessible Vue 3 tooltip component and directive with TypeScript support. Built with zero dependencies (except Vue 3), featuring automatic positioning, keyboard navigation, and full accessibility support.',
+  lastUpdated: true,
+
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
+    search: {
+      provider: 'local',
+    },
+    editLink: {
+      pattern: `${baseUrl}/tree/main/docs/:path`,
+      text: 'Edit this page on GitHub',
+    },
+
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Guide', link: '/guide/getting-started' },
+      { text: 'API', link: '/api/component' },
+      { text: 'Themes', link: '/themes/overview' },
+      // { text: 'Examples', link: '/examples/' },
+      {
+        text: 'v1.5.0',
+        items: [
+          { text: 'Changelog', link: `${baseUrl}/blob/main/CHANGELOG.md` },
+          { text: 'NPM', link: npmUrl },
+        ],
+      },
     ],
 
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-    ],
+    sidebar: {
+      '/guide/': [
+        {
+          text: 'Introduction',
+          items: [
+            { text: 'Getting Started', link: '/guide/getting-started' },
+            { text: 'Quick Start', link: '/guide/quick-start' },
+          ],
+        },
+        {
+          text: 'Essentials',
+          items: [
+            { text: 'Component Usage', link: '/guide/component-usage' },
+            { text: 'Directive Usage', link: '/guide/directive-usage' },
+            { text: 'Global Configuration', link: '/guide/global-config' },
+            { text: 'Runtime Configuration', link: '/guide/runtime-config' },
+          ],
+        },
+        {
+          text: 'Advanced',
+          items: [
+            { text: 'Accessibility', link: '/guide/accessibility' },
+          ],
+        },
+      ],
+      '/api/': [
+        {
+          text: 'API Reference',
+          items: [
+            { text: 'Component API', link: '/api/component' },
+            { text: 'Directive API', link: '/api/directive' },
+          ],
+        },
+      ],
+      '/themes/': [
+        {
+          text: 'Themes',
+          items: [
+            { text: 'Overview', link: '/themes/overview' },
+            // { text: 'Built-in Themes', link: '/themes/built-in' },
+            // { text: 'Custom Themes', link: '/themes/custom' },
+          ],
+        },
+      ],
+      // '/examples/': [
+      //   {
+      //     text: 'Examples',
+      //     items: [
+      //       { text: 'Basic Usage', link: '/examples/' },
+      //       { text: 'Form Integration', link: '/examples/forms' },
+      //       { text: 'Navigation', link: '/examples/navigation' },
+      //       { text: 'Theme Examples', link: '/examples/themes' },
+      //     ],
+      //   },
+      // ],
+    },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
-  }
+      { icon: 'github', link: baseUrl },
+    ],
+
+    footer: {
+      message: `Released under the <a href="${baseUrl}/blob/main/LICENSE">MIT License</a>.`,
+      copyright: `Copyright © 2025-${new Date().getFullYear()} <a href="https://github.com/borsTiHD">borsTiHD</a>`,
+    },
+  },
 })
