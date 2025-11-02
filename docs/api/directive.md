@@ -135,6 +135,77 @@ const message = ref('Dynamic tooltip content')
 </template>
 ```
 
+## Object Configuration
+
+For more complex configurations, you can pass an object instead of a simple string. This approach provides more fine-grained control over the tooltip's behavior:
+
+```vue
+<template>
+  <!-- Basic object configuration -->
+  <button
+    v-tooltip="{
+      content: 'Custom configured tooltip',
+      position: 'top',
+      trigger: 'hover',
+      showDelay: 500,
+      hideDelay: 100,
+      maxWidth: '300px',
+      showArrow: false,
+    }"
+  >
+    Custom config
+  </button>
+
+  <!-- Disabled tooltip -->
+  <button
+    v-tooltip="{
+      content: 'Disabled tooltip',
+      disabled: true,
+    }"
+  >
+    Disabled
+  </button>
+</template>
+```
+
+### Available Options
+
+| Option | Type | Default | Description |
+|------|------|---------|-------------|
+| `content` | `string` | `undefined` | Text content for the tooltip |
+| `position` | `'top' \| 'bottom' \| 'left' \| 'right' \| 'auto'` | `'auto'` | Position relative to trigger |
+| `trigger` | `'hover' \| 'focus' \| 'both' \| 'click'` | `'both'` | How to trigger the tooltip |
+| `showDelay` | `number` | `100` | Delay before showing (ms) |
+| `hideDelay` | `number` | `100` | Delay before hiding (ms) |
+| `disabled` | `boolean` | `false` | Disable the tooltip |
+| `maxWidth` | `string` | `'250px'` | Maximum width of tooltip |
+| `tooltipClass` | `string` | `''` | Custom CSS class |
+| `showArrow` | `boolean` | `true` | Show arrow pointer |
+| `offset` | `number` | `8` | Offset from trigger (px) |
+| `dark` | `'auto' \| boolean` | `'auto'` | Dark mode behavior |
+
+### Combining with Modifiers
+
+Object configuration can still be combined with modifiers for quick overrides:
+
+```vue
+<template>
+  <button
+    v-tooltip.dark="{
+      content: 'Dark theme with custom delay',
+      showDelay: 300,
+      hideDelay: 200,
+    }"
+  >
+    Combined configuration
+  </button>
+</template>
+```
+
+::: tip Note
+When using both modifiers and object configuration, modifiers take precedence over the object configuration for the same property.
+:::
+
 ## Best Practices
 
 1. **Choose Wisely**: Use the directive for simple text tooltips. For rich content, use the component approach.
