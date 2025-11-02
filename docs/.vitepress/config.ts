@@ -39,6 +39,7 @@ export default defineConfig({
           items: [
             { text: 'Getting Started', link: '/guide/getting-started' },
             { text: 'Quick Start', link: '/guide/quick-start' },
+            { text: 'Registration Methods', link: '/guide/registration-methods' },
           ],
         },
         {
