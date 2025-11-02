@@ -24,7 +24,8 @@ yarn add @borstihd/vue-custom-tooltip
 
 Add the plugin to your Vue application:
 
-```ts
+::: code-group
+```ts [Default usage]
 import { VueCustomTooltip } from '@borstihd/vue-custom-tooltip'
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -34,6 +35,17 @@ const app = createApp(App)
 
 // Use with default options
 app.use(VueCustomTooltip)
+
+app.mount('#app')
+```
+
+```ts [Advanced usage]
+import { VueCustomTooltip } from '@borstihd/vue-custom-tooltip'
+import { createApp } from 'vue'
+import App from './App.vue'
+import '@borstihd/vue-custom-tooltip/dist/style.css'
+
+const app = createApp(App)
 
 // Alternatively, register the plugin with your own custom settings
 app.use(VueCustomTooltip, {
@@ -45,6 +57,7 @@ app.use(VueCustomTooltip, {
 
 app.mount('#app')
 ```
+:::
 
 ## Quick Example
 

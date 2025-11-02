@@ -37,9 +37,8 @@ app.mount('#app')
 
 ## Simple Examples
 
-### 1. Basic Component Usage
-
-```vue
+::: code-group
+```vue [Basic component usage]
 <template>
   <Tooltip content="This is a simple tooltip">
     <button>Hover me</button>
@@ -47,15 +46,14 @@ app.mount('#app')
 </template>
 ```
 
-### 2. Basic Directive Usage
-
-```vue
+```vue [Basic directive usage]
 <template>
   <button v-tooltip="'This is a simple tooltip'">
     Hover me
   </button>
 </template>
 ```
+:::
 
 ## Common Use Cases
 
