@@ -1,5 +1,21 @@
 # TODO: WIP - EXAMPLE PAGE
 
+<script setup>
+import { ref } from 'vue'
+
+const count = ref(0)
+</script>
+
+## Markdown Content
+
+The count is: {{ count }}
+<button class="px-2! rounded-md bg-blue-500! dark:bg-indigo-500!" @click="count++">Increment</button>
+
+<div class="flex gap-4 p-4 bg-slate-300 dark:bg-slate-800">
+  <Button v-tooltip.top="'Top Tooltip'" label="Top Tooltip" class="p-4! bg-blue-500! dark:bg-indigo-500!" />
+  <Button v-tooltip.bottom="'Bottom Tooltip'" label="Bottom Tooltip" />
+</div>
+
 # Examples Gallery
 
 A collection of common use cases and patterns for Vue Custom Tooltip.
