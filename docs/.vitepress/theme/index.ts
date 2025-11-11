@@ -2,8 +2,10 @@
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
-// import TooltipExample from '../../../src/components/showcase/TooltipExample.vue'
-// import { VueCustomTooltip } from '../../../src/index.ts'
+import TooltipExample from '../../../src/components/showcase/TooltipExample.vue'
+import { VueCustomTooltip } from '../../../src/index'
+// import Button from '@/components/Button.vue'
+import Button from './components/Button.vue'
 import './style.css'
 
 export default {
@@ -15,7 +17,8 @@ export default {
   },
   // eslint-disable-next-line unused-imports/no-unused-vars
   enhanceApp({ app, router, siteData }) {
-    // app.use(VueCustomTooltip)
-    // app.component('TooltipExample', TooltipExample)
+    app.use(VueCustomTooltip)
+    app.component('Button', Button)
+    app.component('TooltipExample', TooltipExample)
   },
 } satisfies Theme

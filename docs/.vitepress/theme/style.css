@@ -1,4 +1,16 @@
 /**
+ * VitePress and Tailwind Integration
+ * -------------------------------------------------------------------------- */
+/* Import Tailwind */
+@import "tailwindcss";
+
+/* Configure Tailwind and sources */
+@source '../../../**/*.{vue,ts,md}';
+
+/* Configure dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/**
  * Customize default theme styling by overriding CSS variables:
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
  */
@@ -136,4 +148,3 @@
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
-

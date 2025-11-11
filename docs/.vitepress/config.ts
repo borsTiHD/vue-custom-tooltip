@@ -1,3 +1,5 @@
+import path from 'node:path'
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vitepress'
 import pkg from '../../package.json'
 
@@ -11,6 +13,17 @@ export default defineConfig({
   lastUpdated: true,
 
   base: '/vue-custom-tooltip/', // Set base if deploying to a subpath
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
+    resolve: {
+      alias: {
+        //  Allows importing from 'src' using '@' prefix
+        '@': path.resolve(__dirname, '../../src'),
+      },
+    },
+  },
 
   themeConfig: {
     search: {
