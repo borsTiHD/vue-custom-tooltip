@@ -3,10 +3,10 @@ import type { App, Plugin } from 'vue'
 import type { TooltipProps, TooltipTheme } from './types/tooltip'
 import Tooltip from './components/tooltip/Tooltip.vue'
 import { setTooltipGlobalConfig, setTooltipGlobalTheme } from './config/index'
-import { vTooltip } from './directives/tooltip'
+import { TooltipControl, vTooltip } from './directives/tooltip'
 
 // Export components and directives
-export { Tooltip, vTooltip }
+export { Tooltip, TooltipControl, vTooltip }
 
 // Export composables for advanced usage
 export * from './composables'
@@ -14,7 +14,7 @@ export * from './composables'
 // Export configuration functions
 export { getTooltipGlobalConfig, getTooltipGlobalTheme, resetTooltipGlobalConfig, setTooltipGlobalConfig, setTooltipGlobalTheme } from './config/index'
 
-export type { TooltipProps, TooltipSlots, TooltipTheme } from './types/tooltip'
+export type { TooltipExposed, TooltipProps, TooltipSlots, TooltipTheme } from './types/tooltip'
 // Export types
 export type {
   TooltipDirectiveModifiers,
