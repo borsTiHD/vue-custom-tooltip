@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2025-11-14
+
 ### Added
 - **Programmatic Control**: Tooltips can now be controlled programmatically via three methods:
   - **Component Template Refs**: Access `show()`, `hide()`, `toggle()`, and `isVisible()` methods via template refs
@@ -201,7 +203,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.2.2...v1.3.0
