@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Programmatic Control**: Tooltips can now be controlled programmatically via three methods:
+  - **Component Template Refs**: Access `show()`, `hide()`, `toggle()`, and `isVisible()` methods via template refs
+  - **v-model Support**: Two-way binding for tooltip visibility state
+  - **TooltipControl API**: Global API for controlling directive tooltips by ID (`TooltipControl.show()`, `TooltipControl.hide()`, `TooltipControl.toggle()`, `TooltipControl.isVisible()`)
+- Added `modelValue` prop to Tooltip component for v-model support
+- Added `id` prop to support unique identification for directive tooltips
+- Exported `TooltipExposed` type for TypeScript template ref typing
+- Exported `TooltipControl` API for programmatic directive control
+- Added comprehensive documentation for programmatic control at `docs/guide/programmatic-control.md`
+- Added examples demonstrating all three control methods in showcase components
+
 ## [1.5.0] - 2025-10-30
 
 ### Added
