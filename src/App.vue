@@ -4,11 +4,12 @@ import Button from '@/components/Button.vue'
 import PresetSwitcher from '@/components/PresetSwitcher.vue'
 import DirectiveBenchmark from '@/components/showcase/DirectiveBenchmark.vue'
 import DirectiveExample from '@/components/showcase/DirectiveExample.vue'
+import ProgrammaticControl from '@/components/showcase/ProgrammaticControl.vue'
 import TooltipExample from '@/components/showcase/TooltipExample.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import packageJson from '../package.json'
 
-type Tabs = 'component' | 'directive' | 'directive-benchmark'
+type Tabs = 'component' | 'directive' | 'directive-benchmark' | 'programmatic-control'
 
 const activeTab = ref<Tabs>('component')
 
@@ -85,6 +86,17 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
           >
             Tooltip Directive Benchmark
           </button>
+          <button
+            class="py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200"
+            :class="[
+              activeTab === 'programmatic-control'
+                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600',
+            ]"
+            @click="switchTab('programmatic-control')"
+          >
+            Programmatic Control
+          </button>
         </div>
       </div>
     </nav>
@@ -147,6 +159,7 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
         <TooltipExample v-if="activeTab === 'component'" />
         <DirectiveExample v-else-if="activeTab === 'directive'" />
         <DirectiveBenchmark v-else-if="activeTab === 'directive-benchmark'" />
+        <ProgrammaticControl v-else-if="activeTab === 'programmatic-control'" />
       </div>
     </main>
 
@@ -183,6 +196,11 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
               label="Directive Benchmark"
               :disabled="activeTab === 'directive-benchmark'"
               @click="switchTab('directive-benchmark')"
+            />
+            <Button
+              label="Programmatic Control"
+              :disabled="activeTab === 'programmatic-control'"
+              @click="switchTab('programmatic-control')"
             />
           </div>
         </div>
