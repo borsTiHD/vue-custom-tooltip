@@ -40,7 +40,7 @@
  * - Unique IDs for tooltip-trigger association
  */
 
-import type { TooltipProps, TooltipSlots } from '../../types/tooltip'
+import type { TooltipExposed, TooltipProps, TooltipSlots } from '../../types/tooltip'
 import { computed, nextTick, useSlots, useTemplateRef, watch } from 'vue'
 
 import {
@@ -61,7 +61,7 @@ import { getTooltipGlobalThemeRef } from '../../config/index'
  */
 
 // Re-export types for external use
-export type { TooltipProps, TooltipSlots }
+export type { TooltipExposed, TooltipProps, TooltipSlots }
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   position: undefined,
@@ -75,7 +75,14 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   offset: undefined,
   dark: undefined,
   externalTrigger: undefined,
+  modelValue: undefined,
+  id: undefined,
 })
+
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean]
+}>()
+
 defineSlots<{
   default: () => any
   content?: () => any
@@ -129,15 +136,64 @@ const {
 
 const {
   isVisible,
-  show,
-  hide,
-  toggle,
+  show: showInternal,
+  hide: hideInternal,
+  toggle: toggleInternal,
+  showImmediate,
+  hideImmediate,
 } = useTooltipVisibility(
   effectiveDisabled,
   effectiveShowDelay,
   effectiveHideDelay,
   calculatePosition,
 )
+
+// Sync with v-model
+watch(isVisible, (newValue) => {
+  if (props.modelValue !== undefined && newValue !== props.modelValue) {
+    emit('update:modelValue', newValue)
+  }
+})
+
+// Watch for external v-model changes
+watch(() => props.modelValue, (newValue) => {
+  if (newValue !== undefined && newValue !== isVisible.value) {
+    if (newValue) {
+      showImmediate()
+    }
+    else {
+      hideImmediate()
+    }
+  }
+})
+
+// Wrapper functions for normal event-driven behavior
+function show() {
+  showInternal()
+}
+
+function hide() {
+  hideInternal()
+}
+
+function toggle() {
+  toggleInternal()
+}
+
+// Expose methods for programmatic control
+defineExpose<TooltipExposed>({
+  show: showImmediate,
+  hide: hideImmediate,
+  toggle: () => {
+    if (isVisible.value) {
+      hideImmediate()
+    }
+    else {
+      showImmediate()
+    }
+  },
+  isVisible: () => isVisible.value,
+})
 
 const {
   handleMouseEnter,

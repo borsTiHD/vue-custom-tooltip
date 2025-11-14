@@ -24,12 +24,60 @@ interface TooltipInstance {
   id: string
   element: HTMLElement
   props: TooltipProps
+  componentRef?: any
 }
 
 // Shared state for all tooltip instances
 const tooltipStore = reactive({
   tooltips: new Map<string, TooltipInstance>(),
 })
+
+/**
+ * Public API for programmatic tooltip control
+ */
+export const TooltipControl = {
+  /**
+   * Show a tooltip by ID
+   * @param id - The tooltip ID
+   */
+  show(id: string): void {
+    const instance = tooltipStore.tooltips.get(id)
+    if (instance?.componentRef) {
+      instance.componentRef.show()
+    }
+  },
+
+  /**
+   * Hide a tooltip by ID
+   * @param id - The tooltip ID
+   */
+  hide(id: string): void {
+    const instance = tooltipStore.tooltips.get(id)
+    if (instance?.componentRef) {
+      instance.componentRef.hide()
+    }
+  },
+
+  /**
+   * Toggle a tooltip by ID
+   * @param id - The tooltip ID
+   */
+  toggle(id: string): void {
+    const instance = tooltipStore.tooltips.get(id)
+    if (instance?.componentRef) {
+      instance.componentRef.toggle()
+    }
+  },
+
+  /**
+   * Check if a tooltip is visible
+   * @param id - The tooltip ID
+   */
+  isVisible(id: string): boolean {
+    const instance = tooltipStore.tooltips.get(id)
+    return instance?.componentRef ? instance.componentRef.isVisible() : false
+  },
+}
 
 // Single shared Vue app instance
 let sharedApp: App | null = null
@@ -130,6 +178,15 @@ function initializeSharedApp() {
       const tooltipComponents = Array.from(this.tooltips.values() as IterableIterator<TooltipInstance>).map((instance) => {
         return h(Tooltip, {
           key: instance.id,
+          ref: (el: any) => {
+            // Capture component ref for programmatic control
+            if (el) {
+              const tooltipInstance = tooltipStore.tooltips.get(instance.id)
+              if (tooltipInstance) {
+                tooltipInstance.componentRef = el
+              }
+            }
+          },
           ...instance.props,
           externalTrigger: instance.element,
         })
@@ -149,8 +206,10 @@ function addTooltipInstance(element: HTMLElement, binding: TooltipDirectiveBindi
   // Initialize shared app if needed
   initializeSharedApp()
 
-  const id = generateTooltipInstanceId()
   const props = getTooltipProps(binding)
+
+  // Use custom ID if provided, otherwise generate one
+  const id = props.id || generateTooltipInstanceId()
 
   // Add to reactive store (triggers re-render)
   tooltipStore.tooltips.set(id, {
