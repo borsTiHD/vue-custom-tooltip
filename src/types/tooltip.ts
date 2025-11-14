@@ -97,6 +97,46 @@ export interface TooltipProps {
    * @default undefined
    */
   externalTrigger?: HTMLElement
+
+  /**
+   * Controls the visibility of the tooltip (for v-model support)
+   * @default false
+   */
+  modelValue?: boolean
+
+  /**
+   * Unique identifier for the tooltip (used for programmatic control in directive mode)
+   * @default undefined
+   */
+  id?: string
+}
+
+/**
+ * Methods exposed by the Tooltip component for programmatic control
+ */
+export interface TooltipExposed {
+  /**
+   * Programmatically show the tooltip
+   * Bypasses delays and disabled state for immediate display
+   */
+  show: () => void
+
+  /**
+   * Programmatically hide the tooltip
+   * Bypasses delays for immediate hiding
+   */
+  hide: () => void
+
+  /**
+   * Toggle the tooltip visibility
+   * Bypasses delays and disabled state
+   */
+  toggle: () => void
+
+  /**
+   * Check if the tooltip is currently visible
+   */
+  isVisible: () => boolean
 }
 
 /**

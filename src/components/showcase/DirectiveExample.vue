@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Button from '@/components/Button.vue'
+import { TooltipControl } from '@/directives/tooltip'
 
 const btnLabel = ref('Click me to change!')
 const tooltipMsg = ref('Click this Button, it will change the button text and tooltip text')
@@ -8,6 +9,19 @@ const tooltipMsg = ref('Click this Button, it will change the button text and to
 function onClick(message: string) {
   btnLabel.value = message
   tooltipMsg.value = message
+}
+
+// Programmatic control functions
+function showProgrammaticTooltip() {
+  TooltipControl.show('programmatic-tooltip')
+}
+
+function hideProgrammaticTooltip() {
+  TooltipControl.hide('programmatic-tooltip')
+}
+
+function toggleProgrammaticTooltip() {
+  TooltipControl.toggle('programmatic-tooltip')
 }
 </script>
 
@@ -43,6 +57,29 @@ function onClick(message: string) {
         <Button v-tooltip="'Auto mode (default)'" label="v-tooltip (auto)" />
         <Button v-tooltip.dark="'Always dark tooltip'" label="v-tooltip.dark" />
         <Button v-tooltip.light="'Always light tooltip'" label="v-tooltip.light" />
+      </div>
+    </div>
+
+    <!-- Programmatic Control with Directive -->
+    <div class="flex flex-col gap-4">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        Programmatic Control
+      </h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        Use TooltipControl API to programmatically show/hide tooltips by ID.
+      </p>
+      <div class="flex gap-2 items-center flex-wrap">
+        <Button
+          v-tooltip="{ content: 'Controlled programmatically', id: 'programmatic-tooltip' }"
+          label="Target Element"
+        />
+        <Button label="Show" size="small" @click="showProgrammaticTooltip" />
+        <Button label="Hide" size="small" @click="hideProgrammaticTooltip" />
+        <Button label="Toggle" size="small" @click="toggleProgrammaticTooltip" />
+      </div>
+      <div class="text-xs text-gray-500 dark:text-gray-500 space-y-1">
+        <p>Import: <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">import { TooltipControl } from 'vue-custom-tooltip'</code></p>
+        <p>Usage: <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">TooltipControl.show('id')</code></p>
       </div>
     </div>
 

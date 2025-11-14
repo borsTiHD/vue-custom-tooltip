@@ -17,6 +17,79 @@ The Vue Custom Tooltip component provides a comprehensive API for creating and c
 | `showArrow` | `boolean` | `true` | Show arrow pointer |
 | `offset` | `number` | `8` | Offset from trigger (px) |
 | `dark` | `'auto' \| boolean` | `'auto'` | Dark mode behavior |
+| `modelValue` | `boolean` | `undefined` | Control visibility with v-model |
+
+## Exposed Methods
+
+The Tooltip component exposes methods for programmatic control via template refs:
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `show()` | `void` | Show the tooltip immediately (bypasses delays) |
+| `hide()` | `void` | Hide the tooltip immediately (bypasses delays) |
+| `toggle()` | `void` | Toggle the tooltip visibility |
+| `isVisible()` | `boolean` | Check if the tooltip is currently visible |
+
+### Using Template Refs
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { TooltipExposed } from '@borstihd/vue-custom-tooltip'
+
+const tooltipRef = ref<TooltipExposed | null>(null)
+
+function showTooltip() {
+  tooltipRef.value?.show()
+}
+
+function hideTooltip() {
+  tooltipRef.value?.hide()
+}
+
+function toggleTooltip() {
+  tooltipRef.value?.toggle()
+}
+</script>
+
+<template>
+  <div>
+    <Tooltip ref="tooltipRef" content="Programmatically controlled">
+      <button>Target Element</button>
+    </Tooltip>
+    
+    <button @click="showTooltip">Show</button>
+    <button @click="hideTooltip">Hide</button>
+    <button @click="toggleTooltip">Toggle</button>
+  </div>
+</template>
+```
+
+### Using v-model
+
+The component supports two-way binding for visibility control:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const isVisible = ref(false)
+</script>
+
+<template>
+  <div>
+    <Tooltip v-model="isVisible" content="Controlled via v-model">
+      <button>Target Element</button>
+    </Tooltip>
+    
+    <button @click="isVisible = true">Show</button>
+    <button @click="isVisible = false">Hide</button>
+    <button @click="isVisible = !isVisible">Toggle</button>
+    
+    <p>Tooltip is {{ isVisible ? 'visible' : 'hidden' }}</p>
+  </div>
+</template>
+```
 
 ## Slots
 
@@ -69,11 +142,21 @@ The content slot allows you to use rich HTML content in your tooltips:
 The component is fully typed. You can import the types for use in your TypeScript code:
 
 ```ts
-import type { TooltipPosition, TooltipProps, TooltipTrigger } from '@borstihd/vue-custom-tooltip'
+import type {
+  TooltipExposed,
+  TooltipPosition,
+  TooltipProps,
+  TooltipTrigger,
+} from '@borstihd/vue-custom-tooltip'
 
 // Example usage in component props
 const position: TooltipPosition = 'auto'
 const trigger: TooltipTrigger = 'both'
+
+// Example usage for template refs
+const tooltipRef = ref<TooltipExposed | null>(null)
+// or
+const tooltipRef = useTemplateRef<TooltipExposed | null>('tooltipRef')
 ```
 
 ## Best Practices

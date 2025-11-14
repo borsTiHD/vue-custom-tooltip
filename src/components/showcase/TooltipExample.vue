@@ -1,13 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import type { TooltipExposed } from '@/types/tooltip'
+import { ref, useTemplateRef } from 'vue'
 import Button from '@/components/Button.vue'
 
 const btnLabel = ref('Click me to change!')
 const tooltipMsg = ref('Click this Button, it will change the button text and tooltip text')
 
+// Programmatic control refs
+const tooltipRef = useTemplateRef<TooltipExposed | null>('tooltipRef')
+const vModelVisible = ref(false)
+
 function onClick(message: string) {
   btnLabel.value = message
   tooltipMsg.value = message
+}
+
+// Programmatic control functions
+function showTooltip() {
+  tooltipRef.value?.show()
+}
+
+function hideTooltip() {
+  tooltipRef.value?.hide()
+}
+
+function toggleTooltip() {
+  tooltipRef.value?.toggle()
 }
 </script>
 
@@ -41,12 +59,55 @@ function onClick(message: string) {
       </div>
     </div>
 
+    <!-- Programmatic Control -->
+    <div class="flex flex-col gap-4">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        Programmatic Control
+      </h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        Control tooltips programmatically using refs, v-model, or the TooltipControl API for directives.
+      </p>
+
+      <!-- Component with ref -->
+      <div class="space-y-2">
+        <h4 class="text-md font-medium text-gray-700 dark:text-gray-300">
+          Using Component Ref
+        </h4>
+        <div class="flex gap-2 items-center">
+          <Tooltip ref="tooltipRef" content="Controlled programmatically via ref">
+            <Button label="Target element" />
+          </Tooltip>
+          <Button label="Show" size="small" @click="showTooltip" />
+          <Button label="Hide" size="small" @click="hideTooltip" />
+          <Button label="Toggle" size="small" @click="toggleTooltip" />
+        </div>
+      </div>
+
+      <!-- Component with v-model -->
+      <div class="space-y-2">
+        <h4 class="text-md font-medium text-gray-700 dark:text-gray-300">
+          Using v-model
+        </h4>
+        <div class="flex gap-2 items-center">
+          <Tooltip v-model="vModelVisible" content="Controlled via v-model">
+            <Button label="Target element" />
+          </Tooltip>
+          <Button label="Show" size="small" @click="vModelVisible = true" />
+          <Button label="Hide" size="small" @click="vModelVisible = false" />
+          <Button label="Toggle" size="small" @click="vModelVisible = !vModelVisible" />
+          <span class="text-sm text-gray-600 dark:text-gray-400">
+            State: {{ vModelVisible ? 'Visible' : 'Hidden' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
     <!-- Auto mode (default) -->
     <div class="space-y-2">
       <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Auto Mode (Default)
       </h3>
-      <p class="text-sm text-gray-800 dark:text-gray-200">
+      <p class="text-sm text-gray-600 dark:text-gray-400">
         Automatically detects both OS dark mode and Tailwind's .dark class
       </p>
 
@@ -66,7 +127,7 @@ function onClick(message: string) {
       <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
         Force Dark/Light Mode
       </h3>
-      <p class="text-sm text-gray-800 dark:text-gray-200">
+      <p class="text-sm text-gray-600 dark:text-gray-400">
         Always uses dark/light theme, regardless of system or class settings
       </p>
 

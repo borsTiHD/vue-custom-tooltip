@@ -183,6 +183,7 @@ For more complex configurations, you can pass an object instead of a simple stri
 | `showArrow` | `boolean` | `true` | Show arrow pointer |
 | `offset` | `number` | `8` | Offset from trigger (px) |
 | `dark` | `'auto' \| boolean` | `'auto'` | Dark mode behavior |
+| `id` | `string` | `undefined` | Unique identifier for programmatic control |
 
 ### Combining with Modifiers
 
@@ -206,6 +207,98 @@ Object configuration can still be combined with modifiers for quick overrides:
 When using both modifiers and object configuration, modifiers take precedence over the object configuration for the same property.
 :::
 
+## Programmatic Control
+
+Directive tooltips can be controlled programmatically using the `TooltipControl` API. This requires assigning a unique `id` to the tooltip.
+
+### Using TooltipControl API
+
+```vue
+<script setup>
+import { TooltipControl } from '@borstihd/vue-custom-tooltip'
+
+function showTooltip() {
+  TooltipControl.show('my-tooltip')
+}
+
+function hideTooltip() {
+  TooltipControl.hide('my-tooltip')
+}
+
+function toggleTooltip() {
+  TooltipControl.toggle('my-tooltip')
+}
+
+function checkVisibility() {
+  const isVisible = TooltipControl.isVisible('my-tooltip')
+  console.log('Tooltip visible:', isVisible)
+}
+</script>
+
+<template>
+  <div>
+    <button
+      v-tooltip="{
+        content: 'Programmatically controlled',
+        id: 'my-tooltip'
+      }"
+    >
+      Target Element
+    </button>
+    
+    <button @click="showTooltip">Show</button>
+    <button @click="hideTooltip">Hide</button>
+    <button @click="toggleTooltip">Toggle</button>
+  </div>
+</template>
+```
+
+### TooltipControl API
+
+| Method | Parameters | Returns | Description |
+|--------|------------|---------|-------------|
+| `show(id)` | `id: string` | `void` | Show tooltip by ID |
+| `hide(id)` | `id: string` | `void` | Hide tooltip by ID |
+| `toggle(id)` | `id: string` | `void` | Toggle tooltip by ID |
+| `isVisible(id)` | `id: string` | `boolean` | Check if tooltip is visible |
+
+::: tip Note
+Programmatic control methods (`show`, `hide`, `toggle`) bypass delays for immediate response.
+:::
+
+### Coordinated Tooltips
+
+You can control multiple tooltips simultaneously:
+
+```vue
+<script setup>
+import { TooltipControl } from '@borstihd/vue-custom-tooltip'
+
+function showAllTooltips() {
+  TooltipControl.show('tooltip-1')
+  TooltipControl.show('tooltip-2')
+  TooltipControl.show('tooltip-3')
+}
+
+function hideAllTooltips() {
+  TooltipControl.hide('tooltip-1')
+  TooltipControl.hide('tooltip-2')
+  TooltipControl.hide('tooltip-3')
+}
+</script>
+
+<template>
+  <div>
+    <button v-tooltip="{ content: 'First', id: 'tooltip-1' }">1</button>
+    <button v-tooltip="{ content: 'Second', id: 'tooltip-2' }">2</button>
+    <button v-tooltip="{ content: 'Third', id: 'tooltip-3' }">3</button>
+    
+    <button @click="showAllTooltips">Show All</button>
+    <button @click="hideAllTooltips">Hide All</button>
+  </div>
+</template>
+```
+
 ## Best Practices
 
 1. **Choose Wisely**: Use the directive for simple text tooltips. For rich content, use the component approach.
@@ -213,3 +306,4 @@ When using both modifiers and object configuration, modifiers take precedence ov
 3. **Concise Content**: Keep tooltip text short and informative.
 4. **Position Awareness**: Consider using `.auto` for dynamic positioning.
 5. **Animation Speed**: Use `.slow` for important information, `.fast` for subtle hints.
+6. **Programmatic IDs**: Use descriptive, unique IDs for programmatically controlled tooltips.
