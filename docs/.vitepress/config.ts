@@ -63,6 +63,7 @@ export default defineConfig({
           items: [
             { text: 'Component Usage', link: '/guide/component-usage' },
             { text: 'Directive Usage', link: '/guide/directive-usage' },
+            { text: 'Programmatic Control', link: '/guide/programmatic-control' },
             { text: 'Global Configuration', link: '/guide/global-config' },
             { text: 'Runtime Configuration', link: '/guide/runtime-config' },
           ],
