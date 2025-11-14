@@ -7,7 +7,7 @@ import { getReactiveGlobalConfig } from '../config/globalConfig'
 /**
  * Default values for tooltip props
  */
-export const DEFAULT_TOOLTIP_PROPS: Readonly<Required<Omit<TooltipProps, 'content' | 'externalTrigger'>>> = {
+export const DEFAULT_TOOLTIP_PROPS: Readonly<Required<Omit<TooltipProps, 'content' | 'externalTrigger' | 'modelValue' | 'id'>>> = {
   position: 'auto',
   trigger: 'both',
   showDelay: 100,

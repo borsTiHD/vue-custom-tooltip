@@ -59,6 +59,22 @@ export function useTooltipVisibility(
   }
 
   /**
+   * Shows the tooltip immediately without delay (for programmatic control)
+   */
+  async function showImmediate() {
+    clearTimeouts()
+    _isVisible.value = true
+    await nextTick()
+    // Wait for the browser to render the tooltip with proper dimensions
+    await new Promise(resolve => requestAnimationFrame(resolve))
+
+    // Execute callback after tooltip is visible and rendered
+    if (onShow) {
+      await onShow()
+    }
+  }
+
+  /**
    * Hides the tooltip after the configured delay
    */
   function hide() {
@@ -69,6 +85,14 @@ export function useTooltipVisibility(
     hideTimeout = window.setTimeout(() => {
       _isVisible.value = false
     }, hideDelay.value)
+  }
+
+  /**
+   * Hides the tooltip immediately without delay (for programmatic control)
+   */
+  function hideImmediate() {
+    clearTimeouts()
+    _isVisible.value = false
   }
 
   /**
@@ -97,6 +121,8 @@ export function useTooltipVisibility(
     show,
     hide,
     toggle,
+    showImmediate,
+    hideImmediate,
     clearTimeouts,
   }
 }
