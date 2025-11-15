@@ -23,7 +23,10 @@ async function handleThemeChange(e: Event) {
     <select
       id="theme-switcher"
       v-model="currentTheme"
-      class="appearance-none flex gap-2 px-2 h-10 items-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-8"
+      v-tooltip.top="'Switch the tooltip theme'"
+      class="appearance-none! flex! gap-2! px-2! h-10! items-center! rounded-md! border! border-gray-300! dark:border-gray-700! bg-white! dark:bg-gray-800! text-gray-700! dark:text-gray-200! text-sm! focus:outline-none! focus:ring-2! focus:ring-blue-500! pr-8!"
+      aria-label="Switch the tooltip theme"
+      :title="`Current: ${currentTheme} theme`"
       @change="handleThemeChange"
     >
       <option v-for="opt in themeOptions" :key="opt.value" :value="opt.value">
