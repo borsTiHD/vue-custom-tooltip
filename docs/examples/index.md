@@ -1,441 +1,785 @@
-# TODO: WIP - EXAMPLE PAGE
 
-<script setup>
-import { ref } from 'vue'
-
-const count = ref(0)
-</script>
-
-## Markdown Content
-
-The count is: {{ count }}
-<button class="px-2! rounded-md bg-blue-500! dark:bg-indigo-500!" @click="count++">Increment</button>
-
-<div class="flex gap-4 p-4 bg-slate-300 dark:bg-slate-800">
-  <Button v-tooltip.top="'Top Tooltip'" label="Top Tooltip" class="p-4! bg-blue-500! dark:bg-indigo-500!" />
-  <Button v-tooltip.bottom="'Bottom Tooltip'" label="Bottom Tooltip" />
-</div>
 
 # Examples Gallery
 
-A collection of common use cases and patterns for Vue Custom Tooltip.
+A collection of real working examples and patterns for Vue Custom Tooltip. All examples below include working previews and code samples.
+
+## Customize Display
+
+Personalize how the examples appear by adjusting the theme and color scheme to match your preferences.
+
+<div class="my-6 p-6 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 rounded-lg border border-blue-200 dark:border-gray-600 space-y-4">
+  <div class="flex gap-4 items-center flex-wrap">
+    <ThemeToggle mode="vitepress" />
+    <PresetSwitcher />
+  </div>
+</div>
+
+<Card>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip.top="'Top Tooltip'" label="Top Tooltip" class="p-4! bg-blue-500! dark:bg-indigo-500! hover:bg-blue-400! dark:hover:bg-indigo-400! focus:ring-blue-300! flex-1" />
+    <Button v-tooltip.bottom="'Bottom Tooltip'" label="Bottom Tooltip" class="flex-1" />
+    <Button v-tooltip.left="'Left Tooltip'" label="Left Tooltip" class="flex-1" />
+    <Button v-tooltip.right="'Right Tooltip'" label="Right Tooltip" class="flex-1" />
+  </div>
+</Card>
 
 ## Basic Examples
 
 ### Simple Text Tooltips
 
+<Card>
+  <div class="flex gap-4">
+    <Button v-tooltip="'Basic tooltip'" label="Hover me" />
+    <Button v-tooltip="'Long tooltip text'" label="Long text" />
+  </div>
+</Card>
+
+::: details Show code
 ::: code-group
 ```vue [Component API]
 <template>
-  <Tooltip content="Basic tooltip">
-    <button>Hover me</button>
-  </Tooltip>
+  <div class="flex gap-4">
+    <Tooltip content="Basic tooltip">
+      <Button label="Hover me" />
+    </Tooltip>
+
+    <Tooltip content="This tooltip has a longer message to demonstrate text wrapping in tooltips">
+      <Button label="Long text" />
+    </Tooltip>
+  </div>
 </template>
 ```
 
 ```vue [Directive API]
 <template>
-  <button v-tooltip="'Basic tooltip'">
-    Hover me
-  </button>
+  <div class="flex gap-4">
+    <Button v-tooltip="'Basic tooltip'" label="Hover me" />
+    <Button v-tooltip="'Long tooltip text'" label="Long text" />
+  </div>
 </template>
 ```
 :::
 
 ### Rich Content Tooltips
 
-```vue
-<template>
+<Card>
   <Tooltip>
-    <button>Hover for details</button>
-
+    <Button label="Hover for details" />
     <template #content>
-      <div class="p-4">
-        <h3 class="text-lg font-bold">
+      <div class="p-2">
+        <h3 class="text-lg font-bold mb-2">
           Product Details
         </h3>
-        <div class="mt-2 space-y-2">
+        <div class="space-y-2 text-sm">
           <p>Premium quality widget</p>
-          <p class="text-green-600">
-            In stock
+          <p class="text-green-600 dark:text-green-400">
+            In stock (12 available)
           </p>
-          <strong>$99.99</strong>
+          <strong class="text-lg">$99.99</strong>
+        </div>
+      </div>
+    </template>
+  </Tooltip>
+</Card>
+
+::: details Show code
+::: code-group
+```vue [Component API]
+<template>
+  <Tooltip>
+    <Button label="Hover for details" />
+
+    <template #content>
+      <div class="p-2">
+        <h3 class="text-lg font-bold mb-2">
+          Product Details
+        </h3>
+        <div class="space-y-2 text-sm">
+          <p>Premium quality widget</p>
+          <p class="text-green-600 dark:text-green-400">
+            In stock (12 available)
+          </p>
+          <strong class="text-lg">$99.99</strong>
         </div>
       </div>
     </template>
   </Tooltip>
 </template>
 ```
+:::
 
-## Form Examples
+## Trigger Examples
 
-### Input Helpers
+### Different Trigger Modes
 
+<Card>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip.hover="'Hover only'" label="Hover" />
+    <Button v-tooltip.focus="'Focus only'" label="Focus" />
+    <Button v-tooltip.both="'Both hover and focus'" label="Both" />
+    <Button v-tooltip.click="'Click to toggle'" label="Click" />
+  </div>
+</Card>
+
+::: details Show code
 ::: code-group
 ```vue [Component API]
 <template>
-  <form class="space-y-4">
-    <Tooltip content="Must be at least 8 characters">
-      <input
-        type="password"
-        placeholder="Password"
-        class="form-input"
-      >
+  <div class="flex gap-4 flex-wrap">
+    <Tooltip content="Hover only" trigger="hover">
+      <Button label="Hover" />
     </Tooltip>
 
-    <Tooltip content="We'll never share your email">
-      <input
-        type="email"
-        placeholder="Email"
-        class="form-input"
-      >
+    <Tooltip content="Focus only (tab to me)" trigger="focus">
+      <Button label="Focus" />
     </Tooltip>
-  </form>
+
+    <Tooltip content="Both hover and focus" trigger="both">
+      <Button label="Both" />
+    </Tooltip>
+
+    <Tooltip content="Click to toggle" trigger="click">
+      <Button label="Click" />
+    </Tooltip>
+  </div>
 </template>
 ```
 
 ```vue [Directive API]
 <template>
-  <form class="space-y-4">
-    <input
-      v-tooltip.top.focus="'Must be at least 8 characters'"
-      type="password"
-      placeholder="Password"
-      class="form-input"
-    >
-
-    <input
-      v-tooltip.top.focus="'We will never share your email'"
-      type="email"
-      placeholder="Email"
-      class="form-input"
-    >
-  </form>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip.hover="'Hover only'" label="Hover" />
+    <Button v-tooltip.focus="'Focus only'" label="Focus" />
+    <Button v-tooltip.both="'Both hover and focus'" label="Both" />
+    <Button v-tooltip.click="'Click to toggle'" label="Click" />
+  </div>
 </template>
 ```
 :::
 
-### Form Validation
+## Positioning Examples
 
-```vue
-<script setup>
-import { ref } from 'vue'
+### Position Modifiers
 
-const email = ref('')
-const isValid = computed(() => {
-  return /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/.test(email.value)
-})
+<Card>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip.top="'Top tooltip'" label="Top" />
+    <Button v-tooltip.bottom="'Bottom tooltip'" label="Bottom" />
+    <Button v-tooltip.left="'Left tooltip'" label="Left" />
+    <Button v-tooltip.right="'Right tooltip'" label="Right" />
+    <Button v-tooltip.auto="'Auto positioning'" label="Auto" />
+  </div>
+</Card>
 
-const getTooltip = computed(() => {
-  return isValid.value
-    ? 'Email is valid!'
-    : 'Please enter a valid email'
-})
-</script>
-
-<template>
-  <Tooltip
-    :content="getTooltip"
-    :class="{ 'tooltip-error': !isValid }"
-  >
-    <input
-      v-model="email"
-      type="email"
-      placeholder="Email"
-    >
-  </Tooltip>
-</template>
-
-<style>
-.tooltip-error {
-  --vct-background: #ef4444;
-  --vct-text-color: white;
-}
-</style>
-```
-
-## Navigation Examples
-
-### Icon Navigation
-
-```vue
-<template>
-  <nav class="flex space-x-4">
-    <Tooltip content="Home">
-      <a href="/">
-        <IconHome class="w-6 h-6" />
-      </a>
-    </Tooltip>
-
-    <Tooltip content="Settings">
-      <a href="/settings">
-        <IconSettings class="w-6 h-6" />
-      </a>
-    </Tooltip>
-
-    <Tooltip content="Profile">
-      <a href="/profile">
-        <IconUser class="w-6 h-6" />
-      </a>
-    </Tooltip>
-  </nav>
-</template>
-```
-
-### Breadcrumbs
-
-```vue
-<template>
-  <nav aria-label="Breadcrumb">
-    <ol class="flex items-center space-x-2">
-      <li>
-        <Tooltip content="Go to Home">
-          <a href="/">Home</a>
-        </Tooltip>
-      </li>
-      <li>/</li>
-      <li>
-        <Tooltip content="View all products">
-          <a href="/products">Products</a>
-        </Tooltip>
-      </li>
-      <li>/</li>
-      <li>
-        <Tooltip content="Current page">
-          <span class="text-gray-500">Current</span>
-        </Tooltip>
-      </li>
-    </ol>
-  </nav>
-</template>
-```
-
-## Interactive Examples
-
-### Click Tooltips
-
+::: details Show code
 ::: code-group
 ```vue [Component API]
 <template>
-  <Tooltip
-    content="Click to copy"
-    trigger="click"
-  >
-    <button @click="copyToClipboard">
-      Copy text
-    </button>
-  </Tooltip>
+  <div class="flex gap-4 flex-wrap">
+    <Tooltip content="Top tooltip" position="top">
+      <Button label="Top" />
+    </Tooltip>
+
+    <Tooltip content="Bottom tooltip" position="bottom">
+      <Button label="Bottom" />
+    </Tooltip>
+
+    <Tooltip content="Left tooltip" position="left">
+      <Button label="Left" />
+    </Tooltip>
+
+    <Tooltip content="Right tooltip" position="right">
+      <Button label="Right" />
+    </Tooltip>
+
+    <Tooltip content="Auto positioning" position="auto">
+      <Button label="Auto" />
+    </Tooltip>
+  </div>
 </template>
 ```
 
 ```vue [Directive API]
 <template>
-  <button
-    v-tooltip.click="'Click to copy'"
-    @click="copyToClipboard"
-  >
-    Copy text
-  </button>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip.top="'Top tooltip'" label="Top" />
+    <Button v-tooltip.bottom="'Bottom tooltip'" label="Bottom" />
+    <Button v-tooltip.left="'Left tooltip'" label="Left" />
+    <Button v-tooltip.right="'Right tooltip'" label="Right" />
+    <Button v-tooltip.auto="'Auto positioning'" label="Auto" />
+  </div>
 </template>
 ```
 :::
 
-### Interactive Content
+## Animation Speed Examples
 
-```vue
-<script setup>
-import { ref } from 'vue'
+### Fast and Slow Animations
 
-const count = ref(0)
-</script>
+<Card>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip.fast="'Fast tooltip (10ms)'" label="Fast" />
+    <Button v-tooltip="'Default (100ms)'" label="Default" />
+    <Button v-tooltip.slow="'Slow tooltip (1000ms)'" label="Slow" />
+  </div>
+</Card>
 
+::: details Show code
+::: code-group
+```vue [Component API]
 <template>
-  <Tooltip>
-    <button>Interactive tooltip</button>
+  <div class="flex gap-4 flex-wrap">
+    <Tooltip content="Fast tooltip (10ms)" :show-delay="10" :hide-delay="50">
+      <Button label="Fast" />
+    </Tooltip>
 
-    <template #content>
-      <div class="p-4 text-center">
-        <p>Count: {{ count }}</p>
-        <button
-          class="px-4 py-2 bg-blue-500 text-white rounded"
-          @click="count++"
-        >
-          Increment
-        </button>
-      </div>
-    </template>
-  </Tooltip>
+    <Tooltip content="Default (100ms)" :show-delay="100" :hide-delay="100">
+      <Button label="Default" />
+    </Tooltip>
+
+    <Tooltip content="Slow tooltip (1000ms)" :show-delay="1000" :hide-delay="500">
+      <Button label="Slow" />
+    </Tooltip>
+  </div>
 </template>
 ```
+
+```vue [Directive API]
+<template>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip.fast="'Fast tooltip (10ms)'" label="Fast" />
+    <Button v-tooltip="'Default (100ms)'" label="Default" />
+    <Button v-tooltip.slow="'Slow tooltip (1000ms)'" label="Slow" />
+  </div>
+</template>
+```
+:::
 
 ## Theme Examples
 
-### Theme Switching
+### Dark/Light Mode Control
 
-```vue
+<Card>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip="'Auto dark mode'" label="Auto" />
+    <Button v-tooltip.dark="'Always dark'" label="Force Dark" />
+    <Button v-tooltip.light="'Always light'" label="Force Light" />
+  </div>
+</Card>
+
+::: details Show code
+::: code-group
+```vue [Component API]
+<template>
+  <div class="flex gap-4 flex-wrap">
+    <Tooltip content="Auto dark mode" dark="auto">
+      <Button label="Auto" />
+    </Tooltip>
+
+    <Tooltip content="Always dark" :dark="true">
+      <Button label="Force Dark" />
+    </Tooltip>
+
+    <Tooltip content="Always light" :dark="false">
+      <Button label="Force Light" />
+    </Tooltip>
+  </div>
+</template>
+```
+
+```vue [Directive API]
+<template>
+  <div class="flex gap-4 flex-wrap">
+    <Button v-tooltip="'Auto dark mode'" label="Auto" />
+    <Button v-tooltip.dark="'Always dark'" label="Force Dark" />
+    <Button v-tooltip.light="'Always light'" label="Force Light" />
+  </div>
+</template>
+```
+:::
+
+## Custom Styling
+
+### Custom Styled Tooltips
+
+<Card>
+  <div class="flex gap-4 flex-wrap">
+    <Tooltip
+      content="Purple tooltip"
+      tooltip-class="tooltip-purple"
+    >
+      <Button label="Purple" />
+    </Tooltip>
+    <Tooltip
+      content="Green tooltip"
+      tooltip-class="tooltip-green"
+    >
+      <Button label="Green" />
+    </Tooltip>
+    <Tooltip
+      content="Gradient tooltip"
+      tooltip-class="tooltip-gradient"
+    >
+      <Button label="Gradient" />
+    </Tooltip>
+    <Tooltip
+      content="No arrow"
+      :show-arrow="false"
+      tooltip-class="tooltip-no-arrow"
+    >
+      <Button label="No Arrow" />
+    </Tooltip>
+  </div>
+</Card>
+
+<style>
+.tooltip-purple .tooltip-content {
+  background: #8b5cf6 !important;
+  color: white !important;
+}
+
+.tooltip-purple .tooltip-arrow {
+  background: #8b5cf6 !important;
+  border-color: #8b5cf6 !important;
+}
+
+.tooltip-green .tooltip-content {
+  background: #10b981 !important;
+  color: white !important;
+}
+
+.tooltip-green .tooltip-arrow {
+  background: #10b981 !important;
+  border-color: #10b981 !important;
+}
+
+.tooltip-gradient .tooltip-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.tooltip-gradient .tooltip-arrow {
+  background: #667eea !important;
+  border: none !important;
+}
+
+.tooltip-no-arrow .tooltip-content {
+  background: #f59e0b !important;
+  color: white !important;
+  border-radius: 8px !important;
+}
+</style>
+
+::: details Show code
+::: code-group
+```vue [Component API]
+<template>
+  <div class="flex gap-4 flex-wrap">
+    <Tooltip
+      content="Purple tooltip"
+      tooltip-class="tooltip-purple"
+    >
+      <Button label="Purple" />
+    </Tooltip>
+
+    <Tooltip
+      content="Green tooltip"
+      tooltip-class="tooltip-green"
+    >
+      <Button label="Green" />
+    </Tooltip>
+
+    <Tooltip
+      content="Gradient tooltip"
+      tooltip-class="tooltip-gradient"
+    >
+      <Button label="Gradient" />
+    </Tooltip>
+
+    <Tooltip
+      content="No arrow"
+      :show-arrow="false"
+      tooltip-class="tooltip-no-arrow"
+    >
+      <Button label="No Arrow" />
+    </Tooltip>
+  </div>
+</template>
+
+<style>
+.tooltip-purple .tooltip-content {
+  background: #8b5cf6 !important;
+  color: white !important;
+}
+
+.tooltip-purple .tooltip-arrow {
+  background: #8b5cf6 !important;
+  border-color: #8b5cf6 !important;
+}
+
+.tooltip-green .tooltip-content {
+  background: #10b981 !important;
+  color: white !important;
+}
+
+.tooltip-green .tooltip-arrow {
+  background: #10b981 !important;
+  border-color: #10b981 !important;
+}
+
+.tooltip-gradient .tooltip-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.tooltip-gradient .tooltip-arrow {
+  background: #667eea !important;
+  border: none !important;
+}
+
+.tooltip-no-arrow .tooltip-content {
+  background: #f59e0b !important;
+  color: white !important;
+  border-radius: 8px !important;
+}
+</style>
+```
+:::
+
+## Text and Inline Elements
+
+### Tooltips on Text and Links
+
+<Card>
+  <div class="space-y-4">
+    <p class="text-gray-700 dark:text-gray-300">
+      This is an example of
+      <span
+        v-tooltip="'Helpful explanation'"
+        class="underline decoration-dotted text-blue-600 dark:text-blue-400 cursor-help"
+      >
+        tooltip on text
+      </span>
+      that provides additional context.
+    </p>
+    <p class="text-gray-700 dark:text-gray-300">
+      You can also add tooltips to
+      <a
+        v-tooltip="'Link description'"
+        href="#"
+        class="text-blue-600 dark:text-blue-400 hover:underline"
+      >
+        links with tooltips
+      </a>
+      in a text element.
+    </p>
+  </div>
+</Card>
+
+::: details Show code
+::: code-group
+```vue [Component API]
+<template>
+  <div class="space-y-4">
+    <p class="text-gray-700 dark:text-gray-300">
+      This is an example of
+      <Tooltip content="Helpful explanation">
+        <span class="underline decoration-dotted text-blue-600 dark:text-blue-400 cursor-help">
+          tooltip on text
+        </span>
+      </Tooltip>
+      that provides additional context.
+    </p>
+
+    <p class="text-gray-700 dark:text-gray-300">
+      You can also add tooltips to
+      <Tooltip content="Link description">
+        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">
+          links with tooltips
+        </a>
+      </Tooltip>
+      in a text element.
+    </p>
+  </div>
+</template>
+```
+
+```vue [Directive API]
+<template>
+  <div class="space-y-4">
+    <p class="text-gray-700 dark:text-gray-300">
+      This is an example of
+      <span
+        v-tooltip="'Helpful explanation'"
+        class="underline decoration-dotted text-blue-600 dark:text-blue-400 cursor-help"
+      >
+        tooltip on text
+      </span>
+      that provides additional context.
+    </p>
+
+    <p class="text-gray-700 dark:text-gray-300">
+      You can also add tooltips to
+      <a
+        v-tooltip="'Link description'"
+        href="#"
+        class="text-blue-600 dark:text-blue-400 hover:underline"
+      >
+        links with tooltips
+      </a>
+      in a text element.
+    </p>
+  </div>
+</template>
+```
+:::
+
+## Icons and Small Elements
+
+### Tooltips on Icons and Badges
+
+<Card>
+  <div class="flex gap-4 items-center">
+    <span v-tooltip.top="'Information'" class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm cursor-help font-bold">
+      i
+    </span>
+    <span v-tooltip.top="'Warning'" class="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+      ⚠
+    </span>
+    <span v-tooltip.top="'Error'" class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+      ✕
+    </span>
+    <span v-tooltip.top="'Success'" class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+      ✓
+    </span>
+  </div>
+</Card>
+
+::: details Show code
+::: code-group
+```vue [Component API]
+<template>
+  <div class="flex gap-4 items-center">
+    <Tooltip content="Information" position="top">
+      <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm cursor-help font-bold">
+        i
+      </span>
+    </Tooltip>
+
+    <Tooltip content="Warning" position="top">
+      <span class="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+        ⚠
+      </span>
+    </Tooltip>
+
+    <Tooltip content="Error" position="top">
+      <span class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+        ✕
+      </span>
+    </Tooltip>
+
+    <Tooltip content="Success" position="top">
+      <span class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+        ✓
+      </span>
+    </Tooltip>
+  </div>
+</template>
+```
+
+```vue [Directive API]
+<template>
+  <div class="flex gap-4 items-center">
+    <span v-tooltip.top="'Information'" class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm cursor-help font-bold">
+      i
+    </span>
+
+    <span v-tooltip.top="'Warning'" class="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+      ⚠
+    </span>
+
+    <span v-tooltip.top="'Error'" class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+      ✕
+    </span>
+
+    <span v-tooltip.top="'Success'" class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm cursor-help">
+      ✓
+    </span>
+  </div>
+</template>
+```
+:::
+
+## Disabled Tooltips
+
+### Disabling Tooltips Conditionally
+
+::: raw
 <script setup>
-import { setTooltipGlobalTheme } from '@borstihd/vue-custom-tooltip'
 import { ref } from 'vue'
 
-const themes = ['default', 'classic', 'primevue', 'vuetify']
-const currentTheme = ref('default')
+const isDisabled = ref(false)
+</script>
 
-function switchTheme(theme) {
-  currentTheme.value = theme
-  setTooltipGlobalTheme(theme)
-}
+<Card>
+  <div class="space-y-4">
+    <div class="flex gap-4 items-center">
+      <Tooltip
+        content="This can be toggled"
+        :disabled="isDisabled"
+      >
+        <Button label="Conditional" />
+      </Tooltip>
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input v-model="isDisabled" type="checkbox" />
+        <span class="text-sm">Disable tooltip</span>
+      </label>
+    </div>
+    <Tooltip
+      content="Permanently disabled"
+      disabled
+    >
+      <Button label="Always Disabled" />
+    </Tooltip>
+  </div>
+</Card>
+:::
+
+::: details Show code
+::: code-group
+```vue [Component API]
+<script setup>
+import { ref } from 'vue'
+
+const isDisabled = ref(false)
 </script>
 
 <template>
   <div class="space-y-4">
-    <div class="flex space-x-2">
-      <button
-        v-for="theme in themes"
-        :key="theme"
-        :class="{ active: currentTheme === theme }"
-        @click="switchTheme(theme)"
+    <div class="flex gap-4 items-center">
+      <Tooltip
+        content="This can be toggled"
+        :disabled="isDisabled"
       >
-        {{ theme }}
-      </button>
+        <Button label="Conditional" />
+      </Tooltip>
+
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input v-model="isDisabled" type="checkbox" />
+        <span class="text-sm">Disable tooltip</span>
+      </label>
     </div>
 
-    <Tooltip content="Theme example">
-      <button>Hover to test theme</button>
+    <Tooltip
+      content="Permanently disabled"
+      disabled
+    >
+      <Button label="Always Disabled" />
     </Tooltip>
   </div>
 </template>
 ```
 
-### Custom Themed Tooltips
-
-```vue
-<template>
-  <!-- Success tooltip -->
-  <Tooltip
-    content="Operation successful!"
-    class="tooltip-success"
-  >
-    <button>Success</button>
-  </Tooltip>
-
-  <!-- Warning tooltip -->
-  <Tooltip
-    content="Please review changes"
-    class="tooltip-warning"
-  >
-    <button>Warning</button>
-  </Tooltip>
-
-  <!-- Error tooltip -->
-  <Tooltip
-    content="Action failed"
-    class="tooltip-error"
-  >
-    <button>Error</button>
-  </Tooltip>
-</template>
-
-<style>
-.tooltip-success {
-  --vct-background: #10b981;
-  --vct-text-color: white;
-}
-
-.tooltip-warning {
-  --vct-background: #f59e0b;
-  --vct-text-color: white;
-}
-
-.tooltip-error {
-  --vct-background: #ef4444;
-  --vct-text-color: white;
-}
-</style>
-```
-
-## Advanced Examples
-
-### Delayed Content
-
-```vue
+```vue [Directive API]
 <script setup>
 import { ref } from 'vue'
 
-const loading = ref(false)
-const data = ref(null)
-
-async function fetchData() {
-  loading.value = true
-  try {
-    const response = await fetch('api/data')
-    data.value = await response.json()
-  }
-  finally {
-    loading.value = false
-  }
-}
+const isDisabled = ref(false)
 </script>
 
 <template>
-  <Tooltip>
-    <button @mouseenter="fetchData">
-      Hover for data
-    </button>
+  <div class="space-y-4">
+    <div class="flex gap-4 items-center">
+      <button
+        v-tooltip="isDisabled ? '' : 'Hover me'"
+        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Dynamic
+      </button>
 
-    <template #content>
-      <div class="p-4">
-        <div v-if="loading">
-          Loading...
-        </div>
-        <div v-else-if="data">
-          {{ data }}
-        </div>
-        <div v-else>
-          Hover to load data
-        </div>
-      </div>
-    </template>
-  </Tooltip>
-</template>
-```
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input v-model="isDisabled" type="checkbox" />
+        <span class="text-sm">Disable tooltip</span>
+      </label>
+    </div>
 
-### Position Aware
-
-```vue
-<script setup>
-import { computed, ref } from 'vue'
-
-const position = ref({ x: 0, y: 0 })
-const tooltipPosition = computed(() => {
-  const { x } = position.value
-  return x > window.innerWidth / 2 ? 'left' : 'right'
-})
-
-function updatePosition(event) {
-  position.value = {
-    x: event.clientX,
-    y: event.clientY
-  }
-}
-</script>
-
-<template>
-  <div
-    class="relative h-96"
-    @mousemove="updatePosition"
-  >
-    <Tooltip
-      content="Dynamic position"
-      :position="tooltipPosition"
-    >
-      <div
-        class="absolute w-4 h-4 bg-blue-500"
-        :style="{
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-        }"
-      />
-    </Tooltip>
+    <Button v-tooltip.disabled="'Will not show'" label="Always Disabled" />
   </div>
 </template>
 ```
+:::
+
+## Combining Modifiers
+
+### Complex Configuration
+
+<Card>
+  <div class="flex gap-4 flex-wrap">
+    <Button
+      v-tooltip.top.fast="'Top + Fast'"
+      label="Top + Fast"
+    />
+    <Button
+      v-tooltip.right.slow="'Right + Slow'"
+      label="Right + Slow"
+    />
+    <Button
+      v-tooltip.left.click.dark="'Left + Click + Dark'"
+      label="Left + Click + Dark"
+    />
+    <Button
+      v-tooltip.bottom.focus.light="'Bottom + Focus + Light'"
+      label="Bottom + Focus + Light"
+    />
+    <Button
+      v-tooltip.top.hover.fast="'Top + Hover + Fast'"
+      label="Top + Hover + Fast"
+    />
+  </div>
+</Card>
+
+::: details Show code
+::: code-group
+```vue [Directive API]
+<template>
+  <div class="flex gap-4 flex-wrap">
+    <Button
+      v-tooltip.top.fast="'Top + Fast'"
+      label="Top + Fast"
+    />
+
+    <Button
+      v-tooltip.right.slow="'Right + Slow'"
+      label="Right + Slow"
+    />
+
+    <Button
+      v-tooltip.left.click.dark="'Left + Click + Dark'"
+      label="Left + Click + Dark"
+    />
+
+    <Button
+      v-tooltip.bottom.focus.light="'Bottom + Focus + Light'"
+      label="Bottom + Focus + Light"
+    />
+
+    <Button
+      v-tooltip.top.hover.fast="'Top + Hover + Fast'"
+      label="Top + Hover + Fast"
+    />
+  </div>
+</template>
+```
+:::
+
+## More Examples
+
+Explore more advanced examples in the dedicated sections:
+
+- **[Form Examples](./forms.md)** - Input helpers, validation, and form-related tooltips
+- **[Interactive Examples](./interactive.md)** - Click triggers, dynamic content, and coordinated tooltips
+- **[Positioning Examples](./positioning.md)** - Advanced positioning strategies
+- **[Accessibility Examples](./accessibility.md)** - Best practices and accessible patterns

@@ -100,6 +100,9 @@ export default defineConfig({
           items: [
             { text: 'Basic Usage', link: '/examples/' },
             // { text: 'Form Integration', link: '/examples/forms' },
+            // { text: 'Accessibility', link: '/examples/accessibility' },
+            // { text: 'Interactive', link: '/examples/interactive' },
+            // { text: 'Positioning', link: '/examples/positioning' },
             // { text: 'Navigation', link: '/examples/navigation' },
             // { text: 'Theme Examples', link: '/examples/themes' },
           ],
