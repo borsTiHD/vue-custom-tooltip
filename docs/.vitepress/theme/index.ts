@@ -2,10 +2,13 @@
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
-import TooltipExample from '../../../src/components/showcase/TooltipExample.vue'
-import { VueCustomTooltip } from '../../../src/index'
-// import Button from '@/components/Button.vue'
-import Button from './components/Button.vue'
+import Button from '@/components/Button.vue'
+import Card from '@/components/Card.vue'
+import PresetSwitcher from '@/components/PresetSwitcher.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
+import { VueCustomTooltip } from '@/index' // '../../../src/index'
+// import Button from './components/Button.vue'
+// import ThemeToggle from './components/ThemeToggle.vue'
 import './style.css'
 
 export default {
@@ -18,7 +21,9 @@ export default {
   // eslint-disable-next-line unused-imports/no-unused-vars
   enhanceApp({ app, router, siteData }) {
     app.use(VueCustomTooltip)
+    app.component('Card', Card)
     app.component('Button', Button)
-    app.component('TooltipExample', TooltipExample)
+    app.component('ThemeToggle', ThemeToggle)
+    app.component('PresetSwitcher', PresetSwitcher)
   },
 } satisfies Theme
