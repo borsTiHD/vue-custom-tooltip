@@ -10,26 +10,6 @@ const unreadCount = ref(3)
 
 Examples demonstrating accessibility best practices and patterns for using Vue Custom Tooltip.
 
-## Customize Display
-
-Personalize how the examples appear by adjusting the theme and color scheme to match your preferences.
-
-<div class="my-6 p-6 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 rounded-lg border border-blue-200 dark:border-gray-600 space-y-4">
-  <div class="flex gap-4 items-center flex-wrap">
-    <ThemeToggle mode="vitepress" />
-    <PresetSwitcher />
-  </div>
-</div>
-
-<Card>
-  <div class="flex gap-4 flex-wrap">
-    <Button v-tooltip.top="'Top Tooltip'" label="Top Tooltip" class="p-4! bg-blue-500! dark:bg-indigo-500! hover:bg-blue-400! dark:hover:bg-indigo-400! focus:ring-blue-300! flex-1" />
-    <Button v-tooltip.bottom="'Bottom Tooltip'" label="Bottom Tooltip" class="flex-1" />
-    <Button v-tooltip.left="'Left Tooltip'" label="Left Tooltip" class="flex-1" />
-    <Button v-tooltip.right="'Right Tooltip'" label="Right Tooltip" class="flex-1" />
-  </div>
-</Card>
-
 ## Keyboard Navigation
 
 ### Focus-Based Tooltips
