@@ -1,14 +1,15 @@
 // https://vitepress.dev/guide/custom-theme
 import type { Theme } from 'vitepress'
+
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
-import Button from '@/components/Button.vue'
-import Card from '@/components/Card.vue'
-import PresetSwitcher from '@/components/PresetSwitcher.vue'
-import ThemeToggle from '@/components/ThemeToggle.vue'
-import { VueCustomTooltip } from '@/index' // '../../../src/index'
-// import Button from './components/Button.vue'
-// import ThemeToggle from './components/ThemeToggle.vue'
+
+import Button from '../../../src/components/Button.vue' // '@/components/Button.vue'
+import Card from '../../../src/components/Card.vue' // '@/components/Card.vue'
+import PresetSwitcher from '../../../src/components/PresetSwitcher.vue' // '@/components/PresetSwitcher.vue'
+import ThemeToggle from '../../../src/components/ThemeToggle.vue' // '@/components/ThemeToggle.vue'
+import { VueCustomTooltip } from '../../../src/index' // '@/index'
+
 import './style.css'
 
 export default {
