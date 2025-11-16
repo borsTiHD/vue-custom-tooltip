@@ -1,33 +1,7 @@
 <script setup>
-import { computed, ref, useTemplateRef } from 'vue'
-import { TooltipControl } from '@/index'
+import { computed, ref } from 'vue'
 
 const isDisabled = ref(false)
-
-// Example for "Position Aware"
-const position = ref({ x: 0, y: 0 })
-const boxWidth = ref(0)
-
-const tooltipPosition = computed(() => {
-  const centerX = boxWidth.value / 2
-  const { x } = position.value
-  return x > centerX ? 'top' : 'bottom'
-})
-
-const tooltipContent = computed(() => {
-  const direction = tooltipPosition.value === 'top' ? 'Right half' : 'Left half'
-  return `${direction} - Pointing ${tooltipPosition.value}`
-})
-
-function updatePosition(event) {
-  const rect = event.currentTarget.getBoundingClientRect()
-  boxWidth.value = rect.width
-  position.value = {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top
-  }
-  TooltipControl.show('controlled-tooltip')
-}
 </script>
 
 # Examples Gallery
@@ -792,81 +766,6 @@ const isDisabled = ref(false)
       v-tooltip.top.hover.fast="'Top + Hover + Fast'"
       label="Top + Hover + Fast"
     />
-  </div>
-</template>
-```
-:::
-
-## Position Aware
-
-<div class="bg-linear-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 rounded-lg border border-gray-300 dark:border-gray-600">
-  <div
-    class="relative h-96"
-    @mousemove="updatePosition"
-  >
-    <div
-      v-tooltip="{ position: tooltipPosition, content: tooltipContent, id: 'controlled-tooltip' }"
-      class="absolute w-4 h-4 bg-blue-500 rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 shadow-lg"
-      :style="{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-      }"
-    />
-    <p class="absolute bottom-4 left-4 text-xs text-gray-600 dark:text-gray-400">
-      Move your mouse inside the box
-    </p>
-  </div>
-</div>
-
-::: details Show code
-::: code-group
-```vue [Directive API]
-<script setup>
-import { computed, ref, useTemplateRef } from 'vue'
-import { TooltipControl } from '@/index'
-
-const position = ref({ x: 0, y: 0 })
-const boxWidth = ref(0)
-
-const tooltipPosition = computed(() => {
-  const centerX = boxWidth.value / 2
-  const { x } = position.value
-  return x > centerX ? 'top' : 'bottom'
-})
-
-const tooltipContent = computed(() => {
-  const direction = tooltipPosition.value === 'top' ? 'Right half' : 'Left half'
-  return `${direction} - Pointing ${tooltipPosition.value}`
-})
-
-function updatePosition(event) {
-  TooltipControl.hide('controlled-tooltip')
-  const rect = event.currentTarget.getBoundingClientRect()
-  boxWidth.value = rect.width
-  position.value = {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top
-  }
-  TooltipControl.show('controlled-tooltip')
-}
-</script>
-
-<template>
-  <div
-    class="relative h-96"
-    @mousemove="updatePosition"
-  >
-    <div
-      v-tooltip="{ position: tooltipPosition, content: tooltipContent, id: 'controlled-tooltip' }"
-      class="absolute w-4 h-4 bg-blue-500 rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 shadow-lg"
-      :style="{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-      }"
-    />
-    <p class="absolute bottom-4 left-4 text-xs text-gray-600 dark:text-gray-400">
-      Move your mouse inside the box
-    </p>
   </div>
 </template>
 ```
