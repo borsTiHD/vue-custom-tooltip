@@ -103,7 +103,7 @@ tooltipRef.value?.hide()</code></pre>
           Hide
         </button>
       </div>
-      <pre class="bg-gray-100 dark:bg-gray-700 dark:text-white p-4 rounded text-sm"><code>import { TooltipControl } from 'vue-custom-tooltip'
+      <pre class="bg-gray-100 dark:bg-gray-700 dark:text-white p-4 rounded text-sm"><code>import { TooltipControl } from '@borstihd/vue-custom-tooltip'
 TooltipControl.show('controlled-tooltip')
 TooltipControl.hide('controlled-tooltip')</code></pre>
     </section>

@@ -338,7 +338,7 @@ function toggleTooltip() {
 
 ```vue [Directive API]
 <script setup>
-import { TooltipControl } from 'vue-custom-tooltip'
+import { TooltipControl } from '@borstihd/vue-custom-tooltip'
 
 function showTooltip() {
   TooltipControl.show('demo-tooltip')

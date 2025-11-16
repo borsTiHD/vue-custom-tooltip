@@ -48,8 +48,8 @@ Styles inspired by Vuetify's Material Design implementation, featuring:
 Themes are automatically injected when you configure the plugin:
 
 ```typescript
+import { VueCustomTooltip } from '@borstihd/vue-custom-tooltip'
 import { createApp } from 'vue'
-import { VueCustomTooltip } from 'vue-custom-tooltip'
 
 const app = createApp(App)
 
