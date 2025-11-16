@@ -723,6 +723,6 @@ Here are key accessibility principles for using tooltips:
 ## More Examples
 
 - [Back to Examples](./index.md)
-- [Form Examples](./form-examples.md)
-- [Interactive Examples](./interactive-examples.md)
-- [Positioning Examples](./positioning-examples.md)
+- [Form Examples](./forms.md)
+- [Interactive Examples](./interactive.md)
+- [Positioning Examples](./positioning.md)
