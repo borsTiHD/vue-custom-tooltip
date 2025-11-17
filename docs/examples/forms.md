@@ -675,7 +675,8 @@ const confirmClass = computed(() => {
           class="w-full! border! border-gray-300! dark:border-gray-600! rounded! px-3! py-2! bg-white! dark:bg-gray-700! text-gray-900! dark:text-white!"
         >
           <option>Select country</option>
-          <option>United States</option>
+          <option>Germany</option>
+          <option>Japan</option>
           <option>United Kingdom</option>
           <option>Canada</option>
           <option>Other</option>
