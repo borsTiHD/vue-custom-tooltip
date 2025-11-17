@@ -78,7 +78,7 @@ function toggleProgrammaticTooltip() {
         <Button label="Toggle" size="small" @click="toggleProgrammaticTooltip" />
       </div>
       <div class="text-xs text-gray-500 dark:text-gray-500 space-y-1">
-        <p>Import: <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">import { TooltipControl } from 'vue-custom-tooltip'</code></p>
+        <p>Import: <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">import { TooltipControl } from '@borstihd/vue-custom-tooltip'</code></p>
         <p>Usage: <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">TooltipControl.show('id')</code></p>
       </div>
     </div>

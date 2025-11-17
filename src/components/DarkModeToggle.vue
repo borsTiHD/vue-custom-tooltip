@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { ref, watch, watchEffect } from 'vue'
 
-export type Appearance = 'system' | 'light' | 'dark'
+export type Appearance = 'auto' | 'light' | 'dark'
 
-const STORAGE_KEY = 'theme-preference'
+interface Props {
+  mode?: 'custom' | 'vitepress'
+}
 
-const currentTheme = ref<Appearance>('system')
+const props = defineProps<Props>()
+
+const STORAGE_KEY = props.mode === 'vitepress' ? 'vitepress-theme-appearance' : 'theme-preference'
+
+const currentTheme = ref<Appearance>('auto')
 
 function setAppearance(appearance: Appearance) {
-  if (appearance === 'system') {
+  if (appearance === 'auto') {
     const dark = window.matchMedia('(prefers-color-scheme: dark)').matches
     applyTheme(dark ? 'dark' : 'light')
   }
@@ -29,7 +35,7 @@ function applyTheme(theme: 'light' | 'dark') {
 }
 
 function toggleTheme() {
-  const themes: Appearance[] = ['light', 'dark', 'system']
+  const themes: Appearance[] = ['light', 'dark', 'auto']
   const currentIndex = themes.indexOf(currentTheme.value)
   const nextIndex = (currentIndex + 1) % themes.length
   currentTheme.value = themes[nextIndex]!
@@ -37,7 +43,7 @@ function toggleTheme() {
 
 function initTheme() {
   const savedTheme = localStorage.getItem(STORAGE_KEY) as Appearance | null
-  currentTheme.value = savedTheme || 'system'
+  currentTheme.value = savedTheme || 'auto'
   setAppearance(currentTheme.value)
 }
 
@@ -47,14 +53,14 @@ watch(currentTheme, (newTheme) => {
   setAppearance(newTheme)
 })
 
-// Listen for system theme changes
+// Listen for auto theme changes
 watchEffect((onCleanup) => {
   initTheme()
 
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
   const handleChange = () => {
-    if (currentTheme.value === 'system') {
-      setAppearance('system')
+    if (currentTheme.value === 'auto') {
+      setAppearance('auto')
     }
   }
 
@@ -68,9 +74,10 @@ watchEffect((onCleanup) => {
 
 <template>
   <button
+    v-tooltip.top="`Switch to ${currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'auto' : 'light'} mode`"
     type="button"
-    class="flex gap-2 px-4 h-10 items-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-    :aria-label="`Switch to ${currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'system' : 'light'} mode`"
+    class="flex! gap-2! px-4! h-10! items-center! rounded-md! border! border-gray-300! dark:border-gray-700! bg-white! dark:bg-gray-800! text-gray-700! dark:text-gray-200! text-sm! focus:outline-none! focus:ring-2! focus:ring-blue-500!"
+    :aria-label="`Switch to ${currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'auto' : 'light'} mode`"
     :title="`Current: ${currentTheme} mode`"
     @click="toggleTheme"
   >
@@ -114,7 +121,7 @@ watchEffect((onCleanup) => {
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
     </svg>
 
-    <!-- System Mode Icon -->
+    <!-- Auto Mode Icon -->
     <svg
       v-else
       xmlns="http://www.w3.org/2000/svg"

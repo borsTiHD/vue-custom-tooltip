@@ -19,7 +19,7 @@ Apply a theme to all tooltips in your application:
 
 ```typescript
 import { createApp } from 'vue'
-import { VueCustomTooltip } from 'vue-custom-tooltip'
+import { VueCustomTooltip } from '@borstihd/vue-custom-tooltip'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -66,7 +66,7 @@ app.use(VueCustomTooltip, { theme: 'default' })
 You can also change the theme programmatically:
 
 ```typescript
-import { getTooltipGlobalTheme, setTooltipGlobalTheme } from 'vue-custom-tooltip'
+import { getTooltipGlobalTheme, setTooltipGlobalTheme } from '@borstihd/vue-custom-tooltip'
 
 // Change theme at runtime
 setTooltipGlobalTheme('vuetify')

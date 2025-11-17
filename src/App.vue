@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Button from '@/components/Button.vue'
+import DarkModeToggle from '@/components/DarkModeToggle.vue'
 import PresetSwitcher from '@/components/PresetSwitcher.vue'
 import DirectiveBenchmark from '@/components/showcase/DirectiveBenchmark.vue'
 import DirectiveExample from '@/components/showcase/DirectiveExample.vue'
 import ProgrammaticControl from '@/components/showcase/ProgrammaticControl.vue'
 import TooltipExample from '@/components/showcase/TooltipExample.vue'
-import ThemeToggle from '@/components/ThemeToggle.vue'
 import packageJson from '../package.json'
 
 type Tabs = 'component' | 'directive' | 'directive-benchmark' | 'programmatic-control'
@@ -43,7 +43,7 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
             </span>
 
             <PresetSwitcher />
-            <ThemeToggle />
+            <DarkModeToggle />
           </div>
         </div>
       </div>

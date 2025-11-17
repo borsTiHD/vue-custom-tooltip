@@ -38,7 +38,7 @@ export default defineConfig({
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'API', link: '/api/component' },
       { text: 'Themes', link: '/themes/overview' },
-      // { text: 'Examples', link: '/examples/' },
+      { text: 'Examples', link: '/examples/' },
       {
         text: `v${pkg.version}`,
         items: [
@@ -94,17 +94,18 @@ export default defineConfig({
           ],
         },
       ],
-      // '/examples/': [
-      //   {
-      //     text: 'Examples',
-      //     items: [
-      //       { text: 'Basic Usage', link: '/examples/' },
-      //       { text: 'Form Integration', link: '/examples/forms' },
-      //       { text: 'Navigation', link: '/examples/navigation' },
-      //       { text: 'Theme Examples', link: '/examples/themes' },
-      //     ],
-      //   },
-      // ],
+      '/examples/': [
+        {
+          text: 'Examples',
+          items: [
+            { text: 'Basic Usage', link: '/examples/' },
+            { text: 'Form Integration', link: '/examples/forms' },
+            { text: 'Accessibility', link: '/examples/accessibility' },
+            { text: 'Interactive', link: '/examples/interactive' },
+            { text: 'Positioning', link: '/examples/positioning' },
+          ],
+        },
+      ],
     },
 
     socialLinks: [
