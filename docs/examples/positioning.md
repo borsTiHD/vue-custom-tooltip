@@ -198,7 +198,7 @@ Examples demonstrating different positioning strategies and responsive tooltip p
 
 ### Position Aware Based on Viewport
 
-This is controlled programmatically.
+The tooltip position is controlled programmatically based on the cursor location in this example. The "auto" position mode (default) works similarly, automatically placing the tooltip where there's the most available space to the edge of the viewport.
 
 <div class="bg-linear-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 rounded-lg border border-gray-300 dark:border-gray-600">
   <div
