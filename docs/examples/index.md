@@ -28,6 +28,202 @@ Personalize how the examples appear by adjusting the theme and color scheme to m
   </div>
 </Card>
 
+::: details Show code
+::: code-group
+```vue [Dark/Light Mode]
+<script setup lang="ts">
+import { ref, watch, watchEffect } from 'vue'
+
+export type Appearance = 'auto' | 'light' | 'dark'
+
+interface Props {
+  mode?: 'custom' | 'vitepress'
+}
+
+const props = defineProps<Props>()
+
+const STORAGE_KEY = props.mode === 'vitepress' ? 'vitepress-theme-appearance' : 'theme-preference'
+
+const currentTheme = ref<Appearance>('auto')
+
+function setAppearance(appearance: Appearance) {
+  if (appearance === 'auto') {
+    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    applyTheme(dark ? 'dark' : 'light')
+  }
+  else {
+    applyTheme(appearance)
+  }
+}
+
+function applyTheme(theme: 'light' | 'dark') {
+  if (theme === 'dark') {
+    document.documentElement.classList.remove('light')
+    document.documentElement.classList.add('dark')
+  }
+  else {
+    document.documentElement.classList.remove('dark')
+    document.documentElement.classList.add('light')
+  }
+}
+
+function toggleTheme() {
+  const themes: Appearance[] = ['light', 'dark', 'auto']
+  const currentIndex = themes.indexOf(currentTheme.value)
+  const nextIndex = (currentIndex + 1) % themes.length
+  currentTheme.value = themes[nextIndex]!
+}
+
+function initTheme() {
+  const savedTheme = localStorage.getItem(STORAGE_KEY) as Appearance | null
+  currentTheme.value = savedTheme || 'auto'
+  setAppearance(currentTheme.value)
+}
+
+// Watch for theme changes and persist to localStorage
+watch(currentTheme, (newTheme) => {
+  localStorage.setItem(STORAGE_KEY, newTheme)
+  setAppearance(newTheme)
+})
+
+// Listen for auto theme changes
+watchEffect((onCleanup) => {
+  initTheme()
+
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  const handleChange = () => {
+    if (currentTheme.value === 'auto') {
+      setAppearance('auto')
+    }
+  }
+
+  mediaQuery.addEventListener('change', handleChange)
+
+  onCleanup(() => {
+    mediaQuery.removeEventListener('change', handleChange)
+  })
+})
+</script>
+
+<template>
+  <button
+    v-tooltip.top="`Switch to ${currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'auto' : 'light'} mode`"
+    type="button"
+    class="flex gap-2 px-4 h-10 items-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    :aria-label="`Switch to ${currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'auto' : 'light'} mode`"
+    :title="`Current: ${currentTheme} mode`"
+    @click="toggleTheme"
+  >
+    <!-- Light Mode Icon -->
+    <svg
+      v-if="currentTheme === 'light'"
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+
+    <!-- Dark Mode Icon -->
+    <svg
+      v-else-if="currentTheme === 'dark'"
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+
+    <!-- Auto Mode Icon -->
+    <svg
+      v-else
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+      <line x1="8" y1="21" x2="16" y2="21" />
+      <line x1="12" y1="17" x2="12" y2="21" />
+    </svg>
+
+    <span class="capitalize">{{ currentTheme }}</span>
+  </button>
+</template>
+```
+
+```vue [Theme Switcher]
+<script setup lang="ts">
+import type { TooltipTheme } from '@borstihd/vue-custom-tooltip'
+import { ref } from 'vue'
+import { getTooltipGlobalTheme, setTooltipGlobalTheme } from '@borstihd/vue-custom-tooltip'
+
+const themeOptions = [
+  { label: 'Default', value: 'default' },
+  { label: 'Classic', value: 'classic' },
+  { label: 'PrimeVue', value: 'primevue' },
+  { label: 'Vuetify', value: 'vuetify' },
+]
+
+const currentTheme = ref<TooltipTheme>(getTooltipGlobalTheme() || 'default')
+
+async function handleThemeChange(e: Event) {
+  const value = (e.target as HTMLSelectElement).value as TooltipTheme
+  setTooltipGlobalTheme(value)
+}
+</script>
+
+<template>
+  <div class="relative inline-block">
+    <label for="theme-switcher" class="sr-only">Tooltip Theme</label>
+    <select
+      id="theme-switcher"
+      v-model="currentTheme"
+      v-tooltip.top="'Switch the tooltip theme'"
+      class="appearance-none flex gap-2 px-2 h-10 items-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-8"
+      aria-label="Switch the tooltip theme"
+      :title="`Current: ${currentTheme} theme`"
+      @change="handleThemeChange"
+    >
+      <option v-for="opt in themeOptions" :key="opt.value" :value="opt.value">
+        {{ opt.label }}
+      </option>
+    </select>
+    <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+      <svg width="18" height="18" fill="none" viewBox="0 0 20 20">
+        <path d="M6 8l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </span>
+  </div>
+</template>
+```
+:::
+
 ## Basic Examples
 
 ### Simple Text Tooltips
