@@ -384,6 +384,18 @@ function updatePosition(event) {
         <Button label="Wide" />
       </Tooltip>
     </div>
+    <div>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+        Full size tooltip (100%)
+      </p>
+      <Tooltip
+        content="This tooltip takes up the full available width, allowing for very long text without any wrapping constraints"
+        position="top"
+        max-width="100%"
+      >
+        <Button label="Full Width" />
+      </Tooltip>
+    </div>
   </div>
 </Card>
 
@@ -428,6 +440,19 @@ function updatePosition(event) {
         max-width="400px"
       >
         <Button label="Wide" />
+      </Tooltip>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+        Full size tooltip (100%)
+      </p>
+      <Tooltip
+        content="This tooltip takes up the full available width, allowing for very long text without any wrapping constraints"
+        position="top"
+        max-width="100%"
+      >
+        <Button label="Full Width" />
       </Tooltip>
     </div>
   </div>
