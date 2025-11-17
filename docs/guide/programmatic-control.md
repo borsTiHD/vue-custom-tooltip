@@ -80,7 +80,11 @@ Control directive tooltips by assigning an ID and using the `TooltipControl` API
 
 ```vue
 <script setup lang="ts">
+<<<<<<< HEAD
 import { TooltipControl } from '@borstihd/vue-custom-tooltip'
+=======
+import { TooltipControl } from 'vue-custom-tooltip'
+>>>>>>> main
 
 function showTooltip() {
   TooltipControl.show('my-tooltip')
@@ -163,7 +167,11 @@ When the tooltip visibility changes (through user interaction or programmatic co
 ```vue
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+<<<<<<< HEAD
 import type { TooltipExposed } from '@borstihd/vue-custom-tooltip'
+=======
+import type { TooltipExposed } from 'vue-custom-tooltip'
+>>>>>>> main
 
 const tooltipRef = ref<TooltipExposed | null>(null)
 
@@ -212,7 +220,11 @@ function validateForm() {
 
 ```vue
 <script setup lang="ts">
+<<<<<<< HEAD
 import { TooltipControl } from '@borstihd/vue-custom-tooltip'
+=======
+import { TooltipControl } from 'vue-custom-tooltip'
+>>>>>>> main
 
 function showAllTooltips() {
   TooltipControl.show('tooltip-1')
