@@ -14,7 +14,7 @@ Personalize how the examples appear by adjusting the theme and color scheme to m
 
 <div class="my-6 p-6 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 rounded-lg border border-blue-200 dark:border-gray-600 space-y-4">
   <div class="flex gap-4 items-center flex-wrap">
-    <ThemeToggle mode="vitepress" />
+    <DarkModeToggle mode="vitepress" />
     <PresetSwitcher />
   </div>
 </div>
