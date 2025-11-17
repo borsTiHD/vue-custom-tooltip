@@ -198,6 +198,8 @@ Examples demonstrating different positioning strategies and responsive tooltip p
 
 ### Position Aware Based on Viewport
 
+This is controlled programmatically.
+
 <div class="bg-linear-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 rounded-lg border border-gray-300 dark:border-gray-600">
   <div
     class="relative h-96"
