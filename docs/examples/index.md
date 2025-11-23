@@ -231,7 +231,7 @@ async function handleThemeChange(e: Event) {
 <Card>
   <div class="flex gap-4">
     <Button v-tooltip="'Basic tooltip'" label="Hover me" />
-    <Button v-tooltip="'Long tooltip text'" label="Long text" />
+    <Button v-tooltip="'This tooltip has a longer message to demonstrate text wrapping in tooltips'" label="Long text" />
   </div>
 </Card>
 
@@ -255,7 +255,7 @@ async function handleThemeChange(e: Event) {
 <template>
   <div class="flex gap-4">
     <Button v-tooltip="'Basic tooltip'" label="Hover me" />
-    <Button v-tooltip="'Long tooltip text'" label="Long text" />
+    <Button v-tooltip="'This tooltip has a longer message to demonstrate text wrapping in tooltips'" label="Long text" />
   </div>
 </template>
 ```
