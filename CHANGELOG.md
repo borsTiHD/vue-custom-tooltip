@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Theme CSS Variables**: Centralized all theme CSS custom properties in `:root` blocks for easier customization
+  - Added `:root` variable definitions to `primevue.css`, `classic.css`, and `vuetify.css`
+- **PrimeVue Theme Integration**: Updated PrimeVue theme to use official PrimeVue design tokens with fallback defaults
+  - `--vct-primevue-background` now inherits from `--p-tooltip-background`
+  - `--vct-primevue-text-color` now inherits from `--p-tooltip-color`
+  - `--vct-primevue-border-radius` now inherits from `--p-tooltip-border-radius`
+  - `--vct-primevue-padding` now inherits from `--p-tooltip-padding`
+  - `--vct-primevue-shadow` now inherits from `--p-tooltip-shadow`
+  - `--vct-primevue-max-width` now inherits from `--p-tooltip-max-width`
+  - `--vct-primevue-font-family` now inherits from `--p-font-family`
+
 ## [1.6.0] - 2025-11-14
 
 ### Added
