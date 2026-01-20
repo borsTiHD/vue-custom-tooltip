@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **PrimeVue Theme**: Removed `max-width` from theme to prevent config conflicts where the component's `maxWidth` prop was silently ignored
+
 ## [1.7.0] - 2026-01-05
 
 ### Changed
+
 - **Theme CSS Variables**: Centralized all theme CSS custom properties in `:root` blocks for easier customization
   - Added `:root` variable definitions to `primevue.css`, `classic.css`, and `vuetify.css`
 - **PrimeVue Theme Integration**: Updated PrimeVue theme to use official PrimeVue design tokens with fallback defaults
@@ -24,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.6.0] - 2025-11-14
 
 ### Added
+
 - **Programmatic Control**: Tooltips can now be controlled programmatically via three methods:
   - **Component Template Refs**: Access `show()`, `hide()`, `toggle()`, and `isVisible()` methods via template refs
   - **v-model Support**: Two-way binding for tooltip visibility state
@@ -38,34 +44,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] - 2025-10-30
 
 ### Added
+
 - **Custom Naming Support**: Added support for custom component and directive names in plugin options
 
 ## [1.4.0] - 2025-10-29
 
 ### Added
+
 - Introduced "classic" theme preset for tooltips
 
 ### Changed
+
 - Refactored "primevue" theme to more closely match the original PrimeVue tooltip appearance
 
 ## [1.3.0] - 2025-10-29
 
 ### Added
+
 - Theme presets: Tooltips can now be globally styled with the "default", "primevue", or "vuetify" presets. Switching themes at runtime is supported.
 
 ## [1.2.2] - 2025-10-27
 
 ### Fixed
+
 - Resolved an issue where tooltips could generate excessive warning messages in the browser console
 
 ## [1.2.1] - 2025-10-24
 
 ## Changed
+
 - **Workflow**: Refactored CI/CD pipeline into modular jobs for better maintainability
 
 ## [1.2.0] - 2025-10-24
 
 ### Changed
+
 - **Tooltip Directive Performance**: Significantly improved performance by implementing a shared Vue app instance for all directive tooltips
   - Reduced memory footprint by 90% - single Vue app instance now manages all directive tooltips instead of creating one per tooltip
   - Eliminated deep reactivity overhead using `shallowReactive` for tooltip state management
@@ -81,12 +94,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.8] - 2025-10-23
 
 ### Fixed
+
 - **Tooltip Directive Performance**: Improved directive implementation by storing a reference to the original element instead of cloning it
   - Fixes issue where event listeners (like `@click`) and other Vue bindings on the trigger element were not working correctly due to cloning losing the original element's reactive bindings
 
 ## [1.1.7] - 2025-10-20
 
 ### Fixed
+
 - **Arrow Positioning**: Fixed tooltip arrow alignment issue where arrows were offset incorrectly
   - Arrows in `top` and `bottom` positions were appearing too far to the right
   - Arrows in `left` and `right` positions were appearing too far down
@@ -94,12 +109,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.6] - 2025-10-17
 
 ### Fixed
+
 - **TypeScript Support for Global Registration**: Fixed missing TypeScript types for globally registered directive
   - Directive modifiers (`.top`, `.bottom`, `.click`, `.fast`, etc.) now validated by TypeScript
 
 ## [1.1.5] - 2025-10-17
 
 ### Fixed
+
 - **TypeScript Component Typing**: Fixed missing TypeScript types for globally registered `<Tooltip />` component
   - Added Vue component type augmentation to enable IDE autocomplete and type checking
   - Component props now properly recognized in templates with full IntelliSense support
@@ -109,11 +126,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.4] - 2025-10-17
 
 ### Fixed
+
 - **Tooltip Positioning**: Optimized positioning calculations and improved initial measurement accuracy for more reliable tooltip placement
 
 ## [1.1.2] - 2025-10-17
 
 ### Fixed
+
 - **Tooltip Transition Animation**: Fixed fade transition not working properly during tooltip show/hide
 - **Dark Mode Priority**: Fixed dark mode not applying correctly when using Tailwind's `.dark` class on either `html` or `body` element. The priority chain now works as intended: Tailwind `.dark`/`.light` class takes precedence over system `prefers-color-scheme`, ensuring consistent theme application regardless of where the class is applied
 - **Accessibility Enhancement**: Improved accessibility by implementing proper ARIA attributes and unique tooltip IDs
@@ -126,23 +145,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.1] - 2025-10-16
 
 ### Fixed
+
 - **Prop Detection**: Fixed an issue where props passed in `kebab-case` (e.g., `tooltip-class`) were not being detected correctly. The component now properly recognizes both `camelCase` and `kebab-case` prop formats, ensuring consistent behavior
 
 ## [1.1.0] - 2025-10-16
 
 ### Added
+
 - **Global Configuration System**: Comprehensive global configuration support with plugin options
   - New `setTooltipGlobalConfig()` function to set global defaults for all tooltips
   - Global config can be provided during plugin installation via `app.use(VueCustomTooltip, { globalConfig: {...} })`
   - Priority chain: Component props > Global config > Default values
 
 ### Fixed
+
 - **Default Value Handling**: Fixed issue where default values weren't applied correctly
   - Boolean props now correctly distinguish between explicit `false` and missing prop
   - Number props (like `offset`) now correctly handle explicit `0` value
   - String props properly handle empty string as valid value
 
 ### Documentation
+
 - Updated README with comprehensive global configuration examples
 - Added inline code documentation for all configuration functions
 - Documented priority chain behavior
@@ -150,6 +173,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.2] - 2025-10-16
 
 ### Fixed
+
 - **Critical CSS Scoping Issue**: Fixed global CSS pollution from dark mode styles that was overriding host application backgrounds
   - The `:global()` selector was incorrectly scoped, causing Vue to generate styles that targeted `html.dark` and `body.dark` globally
   - Changed `:global(html.dark) .tooltip-auto` to `:global(html.dark .tooltip-auto)` to properly scope styles to tooltip descendants only
@@ -159,12 +183,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.1] - 2025-10-15
 
 ### Fixed
+
 - **Dark Mode Selection**: Fixed dark mode detection and application after build process
   - Improved dark mode auto-detection reliability
 
 ## [1.0.0] - 2025-10-15
 
 ### Added
+
 - **Initial Release**: Vue Custom Tooltip component
 - **Core Features**:
   - Flexible tooltip component built with Vue 3 Composition API and TypeScript
@@ -177,14 +203,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Directive support (`v-tooltip`) for simple text tooltips
   - Full TypeScript support with comprehensive type definitions
   - Zero external dependencies (only requires Vue 3)
-  
 - **Accessibility Features**:
   - Full keyboard navigation support (Tab to focus, Escape to close)
   - Screen reader compatible with proper ARIA attributes
   - Focus management and keyboard event handling
   - High contrast mode support
   - Reduced motion support for users with motion sensitivity preferences
-  
 - **Customization Options**:
   - CSS custom properties (CSS variables) for easy theming
   - Configurable positioning: `auto`, `top`, `bottom`, `left`, `right`
@@ -192,7 +216,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Custom CSS classes via `tooltipClass` prop
   - Configurable max-width
   - Optional arrow display
-  
 - **Technical Features**:
   - Uses Vue Teleport to avoid z-index and overflow issues
   - Responsive design that automatically adjusts to viewport constraints
@@ -205,6 +228,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Types of Changes
 
 This changelog follows these categories:
+
 - **Added** - New features and functionality
 - **Changed** - Changes to existing functionality or behavior
 - **Deprecated** - Features that will be removed in future versions
