@@ -2,6 +2,7 @@
   "name": "@borstihd/vue-custom-tooltip",
   "type": "module",
   "version": "1.7.1",
+  "packageManager": "pnpm@11.9.0",
   "description": "A flexible and accessible Vue 3 tooltip component with directive support",
   "author": "borsTiHD",
   "license": "MIT",
