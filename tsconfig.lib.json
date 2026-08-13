@@ -15,7 +15,8 @@
     "src/directives/tooltip.ts",
     "src/config/**/*.ts",
     "src/composables/**/*.ts",
-    "src/types/**/*.ts"
+    "src/types/**/*.ts",
+    "src/utils/**/*.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts",
