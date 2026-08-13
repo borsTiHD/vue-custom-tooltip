@@ -7,8 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **SSR Support**: The package is now fully server-side rendering safe and can be used in Nuxt and other Vue SSR setups without `document is not defined` errors
+- **`isClient` Export**: New exported flag to detect a browser environment from consuming code
+- **Docs**: New "SSR & Nuxt" guide page
+- **Package Exports**: Added the shorter `@borstihd/vue-custom-tooltip/style.css` entry (the previous `/dist/style.css` path keeps working)
+
+### Fixed
+
+- **Theme Injection**: `injectThemeStyles()` and `setTooltipGlobalTheme()` no longer touch `document` during SSR; styles are injected once the client takes over
+- **Teleport**: The tooltip teleport is only rendered after mount, preventing SSR errors and hydration mismatches
+- **Hydration**: Tooltip ARIA IDs now use Vue's `useId()` instead of `Math.random()`, so server and client markup match
+- **Directive**: `v-tooltip` provides `getSSRProps` and guards its shared app initialization against non-browser environments
+- **Positioning**: `window` access in position calculation and show/hide timers is guarded for non-browser environments
+
 ### Changed
 
+- **Internal**: `injectThemeStyles()` moved into its own module to resolve a circular import between the entry point and the global config (still exported from the package root)
+- **Package**: Declared `sideEffects` so bundlers can tree-shake more aggressively while keeping CSS imports intact
 - **Dependencies**: Updated dev dependencies to their latest major versions (Vite 8, Vitest 4, ESLint 10, TypeScript 6, vite-plugin-dts 5) and migrated the affected build configs
 
 ## [1.7.1] - 2026-01-20
