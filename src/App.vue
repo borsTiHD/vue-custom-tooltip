@@ -5,11 +5,13 @@ import DarkModeToggle from '@/components/DarkModeToggle.vue'
 import PresetSwitcher from '@/components/PresetSwitcher.vue'
 import DirectiveBenchmark from '@/components/showcase/DirectiveBenchmark.vue'
 import DirectiveExample from '@/components/showcase/DirectiveExample.vue'
+import PositioningStrategy from '@/components/showcase/PositioningStrategy.vue'
 import ProgrammaticControl from '@/components/showcase/ProgrammaticControl.vue'
 import TooltipExample from '@/components/showcase/TooltipExample.vue'
+import StrategySwitcher from '@/components/StrategySwitcher.vue'
 import packageJson from '../package.json'
 
-type Tabs = 'component' | 'directive' | 'directive-benchmark' | 'programmatic-control'
+type Tabs = 'component' | 'directive' | 'directive-benchmark' | 'programmatic-control' | 'positioning'
 
 const activeTab = ref<Tabs>('component')
 
@@ -43,6 +45,7 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
             </span>
 
             <PresetSwitcher />
+            <StrategySwitcher />
             <DarkModeToggle />
           </div>
         </div>
@@ -97,6 +100,17 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
           >
             Programmatic Control
           </button>
+          <button
+            class="py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200"
+            :class="[
+              activeTab === 'positioning'
+                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600',
+            ]"
+            @click="switchTab('positioning')"
+          >
+            Positioning Strategy
+          </button>
         </div>
       </div>
     </nav>
@@ -125,6 +139,31 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
             </span>
             <span class="px-2 py-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded">
               Multiple triggers
+            </span>
+          </div>
+        </div>
+
+        <div v-else-if="activeTab === 'positioning'" class="space-y-3">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Positioning Strategy
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            Tooltips are positioned with native CSS anchor positioning by default and fall back to
+            JavaScript in browsers without support. Use the switch below to compare both strategies
+            side by side.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded">
+              CSS anchors
+            </span>
+            <span class="px-2 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded">
+              Automatic fallback
+            </span>
+            <span class="px-2 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium rounded">
+              Scroll tracking
+            </span>
+            <span class="px-2 py-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded">
+              Declarative flipping
             </span>
           </div>
         </div>
@@ -160,6 +199,7 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
         <DirectiveExample v-else-if="activeTab === 'directive'" />
         <DirectiveBenchmark v-else-if="activeTab === 'directive-benchmark'" />
         <ProgrammaticControl v-else-if="activeTab === 'programmatic-control'" />
+        <PositioningStrategy v-else-if="activeTab === 'positioning'" />
       </div>
     </main>
 
@@ -201,6 +241,11 @@ const githubRepo = packageJson.repository.url.replace('.git', '')
               label="Programmatic Control"
               :disabled="activeTab === 'programmatic-control'"
               @click="switchTab('programmatic-control')"
+            />
+            <Button
+              label="Positioning Strategy"
+              :disabled="activeTab === 'positioning'"
+              @click="switchTab('positioning')"
             />
           </div>
         </div>
