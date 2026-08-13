@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-08-13
+
 ### Added
 
 - **CSS Anchor Positioning**: Tooltips are now positioned with native CSS anchor positioning (`anchor-name` / `position-anchor` / `position-area`). Placement, flipping and scroll tracking are handled by the browser instead of JavaScript
@@ -274,7 +276,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.7.1...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.7.1...v2.0.0
 [1.7.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.5.0...v1.6.0
