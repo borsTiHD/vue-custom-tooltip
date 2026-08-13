@@ -1,4 +1,3 @@
-import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
@@ -10,11 +9,11 @@ export default defineConfig({
     vue(),
     dts({
       tsconfigPath: './tsconfig.lib.json',
-      outDir: 'dist',
-      rollupTypes: false,
+      outDirs: 'dist',
+      bundleTypes: false,
       insertTypesEntry: true,
       entryRoot: 'src',
-      include: ['src/**/*.ts', 'src/**/*.d.ts', 'src/**/*.vue'],
+      include: ['env.d.ts', 'src/**/*.ts', 'src/**/*.d.ts', 'src/**/*.vue'],
     }),
   ],
   resolve: {
@@ -24,7 +23,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
       name: 'VueCustomTooltip',
       fileName: format => `vue-custom-tooltip.${format}.js`,
     },
