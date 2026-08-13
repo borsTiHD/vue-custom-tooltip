@@ -34,6 +34,7 @@ app.use(VueCustomTooltip, {
   componentName: 'MyTooltip', // Custom component name
   directiveName: 'my-tooltip', // Custom directive name
   theme: 'default', // Choose theme
+  positioningStrategy: 'css', // 'css' (default) or 'js'
   globalConfig: {
     position: 'top',
     showDelay: 200

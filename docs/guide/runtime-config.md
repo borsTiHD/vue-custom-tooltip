@@ -49,6 +49,21 @@ import { resetTooltipGlobalConfig } from '@borstihd/vue-custom-tooltip'
 resetTooltipGlobalConfig()
 ```
 
+### Changing the Positioning Strategy
+
+`setTooltipGlobalConfig()` replaces the whole configuration. To switch only the
+[positioning strategy](/guide/positioning-strategy) and keep everything else, use the dedicated setter:
+
+```ts
+import { setTooltipGlobalPositioningStrategy } from '@borstihd/vue-custom-tooltip'
+
+// Opt out of CSS anchor positioning
+setTooltipGlobalPositioningStrategy('js')
+
+// Back to the default
+setTooltipGlobalPositioningStrategy('css')
+```
+
 ## Theme Management
 
 ### Getting Current Theme

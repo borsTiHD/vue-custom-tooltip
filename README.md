@@ -7,7 +7,7 @@ A flexible and accessible Vue 3 tooltip component and directive with TypeScript 
 - 🎯 **Component & Directive**: Use as a component or a directive (v-tooltip)
 - ♿ **Accessible**: Full keyboard navigation and screen reader support
 - 🎨 **Customizable**: Flexible positioning, styling, and content
-- 📱 **Smart Positioning**: Auto-detects best position based on available space
+- 📱 **Smart Positioning**: Native CSS anchor positioning with automatic JavaScript fallback
 - ⚡ **Lightweight**: Zero dependencies except Vue 3
 - 📦 **TypeScript**: Full TypeScript support with type definitions
 - 🎭 **Multiple Triggers**: Hover, focus, click, or combination
@@ -77,6 +77,7 @@ For comprehensive guides, examples, and API reference, visit the [full documenta
 - **[Getting Started](https://borstihd.github.io/vue-custom-tooltip/guide/getting-started)** - Installation and setup
 - **[Component Usage](https://borstihd.github.io/vue-custom-tooltip/guide/component-usage)** - Detailed component API
 - **[Directive Usage](https://borstihd.github.io/vue-custom-tooltip/guide/directive-usage)** - Directive modifiers and options
+- **[Positioning Strategy](https://borstihd.github.io/vue-custom-tooltip/guide/positioning-strategy)** - CSS anchors vs. JavaScript positioning
 - **[Global Configuration](https://borstihd.github.io/vue-custom-tooltip/guide/global-config)** - Set defaults for all tooltips
 - **[Themes](https://borstihd.github.io/vue-custom-tooltip/themes/overview)** - Built-in themes and customization
 - **[SSR & Nuxt](https://borstihd.github.io/vue-custom-tooltip/guide/ssr)** - Server-side rendering setup
@@ -86,6 +87,8 @@ For comprehensive guides, examples, and API reference, visit the [full documenta
 
 - Modern browsers (Chrome, Firefox, Safari, Edge)
 - Vue 3.x
+
+CSS anchor positioning is used where available (Chrome 125+, Safari 26+, Firefox 147+). Older browsers automatically fall back to JavaScript positioning.
 
 ## License
 
