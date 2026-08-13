@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Dependencies**: Updated dev dependencies to their latest major versions (Vite 8, Vitest 4, ESLint 10, TypeScript 6, vite-plugin-dts 5) and migrated the affected build configs
+
 ## [1.7.1] - 2026-01-20
 
 ### Fixed
