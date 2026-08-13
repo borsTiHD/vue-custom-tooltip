@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-08-13
+
 ### Fixed
 
 - **CICD Workflow**: Pipeline optimized and modernized, also added trusted publishing
@@ -280,7 +282,8 @@ This changelog follows these categories:
 
 ## Version Links
 
-[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.7.1...v2.0.0
 [1.7.1]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/borsTiHD/vue-custom-tooltip/compare/v1.6.0...v1.7.0
