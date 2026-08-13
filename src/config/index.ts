@@ -8,3 +8,5 @@ export {
   setTooltipGlobalConfig,
   setTooltipGlobalTheme,
 } from './globalConfig'
+
+export { injectThemeStyles } from './themeStyles'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 export type Appearance = 'auto' | 'light' | 'dark'
 
@@ -54,21 +54,24 @@ watch(currentTheme, (newTheme) => {
 })
 
 // Listen for auto theme changes
-watchEffect((onCleanup) => {
+let mediaQuery: MediaQueryList | null = null
+
+function handleChange() {
+  if (currentTheme.value === 'auto') {
+    setAppearance('auto')
+  }
+}
+
+onMounted(() => {
   initTheme()
 
-  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-  const handleChange = () => {
-    if (currentTheme.value === 'auto') {
-      setAppearance('auto')
-    }
-  }
-
+  mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
   mediaQuery.addEventListener('change', handleChange)
+})
 
-  onCleanup(() => {
-    mediaQuery.removeEventListener('change', handleChange)
-  })
+onBeforeUnmount(() => {
+  mediaQuery?.removeEventListener('change', handleChange)
+  mediaQuery = null
 })
 </script>
 

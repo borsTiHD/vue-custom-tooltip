@@ -12,9 +12,10 @@ export { Tooltip, TooltipControl, vTooltip }
 export * from './composables'
 
 // Export configuration functions
-export { getTooltipGlobalConfig, getTooltipGlobalTheme, resetTooltipGlobalConfig, setTooltipGlobalConfig, setTooltipGlobalTheme } from './config/index'
+export { getTooltipGlobalConfig, getTooltipGlobalTheme, injectThemeStyles, resetTooltipGlobalConfig, setTooltipGlobalConfig, setTooltipGlobalTheme } from './config/index'
 
 export type { TooltipExposed, TooltipProps, TooltipSlots, TooltipTheme } from './types/tooltip'
+
 // Export types
 export type {
   TooltipDirectiveModifiers,
@@ -24,6 +25,8 @@ export type {
   TooltipTimingModifier,
   TooltipTriggerModifier,
 } from './types/tooltip-modifiers'
+// Export SSR helper for advanced usage
+export { isClient } from './utils/ssr'
 
 /**
  * Options for the VueCustomTooltip plugin
@@ -52,58 +55,6 @@ export interface VueCustomTooltipOptions {
   directiveName?: string
 }
 
-/**
- * Injects theme styles into the document head
- */
-async function injectThemeStyles(theme: TooltipTheme): Promise<void> {
-  // Default theme uses the component's built-in styles, no CSS injection needed
-  if (theme === 'default') {
-    // Remove any previously injected theme styles to revert to default
-    const oldStyles = document.querySelectorAll('style[data-vct-theme]')
-    oldStyles.forEach(style => style.remove())
-    return
-  }
-
-  // Check if theme styles are already injected
-  const existingStyle = document.querySelector(`style[data-vct-theme="${theme}"]`)
-  if (existingStyle) {
-    return
-  }
-
-  // Remove any previously injected theme styles
-  const oldStyles = document.querySelectorAll('style[data-vct-theme]')
-  oldStyles.forEach(style => style.remove())
-
-  try {
-    // Import the theme CSS dynamically
-    if (theme === 'classic') {
-      await import('./styles/themes/classic.css')
-    }
-    else if (theme === 'primevue') {
-      await import('./styles/themes/primevue.css')
-    }
-    else if (theme === 'vuetify') {
-      await import('./styles/themes/vuetify.css')
-    }
-    else {
-      console.warn(`Unknown theme "${theme}"`)
-      return
-    }
-
-    // Mark that this theme has been loaded
-    const marker = document.createElement('style')
-    marker.setAttribute('data-vct-theme', theme)
-    marker.textContent = `/* Vue Custom Tooltip Theme: ${theme} */`
-    document.head.appendChild(marker)
-  }
-  catch (error) {
-    console.error(`Failed to load theme "${theme}":`, error)
-  }
-}
-
-// Export theme CSS injector for runtime theme switching
-export { injectThemeStyles }
-
 // Vue plugin for easy installation
 export const VueCustomTooltip: Plugin = {
   install(app: App, options?: VueCustomTooltipOptions) {
@@ -117,13 +68,9 @@ export const VueCustomTooltip: Plugin = {
       setTooltipGlobalConfig(options.globalConfig)
     }
 
-    // Apply theme if provided
+    // Apply theme if provided - style injection is a no-op during SSR
     if (options?.theme) {
-      setTooltipGlobalTheme(options.theme)
-      // Inject theme styles
-      if (typeof document !== 'undefined') {
-        injectThemeStyles(options.theme)
-      }
+      void setTooltipGlobalTheme(options.theme)
     }
   },
 }

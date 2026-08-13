@@ -2,6 +2,11 @@ import { beforeAll } from 'vitest'
 
 // Mock window.matchMedia
 beforeAll(() => {
+  // Skipped for tests running in the node environment (SSR tests)
+  if (typeof window === 'undefined') {
+    return
+  }
+
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: (query: string) => ({

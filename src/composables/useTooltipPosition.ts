@@ -1,5 +1,6 @@
 import type { ComputedRef, Ref } from 'vue'
 import { ref } from 'vue'
+import { isClient } from '../utils/ssr'
 
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right' | 'auto'
 export type ActualPosition = 'top' | 'bottom' | 'left' | 'right'
@@ -154,6 +155,9 @@ export function useTooltipPosition(
    * Calculates and updates the tooltip position and styles
    */
   function calculate() {
+    if (!isClient)
+      return
+
     if (!triggerElement.value || !tooltipElement.value)
       return
 

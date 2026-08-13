@@ -19,8 +19,8 @@ export function useTooltipVisibility(
   const _isVisible = ref(false)
   const isVisible = computed(() => _isVisible.value)
 
-  let showTimeout: number | null = null
-  let hideTimeout: number | null = null
+  let showTimeout: ReturnType<typeof setTimeout> | null = null
+  let hideTimeout: ReturnType<typeof setTimeout> | null = null
 
   /**
    * Clears any pending show/hide timeouts
@@ -44,7 +44,7 @@ export function useTooltipVisibility(
       return
 
     clearTimeouts()
-    showTimeout = window.setTimeout(async () => {
+    showTimeout = setTimeout(async () => {
       _isVisible.value = true
       await nextTick()
       // Wait for the browser to render the tooltip with proper dimensions
@@ -82,7 +82,7 @@ export function useTooltipVisibility(
       return
 
     clearTimeouts()
-    hideTimeout = window.setTimeout(() => {
+    hideTimeout = setTimeout(() => {
       _isVisible.value = false
     }, hideDelay.value)
   }

@@ -5,6 +5,7 @@ import type { TooltipDirectiveModifiers } from '@/types/tooltip-modifiers'
 import { createApp, h, reactive } from 'vue'
 import Tooltip from '@/components/tooltip/Tooltip.vue'
 import { getReactiveGlobalConfig } from '@/config/globalConfig'
+import { isClient } from '@/utils/ssr'
 
 export type {
   TooltipDirectiveModifiers,
@@ -159,7 +160,7 @@ function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
  * This is called lazily on first directive mount
  */
 function initializeSharedApp() {
-  if (sharedApp)
+  if (sharedApp || !isClient)
     return
 
   // Create a container for all directive tooltips
@@ -268,6 +269,11 @@ function removeTooltipInstance(element: HTMLElement) {
 }
 
 export const vTooltip: Directive<HTMLElement, string | TooltipProps> = {
+  // Tooltips are client-only, so nothing is added to the server-rendered markup
+  getSSRProps() {
+    return {}
+  },
+
   mounted(element: HTMLElement, binding) {
     if (!binding.value)
       return

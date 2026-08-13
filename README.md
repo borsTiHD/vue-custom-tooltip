@@ -14,6 +14,7 @@ A flexible and accessible Vue 3 tooltip component and directive with TypeScript 
 - ⏱️ **Configurable Delays**: Custom show/hide delays
 - 🎮 **Programmatic Control**: Show, hide, and toggle tooltips programmatically
 - 🌙 **Theme Support**: Built-in dark mode and theme presets
+- 🖥️ **SSR Ready**: Works out of the box with Nuxt and other Vue SSR setups
 
 ## Installation
 
@@ -78,6 +79,7 @@ For comprehensive guides, examples, and API reference, visit the [full documenta
 - **[Directive Usage](https://borstihd.github.io/vue-custom-tooltip/guide/directive-usage)** - Directive modifiers and options
 - **[Global Configuration](https://borstihd.github.io/vue-custom-tooltip/guide/global-config)** - Set defaults for all tooltips
 - **[Themes](https://borstihd.github.io/vue-custom-tooltip/themes/overview)** - Built-in themes and customization
+- **[SSR & Nuxt](https://borstihd.github.io/vue-custom-tooltip/guide/ssr)** - Server-side rendering setup
 - **[Examples](https://borstihd.github.io/vue-custom-tooltip/examples/)** - Interactive examples and demos
 
 ## Browser Support

@@ -41,7 +41,7 @@
  */
 
 import type { TooltipExposed, TooltipProps, TooltipSlots } from '../../types/tooltip'
-import { computed, nextTick, useSlots, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, useId, useSlots, useTemplateRef, watch } from 'vue'
 
 import {
   useExternalTrigger,
@@ -51,6 +51,7 @@ import {
   useTooltipVisibility,
 } from '../../composables'
 import { getTooltipGlobalThemeRef } from '../../config/index'
+import { isClient } from '../../utils/ssr'
 
 /**
  * Generic Tooltip Component
@@ -89,15 +90,16 @@ defineSlots<{
 }>()
 
 // Generate unique ID for accessibility
-function generateTooltipId() {
-  const randomPart = Math.random().toString(36).substring(2, 9)
-  return `tooltip-${randomPart}`
-}
-
+// useId() is SSR-safe and stays stable across server render and hydration
 const slots = useSlots()
 
-// Generate unique ID for ARIA attributes
-const tooltipId = generateTooltipId()
+const tooltipId = `tooltip-${useId()}`
+
+// The teleported tooltip is only rendered on the client to avoid SSR/hydration issues
+const isMounted = ref(false)
+onMounted(() => {
+  isMounted.value = true
+})
 
 // Element refs
 const internalTriggerElement = useTemplateRef<HTMLElement>('internalTrigger')
@@ -236,12 +238,14 @@ const tooltipClasses = computed(() => [
 
 // Watch for position changes to recalculate
 watch([isVisible, effectivePosition], async () => {
-  if (isVisible.value) {
-    await nextTick()
-    // Wait for the browser to render the tooltip with proper dimensions
-    await new Promise(resolve => requestAnimationFrame(resolve))
-    calculatePosition()
+  if (!isClient || !isVisible.value) {
+    return
   }
+
+  await nextTick()
+  // Wait for the browser to render the tooltip with proper dimensions
+  await new Promise(resolve => requestAnimationFrame(resolve))
+  calculatePosition()
 })
 
 // Setup event listeners and ARIA attributes for external trigger element (directive mode)
@@ -281,7 +285,7 @@ useExternalTrigger(
   </div>
 
   <!-- Custom tooltip -->
-  <Teleport to="body">
+  <Teleport v-if="isMounted" to="body">
     <Transition name="tooltip-fade">
       <div
         v-if="isVisible"

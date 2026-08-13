@@ -24,12 +24,16 @@
     "accessibility",
     "a11y"
   ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/vue-custom-tooltip.es.js",
       "require": "./dist/vue-custom-tooltip.umd.js"
     },
+    "./style.css": "./dist/vue-custom-tooltip.css",
     "./dist/style.css": "./dist/vue-custom-tooltip.css"
   },
   "main": "./dist/vue-custom-tooltip.umd.js",
