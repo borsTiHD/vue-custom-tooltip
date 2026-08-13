@@ -1,3 +1,4 @@
+export { useAnchorPosition } from './useAnchorPosition'
 export { useExternalTrigger } from './useExternalTrigger'
 export { useTooltipEvents } from './useTooltipEvents'
 export type { TooltipEventHandlers, TriggerType } from './useTooltipEvents'

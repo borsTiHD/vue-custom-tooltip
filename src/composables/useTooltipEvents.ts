@@ -1,5 +1,6 @@
 import type { ComputedRef, Ref } from 'vue'
-import { onMounted, onUnmounted } from 'vue'
+import { onUnmounted, watch } from 'vue'
+import { isClient } from '../utils/ssr'
 
 export type TriggerType = 'hover' | 'focus' | 'both' | 'click'
 
@@ -23,6 +24,7 @@ export interface TooltipEventHandlers {
  * @param hide - Function to hide the tooltip
  * @param toggle - Function to toggle the tooltip
  * @param onPositionUpdate - Callback to recalculate position
+ * @param followOnScroll - Whether the tooltip tracks the trigger on scroll instead of hiding
  * @returns Object containing event handler functions
  */
 export function useTooltipEvents(
@@ -34,7 +36,10 @@ export function useTooltipEvents(
   hide: () => void,
   toggle: () => void,
   onPositionUpdate?: () => void | Promise<void>,
+  followOnScroll?: ComputedRef<boolean>,
 ): TooltipEventHandlers {
+  let scrollFrame: number | null = null
+
   /**
    * Handle mouse enter event
    */
@@ -102,9 +107,27 @@ export function useTooltipEvents(
 
   /**
    * Handle scroll event
+   *
+   * With CSS anchor positioning the browser keeps the tooltip attached, so only
+   * the arrow needs a refresh. The JavaScript strategy cannot follow, so it hides.
    */
   function handleScroll() {
-    if (isVisible.value && trigger.value !== 'click') {
+    if (!isVisible.value) {
+      return
+    }
+
+    if (followOnScroll?.value) {
+      if (scrollFrame !== null) {
+        return
+      }
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = null
+        void onPositionUpdate?.()
+      })
+      return
+    }
+
+    if (trigger.value !== 'click') {
       hide()
     }
   }
@@ -125,17 +148,47 @@ export function useTooltipEvents(
   }
 
   // Setup global event listeners
-  onMounted(() => {
+  // Attached only while visible: every handler bails out when hidden anyway, and a page
+  // can hold hundreds of tooltip instances that would otherwise each listen permanently.
+  let listenersAttached = false
+
+  function attachGlobalListeners() {
+    if (listenersAttached || !isClient) {
+      return
+    }
+
     window.addEventListener('resize', handleResize)
     window.addEventListener('scroll', handleScroll, true)
     document.addEventListener('click', handleClickOutside)
-  })
+    listenersAttached = true
+  }
 
-  onUnmounted(() => {
+  function detachGlobalListeners() {
+    if (!listenersAttached) {
+      return
+    }
+
     window.removeEventListener('resize', handleResize)
     window.removeEventListener('scroll', handleScroll, true)
     document.removeEventListener('click', handleClickOutside)
+    listenersAttached = false
+
+    if (scrollFrame !== null) {
+      cancelAnimationFrame(scrollFrame)
+      scrollFrame = null
+    }
+  }
+
+  watch(isVisible, (visible) => {
+    if (visible) {
+      attachGlobalListeners()
+    }
+    else {
+      detachGlobalListeners()
+    }
   })
+
+  onUnmounted(detachGlobalListeners)
 
   return {
     handleMouseEnter,

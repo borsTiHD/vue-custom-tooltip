@@ -13,6 +13,14 @@ import type {
 export type TooltipTheme = 'default' | 'classic' | 'primevue' | 'vuetify'
 
 /**
+ * Positioning strategy for the tooltip.
+ * - 'css': native CSS anchor positioning (`anchor-name` / `position-anchor`).
+ *   Automatically falls back to 'js' when the browser lacks support.
+ * - 'js': JavaScript-based positioning using `getBoundingClientRect()`.
+ */
+export type TooltipPositioningStrategy = 'css' | 'js'
+
+/**
  * Tooltip component prop types
  */
 export interface TooltipProps {
@@ -80,6 +88,16 @@ export interface TooltipProps {
    * @default 8
    */
   offset?: number
+
+  /**
+   * How the tooltip is positioned relative to its trigger
+   * - 'css': native CSS anchor positioning, repositions during scroll without JavaScript
+   * - 'js': JavaScript-based positioning, hides the tooltip on scroll
+   *
+   * 'css' silently falls back to 'js' in browsers without CSS anchor positioning support.
+   * @default 'css'
+   */
+  positioningStrategy?: TooltipPositioningStrategy
 
   /**
    * Dark mode behavior

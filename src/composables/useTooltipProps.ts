@@ -17,6 +17,7 @@ export const DEFAULT_TOOLTIP_PROPS: Readonly<Required<Omit<TooltipProps, 'conten
   tooltipClass: '',
   showArrow: true,
   offset: 8,
+  positioningStrategy: 'css',
   dark: 'auto',
 }
 
@@ -90,6 +91,7 @@ export function useTooltipProps(props: TooltipProps) {
     effectiveTooltipClass: getEffectiveProp('tooltipClass', DEFAULT_TOOLTIP_PROPS.tooltipClass),
     effectiveShowArrow: getEffectiveProp('showArrow', DEFAULT_TOOLTIP_PROPS.showArrow),
     effectiveOffset: getEffectiveProp('offset', DEFAULT_TOOLTIP_PROPS.offset),
+    effectivePositioningStrategy: getEffectiveProp('positioningStrategy', DEFAULT_TOOLTIP_PROPS.positioningStrategy),
     effectiveDark: getEffectiveProp('dark', DEFAULT_TOOLTIP_PROPS.dark),
   }
 }
