@@ -1,7 +1,7 @@
 import type { TooltipProps, TooltipTheme } from '@/types/tooltip'
 
 import { reactive, ref } from 'vue'
-import { injectThemeStyles } from '../index'
+import { injectThemeStyles } from './themeStyles'
 
 /**
  * Global reactive configuration for tooltips
