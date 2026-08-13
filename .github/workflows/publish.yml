@@ -12,29 +12,25 @@ on:
           - minor
           - major
 
+env:
+  NODE_VERSION: 24.16.0
+
 jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.21.0
-          run_install: false
+      - uses: pnpm/action-setup@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 24.16.0
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
       - name: Run tests
         run: pnpm run test:unit run
@@ -45,32 +41,19 @@ jobs:
     needs: test
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.21.0
-          run_install: false
+      - uses: pnpm/action-setup@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 24.16.0
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
       - name: Build library
         run: pnpm run build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
 
   version-and-release:
     name: Version Bump and Release
@@ -82,26 +65,19 @@ jobs:
       version: ${{ steps.get-version.outputs.version }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.21.0
-          run_install: false
+      - uses: pnpm/action-setup@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 24.16.0
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
       - name: Configure Git
         run: |
@@ -136,36 +112,28 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    # setup-node v7 dropped its dummy NODE_AUTH_TOKEN, so .npmrc must resolve it from `pnpm install` on.
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: v${{ needs.version-and-release.outputs.version }}
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.21.0
-          run_install: false
+      - uses: pnpm/action-setup@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 24.16.0
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
-      - name: Build library
-        run: pnpm run build
-
+      # `prepublishOnly` runs the tests and builds dist/ before packing.
       - name: Publish to NPM
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   github-release:
     name: Create GitHub Release
@@ -175,13 +143,12 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: v${{ needs.version-and-release.outputs.version }}
 
       - name: Create GitHub Release
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const version = '${{ needs.version-and-release.outputs.version }}';
