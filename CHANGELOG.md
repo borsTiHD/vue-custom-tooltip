@@ -9,9 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.1] - 2026-08-13
 
-### Fixed
+### Changed
 
-- **CICD Workflow**: Pipeline optimized and modernized, also added trusted publishing
+- **CI/CD Workflow**: Updated all GitHub Actions to versions running on the Node 24 runtime, resolving the Node 20 deprecation warnings
+- **CI/CD Workflow**: Simplified the release and docs pipelines — the pnpm version is now read from `packageManager`, the Node version is defined once per workflow, and redundant build and artifact steps were removed
+
+### Security
+
+- **NPM Publishing**: Switched to npm trusted publishing (OIDC), removing the need for a long-lived `NPM_TOKEN`
 
 ## [2.0.0] - 2026-08-13
 
