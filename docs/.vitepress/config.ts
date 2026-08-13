@@ -72,6 +72,7 @@ export default defineConfig({
           text: 'Advanced',
           items: [
             { text: 'Accessibility', link: '/guide/accessibility' },
+            { text: 'SSR & Nuxt', link: '/guide/ssr' },
           ],
         },
       ],
