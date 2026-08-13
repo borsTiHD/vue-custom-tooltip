@@ -33,4 +33,11 @@ beforeAll(() => {
     value: localStorageMock,
     writable: true,
   })
+
+  // jsdom has no CSS anchor positioning, so tooltips resolve to the JavaScript strategy
+  // unless a test explicitly stubs this to return true.
+  Object.defineProperty(window, 'CSS', {
+    writable: true,
+    value: { ...window.CSS, supports: () => false },
+  })
 })
