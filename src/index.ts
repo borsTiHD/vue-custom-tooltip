@@ -1,6 +1,6 @@
 import type { App, Plugin } from 'vue'
 
-import type { TooltipProps, TooltipTheme } from './types/tooltip'
+import type { TooltipPositioningStrategy, TooltipProps, TooltipTheme } from './types/tooltip'
 import Tooltip from './components/tooltip/Tooltip.vue'
 import { setTooltipGlobalConfig, setTooltipGlobalTheme } from './config/index'
 import { TooltipControl, vTooltip } from './directives/tooltip'
@@ -12,13 +12,14 @@ export { Tooltip, TooltipControl, vTooltip }
 export * from './composables'
 
 // Export configuration functions
-export { getTooltipGlobalConfig, getTooltipGlobalTheme, injectThemeStyles, resetTooltipGlobalConfig, setTooltipGlobalConfig, setTooltipGlobalTheme } from './config/index'
+export { getTooltipGlobalConfig, getTooltipGlobalTheme, injectThemeStyles, resetTooltipGlobalConfig, setTooltipGlobalConfig, setTooltipGlobalPositioningStrategy, setTooltipGlobalTheme } from './config/index'
 
-export type { TooltipExposed, TooltipProps, TooltipSlots, TooltipTheme } from './types/tooltip'
+export type { TooltipExposed, TooltipPositioningStrategy, TooltipProps, TooltipSlots, TooltipTheme } from './types/tooltip'
 
 // Export types
 export type {
   TooltipDirectiveModifiers,
+  TooltipPositioningStrategyModifier,
   TooltipPositionModifier,
   TooltipStateModifier,
   TooltipThemeModifier,
@@ -26,6 +27,7 @@ export type {
   TooltipTriggerModifier,
 } from './types/tooltip-modifiers'
 // Export SSR helper for advanced usage
+export { supportsAnchorPositioning } from './utils/anchorSupport'
 export { isClient } from './utils/ssr'
 
 /**
@@ -43,6 +45,17 @@ export interface VueCustomTooltipOptions {
    * If not specified, the default theme will be used
    */
   theme?: TooltipTheme
+
+  /**
+   * Positioning strategy for all tooltips
+   * - 'css': native CSS anchor positioning, with automatic fallback to 'js' in
+   *   browsers without support
+   * - 'js': JavaScript-based positioning
+   *
+   * Shorthand for `globalConfig.positioningStrategy`, which takes precedence if both are set.
+   * @default 'css'
+   */
+  positioningStrategy?: TooltipPositioningStrategy
 
   /**
    * Custom component name for the tooltip component (default: 'Tooltip')
@@ -64,8 +77,11 @@ export const VueCustomTooltip: Plugin = {
     app.directive(directiveName, vTooltip)
 
     // Apply global configuration if provided
-    if (options?.globalConfig) {
-      setTooltipGlobalConfig(options.globalConfig)
+    if (options?.globalConfig || options?.positioningStrategy) {
+      setTooltipGlobalConfig({
+        ...(options.positioningStrategy ? { positioningStrategy: options.positioningStrategy } : {}),
+        ...options.globalConfig,
+      })
     }
 
     // Apply theme if provided - style injection is a no-op during SSR

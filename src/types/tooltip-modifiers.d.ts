@@ -34,6 +34,11 @@ export type TooltipThemeModifier = 'dark' | 'light'
 export type TooltipStateModifier = 'disabled'
 
 /**
+ * Positioning strategy modifiers - Control how the tooltip is positioned
+ */
+export type TooltipPositioningStrategyModifier = 'css' | 'js'
+
+/**
  * Tooltip directive modifiers interface
  * Represents all possible modifiers that can be used with v-tooltip
  */
@@ -48,6 +53,11 @@ export interface TooltipDirectiveModifiers {
   right?: boolean
   /** Position: Automatically determine best position */
   auto?: boolean
+
+  /** Strategy: Position with native CSS anchor positioning */
+  css?: boolean
+  /** Strategy: Position with JavaScript */
+  js?: boolean
 
   /** Trigger: Show on hover only */
   hover?: boolean

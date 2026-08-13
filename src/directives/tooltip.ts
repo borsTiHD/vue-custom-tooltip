@@ -9,6 +9,7 @@ import { isClient } from '@/utils/ssr'
 
 export type {
   TooltipDirectiveModifiers,
+  TooltipPositioningStrategyModifier,
   TooltipPositionModifier,
   TooltipStateModifier,
   TooltipThemeModifier,
@@ -121,6 +122,12 @@ function getTooltipProps(binding: TooltipDirectiveBinding): TooltipProps {
     props.position = 'right'
   if (modifiers.auto)
     props.position = 'auto'
+
+  // Parse modifiers for positioning strategy
+  if (modifiers.css)
+    props.positioningStrategy = 'css'
+  if (modifiers.js)
+    props.positioningStrategy = 'js'
 
   // Parse modifiers for trigger
   if (modifiers.hover)

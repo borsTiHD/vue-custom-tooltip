@@ -6,6 +6,7 @@ export {
   getTooltipGlobalThemeRef,
   resetTooltipGlobalConfig,
   setTooltipGlobalConfig,
+  setTooltipGlobalPositioningStrategy,
   setTooltipGlobalTheme,
 } from './globalConfig'
 
