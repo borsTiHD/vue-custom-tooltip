@@ -22,6 +22,9 @@ app.use(VueCustomTooltip, {
   componentName: 'Tooltip',
   directiveName: 'tooltip',
 
+  // Positioning strategy: 'css' (default) or 'js'
+  positioningStrategy: 'css',
+
   // Global defaults
   globalConfig: {
     position: 'auto',
@@ -37,6 +40,8 @@ app.use(VueCustomTooltip, {
 
 app.mount('#app')
 ```
+
+`positioningStrategy` is a shorthand for `globalConfig.positioningStrategy`. If both are set, the value inside `globalConfig` wins. See [Positioning Strategy](/guide/positioning-strategy) for details.
 
 ## Configuration Priority
 

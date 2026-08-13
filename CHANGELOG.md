@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **CSS Anchor Positioning**: Tooltips are now positioned with native CSS anchor positioning (`anchor-name` / `position-anchor` / `position-area`). Placement, flipping and scroll tracking are handled by the browser instead of JavaScript
+- **`positioningStrategy` Prop**: Choose `'css'` or `'js'` per tooltip, via `globalConfig`, or with the new top-level plugin option `positioningStrategy`
+- **`.css` / `.js` Directive Modifiers**: Pick the positioning strategy directly on `v-tooltip`
+- **`setTooltipGlobalPositioningStrategy()`**: Switch the strategy at runtime without replacing the rest of the global configuration
+- **`supportsAnchorPositioning()` Export**: Feature detection helper for CSS anchor positioning
+- **Docs**: New "Positioning Strategy" guide page
 - **SSR Support**: The package is now fully server-side rendering safe and can be used in Nuxt and other Vue SSR setups without `document is not defined` errors
 - **`isClient` Export**: New exported flag to detect a browser environment from consuming code
 - **Docs**: New "SSR & Nuxt" guide page
@@ -24,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING — Default Positioning**: Tooltips now use CSS anchor positioning by default. Browsers without support fall back to the previous JavaScript positioning automatically, so no action is needed there. To keep the old behaviour everywhere, register the plugin with `positioningStrategy: 'js'`
+- **BREAKING — Scroll Behaviour**: With the `css` strategy tooltips follow their trigger while scrolling instead of hiding, and disappear once the trigger leaves the viewport (`position-visibility: anchor-visible`). The `js` strategy still hides on scroll
+- **Performance**: Global `resize`, `scroll` and `click` listeners are now attached only while a tooltip is visible instead of on mount. A page with many tooltips keeps a constant number of listeners rather than three per instance
+- **Directive**: `v-tooltip` writes an `anchor-name` inline style onto the trigger element while the `css` strategy is active, and removes it again on unmount
 - **Internal**: `injectThemeStyles()` moved into its own module to resolve a circular import between the entry point and the global config (still exported from the package root)
 - **Package**: Declared `sideEffects` so bundlers can tree-shake more aggressively while keeping CSS imports intact
 - **Dependencies**: Updated dev dependencies to their latest major versions (Vite 8, Vitest 4, ESLint 10, TypeScript 6, vite-plugin-dts 5) and migrated the affected build configs

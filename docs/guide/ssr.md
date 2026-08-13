@@ -68,7 +68,7 @@ That's it — use the component and the directive anywhere, including inside ser
 
 ### `document is not defined`
 
-Make sure you are on version `1.8.0` or newer. Earlier releases injected theme styles during `app.use()` without guarding for the server.
+Make sure you are on version `2.0.0` or newer. Earlier releases injected theme styles during `app.use()` without guarding for the server.
 
 ### Nuxt cannot resolve the package
 

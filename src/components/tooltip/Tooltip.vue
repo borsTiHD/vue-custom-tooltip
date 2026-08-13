@@ -44,6 +44,7 @@ import type { TooltipExposed, TooltipProps, TooltipSlots } from '../../types/too
 import { computed, nextTick, onMounted, ref, useId, useSlots, useTemplateRef, watch } from 'vue'
 
 import {
+  useAnchorPosition,
   useExternalTrigger,
   useTooltipEvents,
   useTooltipPosition,
@@ -51,6 +52,7 @@ import {
   useTooltipVisibility,
 } from '../../composables'
 import { getTooltipGlobalThemeRef } from '../../config/index'
+import { supportsAnchorPositioning } from '../../utils/anchorSupport'
 import { isClient } from '../../utils/ssr'
 
 /**
@@ -74,6 +76,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   tooltipClass: undefined,
   showArrow: undefined,
   offset: undefined,
+  positioningStrategy: undefined,
   dark: undefined,
   externalTrigger: undefined,
   modelValue: undefined,
@@ -120,14 +123,20 @@ const {
   effectiveTooltipClass,
   effectiveShowArrow,
   effectiveOffset,
+  effectivePositioningStrategy,
   effectiveDark,
 } = useTooltipProps(props)
 
+// 'css' degrades to 'js' when the browser has no CSS anchor positioning support
+const usesCssAnchor = computed(
+  () => effectivePositioningStrategy.value === 'css' && supportsAnchorPositioning(),
+)
+
 const {
-  actualPosition,
-  tooltipStyles,
-  arrowStyles,
-  calculate: calculatePosition,
+  actualPosition: jsActualPosition,
+  tooltipStyles: jsTooltipStyles,
+  arrowStyles: jsArrowStyles,
+  calculate: calculateJsPosition,
 } = useTooltipPosition(
   triggerElement,
   tooltipElement,
@@ -135,6 +144,40 @@ const {
   effectiveOffset,
   effectiveMaxWidth,
 )
+
+const {
+  actualPosition: anchorActualPosition,
+  tooltipStyles: anchorTooltipStyles,
+  arrowStyles: anchorArrowStyles,
+  syncArrow,
+} = useAnchorPosition(
+  triggerElement,
+  tooltipElement,
+  effectivePosition,
+  effectiveOffset,
+  effectiveMaxWidth,
+  effectiveShowArrow,
+  usesCssAnchor,
+)
+
+const actualPosition = computed(() => (
+  usesCssAnchor.value ? anchorActualPosition.value : jsActualPosition.value
+))
+const tooltipStyles = computed(() => (
+  usesCssAnchor.value ? anchorTooltipStyles.value : jsTooltipStyles.value
+))
+const arrowStyles = computed(() => (
+  usesCssAnchor.value ? anchorArrowStyles.value : jsArrowStyles.value
+))
+
+function updatePosition() {
+  if (usesCssAnchor.value) {
+    syncArrow()
+  }
+  else {
+    calculateJsPosition()
+  }
+}
 
 const {
   isVisible,
@@ -147,7 +190,7 @@ const {
   effectiveDisabled,
   effectiveShowDelay,
   effectiveHideDelay,
-  calculatePosition,
+  updatePosition,
 )
 
 // Sync with v-model
@@ -212,7 +255,8 @@ const {
   show,
   hide,
   toggle,
-  calculatePosition,
+  updatePosition,
+  usesCssAnchor,
 )
 
 // Computed properties
@@ -245,7 +289,7 @@ watch([isVisible, effectivePosition], async () => {
   await nextTick()
   // Wait for the browser to render the tooltip with proper dimensions
   await new Promise(resolve => requestAnimationFrame(resolve))
-  calculatePosition()
+  updatePosition()
 })
 
 // Setup event listeners and ARIA attributes for external trigger element (directive mode)
@@ -510,5 +554,20 @@ useExternalTrigger(
   .tooltip-fade-leave-to {
     transform: scale(1);
   }
+}
+</style>
+
+<!-- @position-try is a global at-rule and must not be scoped -->
+<style>
+@position-try --vct-top {
+  position-area: top;
+}
+
+@position-try --vct-right {
+  position-area: right;
+}
+
+@position-try --vct-left {
+  position-area: left;
 }
 </style>

@@ -32,6 +32,15 @@ The directive supports various modifiers to customize tooltip behavior:
 | `.right` | Position tooltip on right |
 | `.auto` | Auto-detect best position (default) |
 
+### Positioning Strategy Modifiers
+
+| Modifier | Description |
+|----------|-------------|
+| `.css` | Position with native CSS anchor positioning (default) |
+| `.js` | Position with JavaScript |
+
+See [Positioning Strategy](/guide/positioning-strategy) for the trade-offs between both.
+
 ```vue
 <template>
   <button v-tooltip.right="'Shows on the right'">

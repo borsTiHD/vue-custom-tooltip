@@ -1,4 +1,4 @@
-import type { TooltipProps, TooltipTheme } from '@/types/tooltip'
+import type { TooltipPositioningStrategy, TooltipProps, TooltipTheme } from '@/types/tooltip'
 
 import { reactive, ref } from 'vue'
 import { injectThemeStyles } from './themeStyles'
@@ -24,6 +24,16 @@ export function setTooltipGlobalConfig(config: Partial<TooltipProps>): void {
   })
   // Set new config
   Object.assign(globalConfig, config)
+}
+
+/**
+ * Set the global positioning strategy for all tooltips
+ *
+ * Unlike `setTooltipGlobalConfig()` this only touches the strategy and keeps the rest
+ * of the global configuration intact.
+ */
+export function setTooltipGlobalPositioningStrategy(strategy: TooltipPositioningStrategy): void {
+  globalConfig.positioningStrategy = strategy
 }
 
 /**

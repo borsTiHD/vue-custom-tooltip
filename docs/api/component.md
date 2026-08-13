@@ -16,6 +16,7 @@ The Vue Custom Tooltip component provides a comprehensive API for creating and c
 | `tooltipClass` | `string` | `''` | Custom CSS class |
 | `showArrow` | `boolean` | `true` | Show arrow pointer |
 | `offset` | `number` | `8` | Offset from trigger (px) |
+| `positioningStrategy` | `'css' \| 'js'` | `'css'` | [Positioning strategy](/guide/positioning-strategy); `'css'` falls back to `'js'` without browser support |
 | `dark` | `'auto' \| boolean` | `'auto'` | Dark mode behavior |
 | `modelValue` | `boolean` | `undefined` | Control visibility with v-model |
 
