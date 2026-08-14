@@ -156,3 +156,16 @@ jobs:
               name: `Release v${version}`,
               generate_release_notes: true
             });
+
+  # The release commit is pushed with GITHUB_TOKEN, which never triggers deploy.yml
+  # on its own, so the docs deployment is invoked explicitly for the release tag.
+  deploy-docs:
+    name: Deploy Docs to Pages
+    needs: [version-and-release, publish]
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: v${{ needs.version-and-release.outputs.version }}
