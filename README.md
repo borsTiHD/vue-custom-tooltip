@@ -29,6 +29,8 @@ pnpm add @borstihd/vue-custom-tooltip
 yarn add @borstihd/vue-custom-tooltip
 ```
 
+Vue 3 is a peer dependency: your project needs `vue >= 3.5.0` installed (the package uses `useId()` and `useTemplateRef()`). Vue is never bundled into the package, so your app always runs a single Vue copy.
+
 ## Quick Start
 
 ```typescript
