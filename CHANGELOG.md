@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Vue Dependency**: `vue` is now a `peerDependency` (`^3.5.0`) instead of a regular `dependency` — this prevents package managers from installing a second Vue copy, which caused duplicate Vue runtimes in the app bundle and `TS2769: No overload matches this call` type errors on `app.use(VueCustomTooltip, {...})` in consumer projects. Released as a minor bump: Vue is always present in a Vue app, so no practical breaking change is expected — projects without an explicit `vue` dependency now get a peer warning
+
 ## [2.0.1] - 2026-08-13
 
 ### Changed
